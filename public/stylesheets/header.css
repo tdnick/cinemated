@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css?family=Pacifico|Source+Sans+Pro&display=swap');
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+body {
+    background-color: rgba(25,25,25,1)
+    /* darkslategray;*/
+}
+
+nav {
+    text-align: center;
+    /* background-color: maroon; */
+    background-image: url("/images/clock2.gif");
+    padding-top: 2em;
+    white-space: nowrap;
+    height: 300px;
+}
+
+nav ul {
+    margin-top: 2em;
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: auto auto auto auto; 
+    
+}
+
+nav li {
+    display: inline-block;
+    position: relative;
+    margin-right: 13em;
+    margin-top: 1.7em;
+
+}
+
+nav a {
+    position: absolute;
+    text-decoration: none;
+    font-size: 4em;
+    color: rgba(245, 245, 220, 1);
+    font-weight: bold;
+    font-family: "Pacifico", cursive;
+    
+}
+
+nav a:hover {
+    color: lavender;
+    /* background-color: rgba(47,79,79, 0.5); */
+}
+
+nav a:before{
+	content: '';
+	display: block;
+	height: 7px;
+	width: 0;
+	background-color: white;
+	position: absolute;
+	transition: all ease-in-out 500ms;
+}
+nav a:hover:before{
+	width: 100%;
+}
+
+.intro {
+    padding: 2.5%;
+    font-size: 2.5em;
+    font-family: "Pacifico", cursive;
+    color: rgba(245, 245, 220, 1);
+    
+}
+
+.intro p {
+    float: left;
+}
+
+#logs {
+    padding-top: 10px;
+    float: right;
+}
+
+#logo {
+    width: 1.5em;
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 15px;
+    border-radius: 50%;
+    
+}
+
+#loginDiv {
+    /* background-color: white; */
+    padding: 10px;
+    float: right;
+    text-align: center;
+    font-size: 1.8em;
+}
+
+
+#loginDiv a {
+    color: white;
+    text-decoration: none;
+}
+
+.fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+  }
+
+.fa-facebook {
+    color: white;
+    float: right;
+}
+
+.fa-instagram {
+    color: white;
+    float: right;
+  }
+
+#logs img {
+    margin-top: 13px;
+    margin-right: 5px;
+    width: 2em;
+    display: inline-block;
+    background-color: rgba(104, 92, 26, 1);
+    border-radius: 50%;
+}
+
+#headerDiv {
+    position: sticky;
+    top: 0; 
+}
+
+.scrolled {
+    position: fixed;
+    width: 100%;
+    height: 70px;
+    top: 0;
+    background-image: none;
+    background-color: rgba(56, 41, 10, 0.8);
+    transition: background-color 1s;
+}
+
+.scrolled:hover {
+    background-color: rgba(56, 41, 10, 1);
+}
+
+.aScrolled {
+    margin-top: -75px;
+    font-size: 23px;
+    color: white;
+    top: 0;
+    background-color: rgba(56, 41, 10, 0.5);
+}
+
+.aScrolled:hover {
+    background-color:  rgba(56, 41, 10, 1);
+}

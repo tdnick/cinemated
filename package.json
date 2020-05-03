@@ -1,0 +1,17 @@
+{
+  "name": "cinemated",
+  "version": "1.0.0",
+  "description": "Retro cinema website",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mihaela Antal-Burlacu, Veronica Chirut, Nicolas Iliescu, Andreea Stoian, Cristina Vultur",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.2",
+    "express": "^4.17.1",
+    "stripe": "^8.44.0"
+  }
+}

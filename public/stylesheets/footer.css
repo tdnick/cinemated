@@ -1,0 +1,25 @@
+footer p {
+    color: aliceblue;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#map{
+    
+    margin-top: 20px;  
+    margin-right: 20px;
+    width: 20%;
+    height: 180px;
+    float: right;
+}
+
+#text {
+    display: inline-block;
+    margin-left: 50%;
+    margin-bottom: 3em;
+    margin-top: 100px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
