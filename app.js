@@ -27,7 +27,7 @@ app.get("/limitless", function(req, res) {
     res.render("html/limitless", {});
 });
 
-app.listen(port, function(error) {
+app.listen(8080, function(error) {
     if (error) {
         console.log("Something went wrong!", error);
     }
