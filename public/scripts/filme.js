@@ -1,4 +1,38 @@
-window.onload = function(){
+var movieTemplate = {};
+
+movieTemplate.render = function (obj) {
+	return "" +
+		"<div class=\"movieItem\">" +
+		"<div class=\"movieContent\">" +
+		"<h2>" + obj.numeFilm + " (" + obj.anAparitie + ")" + "</h2>" +
+		"<h4>" + obj.genFilm + "</h4>" +
+		"<p>" + "Regia: " + obj.regizori + "</p>" +
+		"<p>" + "Distributie: " + obj.actori + "</p>" +
+		"<iframe width=\"420\" height=\"345\" src=\"" + obj.linkTrailer + "\">" + "</iframe>" +
+		"<img src=\"" + obj.linkAfis + "\"alt=\"" + obj.numeFilm + "\">" +
+		"<p>" + obj.descriere + "</p>" +
+		"</div>" +
+		"</div>" +
+		"";
+}
+
+var server = "http://localhost:5000/"
+function loadMovies() {
+	$.ajax({
+		url: server + "movies/",
+		method: "GET"
+	}).done(function (data) {
+		data.forEach(function (film) {
+			var item = $(movieTemplate.render(film));
+			$("#movies").append(item);
+		})
+		$("#movies").show(400, "swing");
+	});
+}
+
+loadMovies();
+
+window.onload = function () {
 	var filter = document.getElementById("filter_icon");
 	var apasat = false;
 	filter.onclick = function(){

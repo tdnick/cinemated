@@ -31,3 +31,24 @@
 	width: 100px;
 	padding: 10px;
 }
+
+.containerMovies {
+	width: 1000px;
+	margin: auto;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.movieItem {
+	width: 100%;
+	border: 1px solid #777777;
+	background: #FAFAFA;
+	margin: 3px;
+	padding: 2px;
+	display: flex;
+}
+
+.containerMovies img {
+	height: 300px;
+	width: 200px;
+}
