@@ -1,0 +1,33 @@
+.checkbox_label{
+	color: rgba(104, 92, 26, 1);
+	font-size: 1.2em;
+	margin-bottom: 10px;
+	display: block;
+}
+
+.checkbox_input{
+	margin-right: 10px;
+}
+
+#filtrare {
+	margin: 30px;
+}
+
+#filter_icon{
+	width: 50px;
+	background-color: rgba(104, 92, 26, 1);
+	border-radius: 50%;
+	border: 2px solid rgba(104, 92, 26, 1);
+
+}
+#continut_filtrare {
+	display: none;
+}
+
+.buton {
+	border: 2px solid rgba(104, 92, 26, 1);
+	background-color: rgba(25,25,25,1);
+	color: rgba(104, 92, 26, 1);
+	width: 100px;
+	padding: 10px;
+}

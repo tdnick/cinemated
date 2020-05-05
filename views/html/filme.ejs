@@ -2,6 +2,9 @@
 <html lang="ro">
 <head>
     <%- include("../partials/commonLinks.ejs")%>
+	<link href="stylesheets/filme.css" type="text/css" rel="stylesheet">
+	<script src="scripts/filme.js"></script>
+	
     <title>Filme</title>
 </head>
 
@@ -10,6 +13,49 @@
 </header>
 
 <body>
+
+	<div id="filtrare">
+		<img id="filter_icon" src="/images/filter_icon.png" alt="filter">
+		<div id="continut_filtrare">
+			<div id="genuri">
+				<label class="checkbox_label"><input type="checkbox" class="checkbox_input" value="comedie">Comedie</label>
+				<label class="checkbox_label"><input type="checkbox" class="checkbox_input" value="horror">Horror</label>
+				<label class="checkbox_label"><input type="checkbox" class="checkbox_input" value="drama">Drama</label>
+			</div>
+		
+			<button class="buton" id="buton_filtrare">Filtreaza</button>
+			<button class="buton" id="buton_resetare">Resetare</button>
+		</div>
+	</div>
+
+	<div id = "container">
+        <section id = "comedie">
+            <h1>Comedie</h1>
+            <div class = "moviesContainer">
+                <img class = "recMovies" src="/images/chaplin.gif" alt="Movie of the week">
+                <p class = "des">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis tristique sollicitudin nibh sit amet. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Orci sagittis eu volutpat odio facilisis mauris. Lorem donec massa sapien faucibus. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Cras semper auctor neque vitae tempus quam pellentesque. Sit amet risus nullam eget felis eget. Varius vel pharetra vel turpis nunc eget lorem dolor sed. Senectus et netus et malesuada. Diam maecenas sed enim ut sem viverra aliquet eget sit. Ac ut consequat semper viverra nam.
+                </p>
+            <div>
+        </section>
+        
+        <section id = "horror">
+            <h1>Horror</h1>
+            <div class = "moviesContainer">
+                <img class = "recMovies" src="/images/scene1.gif" alt="Best Reviews">
+                <p class = "des">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis tristique sollicitudin nibh sit amet. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Orci sagittis eu volutpat odio facilisis mauris. Lorem donec massa sapien faucibus. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Cras semper auctor neque vitae tempus quam pellentesque. Sit amet risus nullam eget felis eget. Varius vel pharetra vel turpis nunc eget lorem dolor sed. Senectus et netus et malesuada. Diam maecenas sed enim ut sem viverra aliquet eget sit. Ac ut consequat semper viverra nam.
+                </p>
+        </section>
+
+        <section id = "drama">
+            <h1>Drama</h1>
+            <div class = "moviesContainer">
+                <img class = "recMovies" src="/images/scene2.gif" alt="Best Reviews">
+                <p class = "des">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis tristique sollicitudin nibh sit amet. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Orci sagittis eu volutpat odio facilisis mauris. Lorem donec massa sapien faucibus. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Cras semper auctor neque vitae tempus quam pellentesque. Sit amet risus nullam eget felis eget. Varius vel pharetra vel turpis nunc eget lorem dolor sed. Senectus et netus et malesuada. Diam maecenas sed enim ut sem viverra aliquet eget sit. Ac ut consequat semper viverra nam.
+                </p>
+        </section>
     
 </body>
 

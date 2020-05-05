@@ -6,29 +6,3 @@
     margin-top: 20px;
     z-index: -100;
 }
-
-.moviesContainer {
-    display: flex;
-}
-
-.recMovies {
-    position: relative;
-    width: 50%;
-    z-index: -100;
-    margin: 20px;
-    display: inline-block;
-}
-
-.des {
-    position: relative;
-    display: inline;
-    margin: 20px;
-    animation: descAnimation 2s ease-in-out;
-    animation-fill-mode:forwards;
-    animation-iteration-count: 1;
-}
-
-@keyframes descAnimation {
-    from {top: 0px;}
-    to {top: 50px;}
-}
