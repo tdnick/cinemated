@@ -28,6 +28,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 //app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(bodyParser.json({ type: '*/*' }));
+//nu decomentati alea doua linii ca imi strica citirea din formulare
 
 app.use(session({
     secret: 'abcdefg',//asta e pt login
@@ -57,21 +58,21 @@ app.post("/register", function (req, res) {
         oracledb.getConnection(connectionProperties, function (err, connection) {
             if (err) {
                 console.error(err.message);
-                //response.status(500).send("Error connecting to DB");
+                res.status(500).send("Error connecting to DB");
                 return;
             }
             console.log("After connection register");
-            var cifru = crypto.createCipher('aes-128-cbc', 'mypassword');
-            var encrParola= cifru.update(fields.pass, 'utf8', 'hex');
-            encrParola+=cifru.final('hex');
-            var cerere = "insert into users (username, email, password, full_name) values ('" + fields.username + "', '" + fields.email + "', '" + encrParola + "', '" + fields.fname + "')";
-            console.log("Cererea: " + cerere);
-            connection.execute(cerere, {},
+            var cipher = crypto.createCipher('aes-128-cbc', 'mypassword');
+            var encrPass= cipher.update(fields.pass, 'utf8', 'hex');
+            encrPass += cipher.final('hex');
+            var dbRequest = "insert into users (username, email, password, full_name) values ('" + fields.username + "', '" + fields.email + "', '" + encrPass + "', '" + fields.fname + "')";
+            console.log("Cererea: " + dbRequest);
+            connection.execute(dbRequest, {},
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
                         console.error(err.message);
-                        response.status(500).send("Error getting data from DB");
+                        res.status(500).send("Error getting data from DB");
                         doRelease(connection);
                         return;
                     }
@@ -83,7 +84,7 @@ app.post("/register", function (req, res) {
                 function (err, result) {
                     if (err) {
                         console.error(err.message);
-                        result.status(500).send("Error getting data from DB");
+                        res.status(500).send("Error getting data from DB");
                         doRelease(connection);
                         return;
                     }
@@ -111,13 +112,13 @@ app.post('/login', function (req, res) {
         oracledb.getConnection(connectionProperties, function (err, connection) {
             if (err) {
                 console.error(err.message);
-                response.status(500).send("Error connecting to DB");
+                res.status(500).send("Error connecting to DB");
                 return;
             }
             console.log("After connection useri");
-            var cerere = "SELECT * FROM users WHERE username = '" + fields.username + "'";
-            console.log("Cererea: " + cerere);
-            connection.execute(cerere, {},
+            var dbRequest = "SELECT * FROM users WHERE username = '" + fields.username + "'";
+            console.log("Cererea: " + dbRequest);
+            connection.execute(dbRequest, {},
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -128,12 +129,12 @@ app.post('/login', function (req, res) {
                     }
                     console.log(result);
                     console.log("parola: " + fields.pass);
-                    var cifru = crypto.createCipher('aes-128-cbc', 'mypassword');
-                    var encrParola= cifru.update(fields.pass, 'utf8', 'hex');
-                    encrParola+=cifru.final('hex');
+                    var cipher = crypto.createCipher('aes-128-cbc', 'mypassword');
+                    var encrPass = cipher.update(fields.pass, 'utf8', 'hex');
+                    encrPass += cipher.final('hex');
                     result.rows.forEach(function (element) {
                         console.log("elem pass: " + element.PASSWORD);
-                        if (element.PASSWORD == encrParola){
+                        if (element.PASSWORD == encrPass){
                             //aici trebuie neaparat cu litere mari pt ca altfel nu face verificarea cum trb, imi pare rau de coding style :))
                             console.log("User gasit si parola corecta");
                             control = 1;
@@ -168,7 +169,7 @@ router.route('/movies/').get(function (request, response) {
     oracledb.getConnection(connectionProperties, function (err, connection) {
         if (err) {
             console.error(err.message);
-            res.status(500).send("Error connecting to DB");
+            response.status(500).send("Error connecting to DB");
             return;
         }
         console.log("After connection");
@@ -177,7 +178,7 @@ router.route('/movies/').get(function (request, response) {
             function (err, result) {
                 if (err) {
                     console.error(err.message);
-                    res.status(500).send("Error getting data from DB");
+                    response.status(500).send("Error getting data from DB");
                     doRelease(connection);
                     return;
                 }
