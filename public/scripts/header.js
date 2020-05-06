@@ -1,6 +1,17 @@
 var pos;
 var x;
 
+function showAccount() {
+    div = document.getElementById('loginDiv');
+    if (!div.style.display) div.style.display = 'none';
+    if (div.style.display === 'none'){
+        div.style.display = 'inline';
+    }
+    else {
+        div.style.display = 'none';
+    }
+}
+
 window.onload = function () {
     pos = document.getElementById("li").offsetTop;
     x = document.getElementById("hnav").offsetTop + parseInt(getComputedStyle(document.getElementById("hnav")).height);

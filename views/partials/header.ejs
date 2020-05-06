@@ -1,10 +1,25 @@
 <div id = "headerDiv">
-    <div id = "logs">
-    <a href = "#" class = "fa fa-facebook" title = "Facebook" alt = "Facebook"></a>
-    <a href = "#" class = "fa fa-instagram" title="Instagram" alt = "Instagram"></a>
-    <div id="loginDiv"><a href = "#">login</a></div>
-    <a href = "#" title = "My Account" alt = "Account"> <img src = "/images/login.png" ></a></div>
-    
+    <div id = "zonaLogin">
+        <div id = "logs">
+        <a id = "acc" href = "javascript:void(0);" title = "My Account" alt = "Account"> <img src = "/images/login.png" onclick="showAccount()"></a>
+        <% if(locals.user) { %>
+            <p>Bun venit, <b><%= user %></b>!</p>
+        <% } else { %>
+            <p>Nu sunteți logat!</p>
+        <% } %>
+        
+        <div id="loginDiv">
+        <% if(locals.user){ %>
+            <a href="/dashboard">Contul meu</a>
+            <a href="/logout">Deconectare</a>
+        <% } else { %>
+            <a href = "/login">Login</a>
+            <a href = "/register">Înregistrare</a>
+        <% } %>
+        </div>
+        
+        </div>
+    </div>
     <div class="intro">
         
         <p>Cinemated</p>

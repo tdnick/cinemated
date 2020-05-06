@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Log in to Cinemated</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		<header>
+			<h1>Login</h1>
+		</header>
+		<main>
+			<% if(locals.error == "g") { %>
+				<p>Eroare la autentificare! Incercati din nou.</p>
+			<% } %>
+			<form method="post">
+				<label>
+					Username: <input type="text" name="username" value="">
+				</label>
+				<label>
+					Parola: <input type="password" name="pass">
+				</label>
+				<input type="submit" value="Submit">
+			</form>
+		</main>
+		<footer>
+			
+		</footer>
+	</body>
+</html>

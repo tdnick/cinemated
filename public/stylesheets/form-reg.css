@@ -1,0 +1,73 @@
+*{
+	margin: 0;
+	font-family: Arial;
+}
+
+h1{
+	padding: 20px;
+	font-size: 28px;
+}
+
+form{
+	max-width: 700px;
+	width: 90%;
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+p#redirect, p#success{
+	padding-left: 20px;
+}
+input[type=text], input[type=password], select, textarea
+{
+	width: 100%;
+	padding: calc(10px + 0.1vh);
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	margin-top: calc(5px + 0.2vh);
+	margin-bottom: calc(5px + 0.3vh);
+	resize: vertical;
+	font-size:calc(0.8rem + 0.3vh);
+}
+
+input:read-only{
+	background-color: rgb(200, 200, 200);
+	color: rgb(100, 100, 100);
+}
+
+input[type=submit], button 
+{
+	background-color: #4CAF50;
+	color: black;
+	padding: calc(10px + 0.5vh);
+	border: none;
+	border-radius: 1.5vh;
+	cursor: pointer;
+	font-size:calc(0.8rem + 0.4vh);
+}
+input[type=submit]:hover {
+	background-color: #45a049;
+}
+
+label{
+	font-size:16px;
+	color: black;
+}
+
+footer{
+	text-align: left;
+	padding-left: 20px;
+	padding-bottom: 25px;
+	padding-top: 25px;
+}
+
+p#warn{
+	padding-left: 20px;
+	padding-bottom: 20px;
+	color: red;
+}
+
+div#recover{
+	margin-left: 20px;
+}

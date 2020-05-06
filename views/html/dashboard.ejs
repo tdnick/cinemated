@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Contul meu</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<body>
+		<header>
+			<h1>Contul meu</h1>
+		</header>
+		<main>
+			<% if (!locals.user) { %>
+				<p>Nu sunteti logat! <a href="/index">inapoi acasa</a></p>
+			<% } else { %>
+				<p>Esti logat drept <b><%= user %></b>.</p>
+				<a href="/changepw">Schimba parola...</a>
+				<a href="/index">inapoi acasa</a>
+			<% } %>
+		</main>
+		<footer>
+			
+		</footer>
+	</body>
+</html>

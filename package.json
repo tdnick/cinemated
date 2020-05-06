@@ -12,6 +12,8 @@
     "dotenv": "^8.2.0",
     "ejs": "^3.0.2",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "formidable": "^1.2.2",
     "oracledb": "^4.2.0",
     "stripe": "^8.44.0"
   }
