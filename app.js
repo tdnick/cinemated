@@ -136,6 +136,7 @@ app.post('/login', function (req, res) {
                         console.log("elem pass: " + element.PASSWORD);
                         if (element.PASSWORD == encrPass){
                             //aici trebuie neaparat cu litere mari pt ca altfel nu face verificarea cum trb, imi pare rau de coding style :))
+                            // e okay, nu sunt un coding style nazi :))))
                             console.log("User gasit si parola corecta");
                             control = 1;
                         }

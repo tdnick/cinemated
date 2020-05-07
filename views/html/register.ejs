@@ -4,6 +4,8 @@
 		<meta charset="UTF-8">
 		<title>Creare cont</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href = "stylesheets/dashboard.css" type = "text/css" rel = "stylesheet">
+		<link href = "stylesheets/register.css" type = "text/css" rel = "stylesheet">
 	</head>
 	<body>
 		<header>
@@ -13,19 +15,20 @@
 			<p>Atentie, deocamdata e fara validare !!</p>
 			<form method="post">
 				<label>
-					Username: <input type="text" name="username">
+					Username: <input type="text" name="username" required placeholder = "Introduceti numele de utilizator...">
 				</label>
 				<label>
-					Email: <input type="text" name="email">
+					Email: <input type="text" name="email" required placeholder = "Introduceti adresa de email...">
 				</label>
 				<label>
-					Nume complet: <input type="text" name="fname">
+					Nume complet: <input type="text" name="fname" placeholder = "Introduceti numele si prenumele...">
 				</label>
 				<label>
-					Parola: <input type="password" name="pass">
+					Parola: <input type="password" name="pass" required>
 				</label>
 				<input type="submit" value="Submit">
 			</form>
+			<a href = "/index" alt = "Pagina principală">Pagina principală</a>
 		</main>
 		<footer>
 			

@@ -4,6 +4,8 @@
 		<meta charset="UTF-8">
 		<title>Contul meu</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel = "shortcut icon" type = "image/x-icon" href="/images/favicon.ico"/>
+		<link rel="stylesheet" href="stylesheets/dashboard.css" type = "text/css">
 	</head>
 	<body>
 		<header>
@@ -14,8 +16,18 @@
 				<p>Nu sunteti logat! <a href="/index">inapoi acasa</a></p>
 			<% } else { %>
 				<p>Esti logat drept <b><%= user %></b>.</p>
-				<a href="/changepw">Schimba parola...</a>
-				<a href="/index">inapoi acasa</a>
+				<div id = "personalInfo">
+					<h2>Informații personale</h2>
+					<label>Username<input type = "text" value = "Username"></label>
+					<label>Nume Complet<input type = "text" value = "Nume complet"></label>
+					<label>Email<input type = "text" value = "Email"></label>
+					<label>Data nașterii<input type = "text" value = "dd/mm/yyyy"></label>
+					<div id = "modifications">
+						<button><a href = "#">Salveaza modificarile</a></button>
+					<button><a href="/changepw">Schimba parola...</a></button>
+					</div>
+				</div>
+				<a href="/index">Inapoi acasa</a>
 			<% } %>
 		</main>
 		<footer>

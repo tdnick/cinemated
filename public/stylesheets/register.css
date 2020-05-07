@@ -1,0 +1,29 @@
+form {
+    border: 2px solid white;
+    padding: 20px;
+    width: 80%;
+    position: relative;
+
+    /* center the form horizontally*/
+    left: 50%;
+    transform: translate(-50%);
+}
+
+input[type = "submit"] {
+    width: 10%;
+    padding: 5px;
+    color: rgba(104, 92, 26, 1);
+    font-size: 15px;
+    font-weight: bold;
+}
+
+form ~ a {
+    text-decoration: none;
+    color: rgba(104, 92, 26, 1);
+    margin: 20px;
+    float: right;
+}
+
+form ~ a:hover {
+    color: white;
+}

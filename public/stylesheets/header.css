@@ -91,6 +91,7 @@ nav a:hover:before{
 #zonaLogin{
     font-family: Arial;
     float: right;
+    margin-right: 30px;
 }
 
 #logo {
@@ -131,37 +132,27 @@ nav a:hover:before{
 
 #loginDiv a {
     color: white;
-    background-color: green;
+    background-color: rgba(104, 92, 26, 1);
     border: 1px black;
     border-radius: 5px;
     text-decoration: none;
     padding: 5px;
 }
 
-.fa {
-    padding: 20px;
-    font-size: 30px;
-    width: 50px;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 50%;
-  }
-
-.fa-facebook {
-    color: white;
-    float: right;
+#loginDiv a:hover {
+    background-color: rgb(83, 74, 23);
 }
-
-.fa-instagram {
-    color: white;
-    float: right;
-  }
 
 #logs img {
     width: 3em;
     display: inline-block;
     background-color: rgba(104, 92, 26, 1);
     border-radius: 50%;
+}
+
+#logs img:hover {
+    /* background-color: rgb(83, 74, 23); */
+    background-color: rgb(204, 178, 32);
 }
 
 #headerDiv {
