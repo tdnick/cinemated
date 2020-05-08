@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-	<link href="stylesheets/filme.css" type="text/css" rel="stylesheet">
 	<%- include("../partials/commonLinks.ejs")%>
 	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
 			crossorigin="anonymous"></script>
 	<script src="scripts/filme.js"></script>
+	<link href="stylesheets/filme.css" type="text/css" rel="stylesheet">
    
 	
     <title>Filme</title>
@@ -20,10 +20,19 @@
 	<div id="filter">
 		<img id="filterIcon" src="/images/filter_icon.png" alt="filter">
 		<div id="filterContent">
+			<!-- filtrarea filmelor dupa gen -->
 			<div id="genres">
-				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="comedie">Comedie</label>
-				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="horror">Horror</label>
-				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="drama">Drama</label>
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="Actiune">Actiune</label>
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="Aventura">Aventura</label>
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="Crima">Crima</label>
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="Comedie">Comedie</label>
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="Drama">Drama</label>
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="Familie">Familie</label>
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="Horror">Horror</label>
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="Razboi">Razboi</label>
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="Romantic">Romantic</label>
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="SF">SF</label>
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="Thriller">Thriller</label>
 			</div>
 		
 			<button class="buttons" id="filterButton">Filtreaza</button>
@@ -31,37 +40,8 @@
 		</div>
 	</div>
 
-	<div id = "container">
-        <section id = "comedie">
-            <h1>Comedie</h1>
-            <div class = "moviesContainer">
-                <img class = "recMovies" src="/images/chaplin.gif" alt="Movie of the week">
-                <p class = "des">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis tristique sollicitudin nibh sit amet. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Orci sagittis eu volutpat odio facilisis mauris. Lorem donec massa sapien faucibus. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Cras semper auctor neque vitae tempus quam pellentesque. Sit amet risus nullam eget felis eget. Varius vel pharetra vel turpis nunc eget lorem dolor sed. Senectus et netus et malesuada. Diam maecenas sed enim ut sem viverra aliquet eget sit. Ac ut consequat semper viverra nam.
-                </p>
-            <div>
-        </section>
-        
-        <section id = "horror">
-            <h1>Horror</h1>
-            <div class = "moviesContainer">
-                <img class = "recMovies" src="/images/scene1.gif" alt="Best Reviews">
-                <p class = "des">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis tristique sollicitudin nibh sit amet. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Orci sagittis eu volutpat odio facilisis mauris. Lorem donec massa sapien faucibus. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Cras semper auctor neque vitae tempus quam pellentesque. Sit amet risus nullam eget felis eget. Varius vel pharetra vel turpis nunc eget lorem dolor sed. Senectus et netus et malesuada. Diam maecenas sed enim ut sem viverra aliquet eget sit. Ac ut consequat semper viverra nam.
-                </p>
-        </section>
-
-        <section id = "drama">
-            <h1>Drama</h1>
-            <div class = "moviesContainer">
-                <img class = "recMovies" src="/images/scene2.gif" alt="Best Reviews">
-                <p class = "des">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis tristique sollicitudin nibh sit amet. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Orci sagittis eu volutpat odio facilisis mauris. Lorem donec massa sapien faucibus. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Cras semper auctor neque vitae tempus quam pellentesque. Sit amet risus nullam eget felis eget. Varius vel pharetra vel turpis nunc eget lorem dolor sed. Senectus et netus et malesuada. Diam maecenas sed enim ut sem viverra aliquet eget sit. Ac ut consequat semper viverra nam.
-                </p>
-        </section>
-
-        <div id="movies" class="containerMovies">
-        </div>
+        <div id="movies" class="containerMovies"></div>
+    
     
 </body>
 

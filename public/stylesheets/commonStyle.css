@@ -22,18 +22,6 @@ body #container {
     color: rgba(104, 92, 26, 1);
 }
 
-h1 {
-    font-family: "Pacifico", cursive;
-    margin: 10px;
-    animation: h1Animation 2s ease-in-out 1 forwards;
-    position: relative;
-}
-
-@keyframes h1Animation {
-    from {left: 0px}
-    to {left: 30px}
-}
-
 section {
     margin: 2em;
     width: 80%;
@@ -44,7 +32,6 @@ section {
     font-size: 1.3em;
     z-index: -99;
 }
-
 
 .moviesContainer {
     display: flex;

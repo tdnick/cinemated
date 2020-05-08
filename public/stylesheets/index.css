@@ -6,3 +6,15 @@
     margin-top: 20px;
     z-index: -100;
 }
+
+h1 {
+    font-family: "Pacifico", cursive;
+    margin: 10px;
+    animation: h1Animation 2s ease-in-out 1 forwards;
+    position: relative;
+}
+
+@keyframes h1Animation {
+    from {left: 0px}
+    to {left: 30px}
+}

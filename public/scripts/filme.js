@@ -1,19 +1,24 @@
 var movieTemplate = {};
 
 movieTemplate.render = function (obj) {
+	function classes(genres){
+		s = "";
+		genres = genres.split(", ");
+		for(let i of genres){
+			s += i + " ";
+		}
+		return s;
+	}
+	
 	return "" +
-		"<div class=\"movieItem\">" +
-		"<div class=\"movieContent\">" +
-		"<h2>" + obj.numeFilm + " (" + obj.anAparitie + ")" + "</h2>" +
-		"<h4>" + obj.genFilm + "</h4>" +
-		"<p>" + "Regia: " + obj.regizori + "</p>" +
-		"<p>" + "Distributie: " + obj.actori + "</p>" +
-		"<iframe width=\"420\" height=\"345\" src=\"" + obj.linkTrailer + "\">" + "</iframe>" +
+		"<div class=\"" + classes(obj.genFilm) + "movieItem" + "\">" +
+		"<h1 class = \"movieName\">" + obj.numeFilm + " (" + obj.anAparitie + ")" + "</h1>" +
+		"<h2>" + obj.genFilm + "</h2>" +
+		"<p class = \"distribution\">" + "Distributie: " + obj.actori + "</p>" +
 		"<img src=\"" + obj.linkAfis + "\"alt=\"" + obj.numeFilm + "\">" +
-		"<p>" + obj.descriere + "</p>" +
-		"</div>" +
 		"</div>" +
 		"";
+		
 }
 
 var server = "http://localhost:5000/"
@@ -53,7 +58,6 @@ window.onload = function () {
 	
 	var filterButton = document.getElementById("filterButton");
 	filterButton.onclick = function() {
-	
 		var selected = false;
 		for(let i = 0; i < checkboxes.length; i++)
 			if(checkboxes[i].checked == true){
@@ -61,27 +65,48 @@ window.onload = function () {
 				break;
 			}
 		if(selected == true){
-			for(i = 0; i < checkboxes.length; i++){
+			var allMovies = document.getElementsByClassName("movieItem");
+			for(let i = 0; i < allMovies.length; i++){
+				var ok = false;
+				for(let j = 0; j < checkboxes.length; j++){
+					var checkboxValue = checkboxes[j].value;
+					if(allMovies[i].classList.contains(checkboxValue)){
+						if(checkboxes[j].checked == true)
+							ok = true;
+					}
+				}
+				if(ok == true)
+					allMovies[i].style.display = "block";
+				else
+					allMovies[i].style.display = "none";
+				
+			}
+			
+			/*
+			for(let i = 0; i < checkboxes.length; i++){
 				var checkboxValue = checkboxes[i].value;
-				var movieSection = document.getElementById(checkboxValue);
-				if(checkboxes[i].checked == false)
-					movieSection.style.display = "none";
-				else 
-					movieSection.style.display = "block";
-					
-			}	
+				var movieDiv = document.getElementsByClassName(checkboxValue);
+				for(let j = 0; j < movieDiv.length; j++){
+					if(checkboxes[i].checked == false)
+						movieDiv[j].style.display = "none";
+					else 
+						movieDiv[j].style.display = "block";
+				}
+			}
+			*/			
 		}
-		
-		
 	}
 	
 	var resetButton = document.getElementById("resetButton");
 	resetButton.onclick = function(){
+		console.log("ok");
 		for(let i = 0; i < checkboxes.length; i++) {
 			var checkboxValue = checkboxes[i].value;
-			var movieSection = document.getElementById(checkboxValue);
-			movieSection.style.display = "block";
-			checkboxes[i].checked = false;
+			var movieDiv = document.getElementsByClassName(checkboxValue);
+			for(let j = 0; j < movieDiv.length; j++){
+				movieDiv[j].style.display = "block";
+				checkboxes[i].checked = false;
+			}
 		}
 	}
 	
