@@ -33,39 +33,41 @@ function loadMovies() {
 loadMovies();
 
 window.onload = function () {
-	var filter = document.getElementById("filter_icon");
-	var apasat = false;
+	// cand apasam pe "filterIcon", toate variantele de filtrare apar in pagina
+	// daca apasam din nou, acestea dispar
+	var filter = document.getElementById("filterIcon");
+	var clicked = false;
 	filter.onclick = function(){
-		var continut_filtrare = document.getElementById("continut_filtrare");
-		if(apasat == false){
-			continut_filtrare.style.display = "block";
-			apasat = true;
+		var filterContent = document.getElementById("filterContent");
+		if(clicked == false){
+			filterContent.style.display = "block";
+			clicked = true;
 		}
 		else {
-			continut_filtrare.style.display = "none";
-			apasat = false;
+			filterContent.style.display = "none";
+			clicked = false;
 		}
 	}
 	
 	var checkboxes = document.querySelectorAll("input[type = 'checkbox']");
 	
-	var buton_filtrare = document.getElementById("buton_filtrare");
-	buton_filtrare.onclick = function() {
-		
-		var neselectat = false;
+	var filterButton = document.getElementById("filterButton");
+	filterButton.onclick = function() {
+	
+		var selected = false;
 		for(let i = 0; i < checkboxes.length; i++)
 			if(checkboxes[i].checked == true){
-				neselectat = true;
+				selected = true;
 				break;
 			}
-		if(neselectat == true){
+		if(selected == true){
 			for(i = 0; i < checkboxes.length; i++){
-				var valoare = checkboxes[i].value;
-				var sectiune = document.getElementById(valoare);
+				var checkboxValue = checkboxes[i].value;
+				var movieSection = document.getElementById(checkboxValue);
 				if(checkboxes[i].checked == false)
-					sectiune.style.display = "none";
+					movieSection.style.display = "none";
 				else 
-					sectiune.style.display = "block";
+					movieSection.style.display = "block";
 					
 			}	
 		}
@@ -73,12 +75,12 @@ window.onload = function () {
 		
 	}
 	
-	var buton_resetare = document.getElementById("buton_resetare");
-	buton_resetare.onclick = function(){
+	var resetButton = document.getElementById("resetButton");
+	resetButton.onclick = function(){
 		for(let i = 0; i < checkboxes.length; i++) {
-			var valoare = checkboxes[i].value;
-			var sectiune = document.getElementById(valoare);
-			sectiune.style.display = "block";
+			var checkboxValue = checkboxes[i].value;
+			var movieSection = document.getElementById(checkboxValue);
+			movieSection.style.display = "block";
 			checkboxes[i].checked = false;
 		}
 	}

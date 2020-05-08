@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <%- include("../partials/commonLinks.ejs")%>
 	<link href="stylesheets/filme.css" type="text/css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-            crossorigin="anonymous"></script>
+	<%- include("../partials/commonLinks.ejs")%>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+			crossorigin="anonymous"></script>
 	<script src="scripts/filme.js"></script>
+   
 	
     <title>Filme</title>
 </head>
@@ -16,17 +17,17 @@
 
 <body>
 
-	<div id="filtrare">
-		<img id="filter_icon" src="/images/filter_icon.png" alt="filter">
-		<div id="continut_filtrare">
-			<div id="genuri">
-				<label class="checkbox_label"><input type="checkbox" class="checkbox_input" value="comedie">Comedie</label>
-				<label class="checkbox_label"><input type="checkbox" class="checkbox_input" value="horror">Horror</label>
-				<label class="checkbox_label"><input type="checkbox" class="checkbox_input" value="drama">Drama</label>
+	<div id="filter">
+		<img id="filterIcon" src="/images/filter_icon.png" alt="filter">
+		<div id="filterContent">
+			<div id="genres">
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="comedie">Comedie</label>
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="horror">Horror</label>
+				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="drama">Drama</label>
 			</div>
 		
-			<button class="buton" id="buton_filtrare">Filtreaza</button>
-			<button class="buton" id="buton_resetare">Resetare</button>
+			<button class="buttons" id="filterButton">Filtreaza</button>
+			<button class="buttons" id="resetButton">Reseteaza</button>
 		</div>
 	</div>
 
