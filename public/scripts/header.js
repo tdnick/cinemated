@@ -1,5 +1,5 @@
 var pos;
-var x;
+var navHeight = 0;
 
 function showAccount() {
     div = document.getElementById('loginDiv');
@@ -12,19 +12,23 @@ function showAccount() {
     }
 }
 
-window.onload = function () {
-    pos = document.getElementById("li").offsetTop;
-    x = document.getElementById("hnav").offsetTop + parseInt(getComputedStyle(document.getElementById("hnav")).height);
-    console.log(pos);
-    console.log(x);
-    console.log(document.getElementById("hnav").offsetTop);
-}
+// Doesn't work on "Filme" page: moved navHeight to window.onscroll
+// window.onload = function () {
+//     pos = document.getElementById("li").offsetTop;
+//     navHeight = document.getElementById("hnav").offsetTop + parseInt(getComputedStyle(document.getElementById("hnav")).height);
+//     console.log(navHeight)
+//     // console.log(pos);
+//     // console.log(x);
+//     //console.log(document.getElementById("hnav").offsetTop);
+// }
 
 window.onscroll = function () {
-    if (document.documentElement.scrollTop > x) {
+    //
+    navHeight = document.getElementById("hnav").offsetTop + parseInt(getComputedStyle(document.getElementById("hnav")).height);
+
+    if (document.documentElement.scrollTop > navHeight) {
         document.getElementById("hnav").classList.add("scrolled");
         for (li of document.getElementById("hnav").children[0].children) {
-            //console.log(x);
             li.children[0].classList.add("aScrolled");
         }
     }

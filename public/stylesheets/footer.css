@@ -15,10 +15,11 @@ footer p {
 }
 
 #text {
+    position: relative;
     display: inline-block;
-    margin-left: 50%;
-    margin-bottom: 3em;
-    margin-top: 100px;
+    /* margin-left: 50%; */
+    /* margin-bottom: 3em; */
+    margin-top: 150px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -32,6 +33,11 @@ footer p {
     text-decoration: none;
     border-radius: 50%;
   }
+
+#socialMedia {
+    display: flex;
+    justify-content: center;
+}
 
 .fa-facebook {
     color: white;
