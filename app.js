@@ -10,6 +10,8 @@ const formidable = require('formidable');
 const util = require('util');
 const crypto = require('crypto');
 
+oracledb.autoCommit = true;
+
 var connectionProperties = {
     user: process.env.DBAAS_USER_NAME || "veronicachirut",
     password: process.env.DBAAS_USER_PASSWORD || "12veronica34",
@@ -26,9 +28,6 @@ function doRelease(connection) {
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-//app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(bodyParser.json({ type: '*/*' }));
-//nu decomentati alea doua linii ca imi strica citirea din formulare
 
 app.use(session({
     secret: 'abcdefg',//asta e pt login
@@ -54,6 +53,7 @@ app.get("/register", function (req, res) {
 
 app.post("/register", function (req, res) {
     var form = new formidable.IncomingForm();
+    var control = 0; //nicio problema
     form.parse(req, function (err, fields, files) {
         oracledb.getConnection(connectionProperties, function (err, connection) {
             if (err) {
@@ -61,37 +61,32 @@ app.post("/register", function (req, res) {
                 res.status(500).send("Error connecting to DB");
                 return;
             }
-            console.log("After connection register");
             var cipher = crypto.createCipher('aes-128-cbc', 'mypassword');
             var encrPass= cipher.update(fields.pass, 'utf8', 'hex');
             encrPass += cipher.final('hex');
             var dbRequest = "insert into users (username, email, password, full_name) values ('" + fields.username + "', '" + fields.email + "', '" + encrPass + "', '" + fields.fname + "')";
-            console.log("Cererea: " + dbRequest);
             connection.execute(dbRequest, {},
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
-                        console.error(err.message);
-                        res.status(500).send("Error getting data from DB");
+                        console.error(err);
+                        if (err.message.localeCompare("ORA-00001: unique constraint (VERONICACHIRUT.USERS_UK2) violated") == 0){
+                            control = 1; //username deja utilizat
+                        } else if (err.message.localeCompare("ORA-00001: unique constraint (VERONICACHIRUT.USERS_UK1) violated") == 0){
+                            control = 2; //adresa email deja utilizata
+                        } else {
+                            control = -1;
+                        }
+                        res.render('html/register', {cntl: control});
                         doRelease(connection);
                         return;
                     }
-                    console.log(result);
                     doRelease(connection);
-            });
-            connection.execute("commit", {},
-                { outFormat: oracledb.OBJECT },
-                function (err, result) {
-                    if (err) {
-                        console.error(err.message);
-                        res.status(500).send("Error getting data from DB");
-                        doRelease(connection);
-                        return;
+                    console.log("User registered successfully");
+                    if (control == 0){
+                        res.redirect('index');
                     }
-                    console.log(result);
-                    doRelease(connection);
             });
-            res.render('html/index');
         });
     });
 });
@@ -104,20 +99,15 @@ app.get('/logout', function(req, res) {
 
 app.post('/login', function (req, res) {
     var form = new formidable.IncomingForm();
-    console.log("ruleaza pana aici");
-    var control = 0;
+    var control = 0; //cod prestabilit pentru eroare generala de autentificare
     form.parse(req, function(err, fields, files) {
-        //fields.username si fields.pass
-        console.log("acces db login");
         oracledb.getConnection(connectionProperties, function (err, connection) {
             if (err) {
                 console.error(err.message);
                 res.status(500).send("Error connecting to DB");
                 return;
             }
-            console.log("After connection useri");
             var dbRequest = "SELECT * FROM users WHERE username = '" + fields.username + "'";
-            console.log("Cererea: " + dbRequest);
             connection.execute(dbRequest, {},
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
@@ -127,30 +117,32 @@ app.post('/login', function (req, res) {
                         doRelease(connection);
                         return;
                     }
-                    console.log(result);
-                    console.log("parola: " + fields.pass);
                     var cipher = crypto.createCipher('aes-128-cbc', 'mypassword');
                     var encrPass = cipher.update(fields.pass, 'utf8', 'hex');
                     encrPass += cipher.final('hex');
+                    if (result.rows.length == 0){
+                        control = 3; //username-ul nu a fost gasit in baza de date
+                    }
                     result.rows.forEach(function (element) {
-                        console.log("elem pass: " + element.PASSWORD);
                         if (element.PASSWORD == encrPass){
                             //aici trebuie neaparat cu litere mari pt ca altfel nu face verificarea cum trb, imi pare rau de coding style :))
                             // e okay, nu sunt un coding style nazi :))))
-                            console.log("User gasit si parola corecta");
-                            control = 1;
+                            // ms pwp apreciez
+                            control = 1; //date de logare valide
                         }
                         else {
-                            console.log("Parola gresita");
+                            console.log("User tried to log in with wrong password");
+                            control = 2; //userul exista dar parola gresita
                         }
                     }, this);
                     doRelease(connection);
                     if (control == 1){
                         req.session.username = fields.username;
-                        console.log("am setat sesiunea");
+                        console.log("User logged in");
+                        res.redirect('/index');
+                    } else {
+                        res.render("html/login", {cntl: control});
                     }
-                    console.log("ne-am logat");
-                    res.redirect('/index');
             });
         });
     });

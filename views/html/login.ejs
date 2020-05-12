@@ -12,8 +12,12 @@
 			<h1>Login</h1>
 		</header>
 		<main>
-			<% if(locals.error == "g") { %>
-				<p>Eroare la autentificare! Incercati din nou.</p>
+			<% if (locals.cntl == 2) { %>
+				<p>Parola este greșită! Vă rugăm încercați din nou.</p>
+			<% } else if (locals.cntl == 3) { %>
+				<p>Nu există acest utilizator! Vă rugăm încercați din nou.</p>
+			<% } else if (locals.cntl == 0) { %>
+				<p>Eroare generală de autentificare! Vă rugăm încercați din nou.</p>
 			<% } %>
 			<form method="post">
 				<label>

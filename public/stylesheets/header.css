@@ -82,16 +82,17 @@ nav a:hover:before{
 }
 
 #logs {
+    width: 300px;
     float: right;
     color: white;
-    text-align: center;
+    text-align: right;
     padding: 20px;
 }
 
 #zonaLogin{
     font-family: Arial;
     float: right;
-    margin-right: 30px;
+    /* margin-right: 30px; */
 }
 
 #logo {
@@ -106,6 +107,7 @@ nav a:hover:before{
 #loginDiv {
     position: relative;
     top: 20px;
+    width: 100%;
     background-color: white; 
     padding: 10px;
     border-radius: 5px;
@@ -119,7 +121,7 @@ nav a:hover:before{
     content: '';
     position: absolute;
     top: 0;
-    left: 50%;
+    left: 92%;
     width: 0;
     height: 0;
     border: 8px solid transparent;
@@ -128,7 +130,6 @@ nav a:hover:before{
     margin-left: -8px;
     margin-top: -8px;
 }
-
 
 #loginDiv a {
     color: white;

@@ -13,6 +13,13 @@
 		</header>
 		<main>
 			<p>Atentie, deocamdata e fara validare !!</p>
+			<% if (locals.cntl == 1) { %>
+				<p>Username-ul ales este deja inregistrat!</p>
+			<% } else if (locals.cntl == 2) { %>
+				<p>Adresa de e-mail introdusa este deja asociata altui cont!</p>
+			<% } else if (locals.cntl == -1) { %>
+				<p>Eroare generala inregistrare! Va rugam reincercati.</p>
+			<% } %>
 			<form method="post">
 				<label>
 					Username: <input type="text" name="username" required placeholder = "Introduceti numele de utilizator...">
