@@ -202,8 +202,8 @@ router.route('/movies/').get(function (request, response) {
     });
 });
 
-app.get("/povestea", function(req, res) {
-    res.render("html/povestea", {user: req.session.username});
+app.get("/despre", function(req, res) {
+    res.render("html/despre", {user: req.session.username});
 });
 
 app.get("/limitless", function(req, res) {

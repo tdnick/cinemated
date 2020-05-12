@@ -18,7 +18,8 @@ img {
     position: relative;
     left: 50%;
     transform: translate(-50%);
-    margin: 50px;
+    margin-top: 50px;
+    margin-bottom: 50px;
     border-radius: 5px;
     border: 4px solid gold;
 }
