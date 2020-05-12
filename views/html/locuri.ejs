@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <%- include("../partials/commonLinks.ejs")%>
+    <title>Alege locurile</title>
+	<script type="text/javascript" src="https://www.goocode.net/demo/img/jquery-1.11.0.min.js"></script> 
+	<script type="text/javascript" src="https://www.goocode.net/demo/seat_r/jquery.seat-charts.min.js"></script>
+	<script src = "../scripts/locuri.js"></script>
+	
+	<link href="stylesheets/locuri.css" type = "text/css" rel = "stylesheet">
+	
+</head>
+<body>
+    <header>
+        <div class="intro">        
+			<p>Cinemated</p>
+			<figure>
+			<img id = "logo" src = "/images/cinematedLogo.png" alt="cinemated logo" title="cinemated">
+			</figure>
+		</div>
+    </header>
+	<main>
+	
+		<div class="demo">
+   		<div id="seat-map">
+			<div class="front">ECRAN</div>					
+		</div>
+		<div class="booking-details">
+			<p>Film: <span> Nume Film</span></p>
+			<p>DATA: <span>Iunie 3, 21:00</span></p>
+			<p>Locuri: </p>
+			<ul id="selected-seats"></ul>
+			<p>Bilete: <span id="counter">0</span></p>
+			<p>Total: <b><span id="total">0</span> lei</b></p>
+					
+			<button class="checkout-button">Cumpara</button>
+					
+			<div id="legend"></div>
+		</div>
+		<div style="clear:both"></div>
+   </div>
+	</main>
+
+</body>
+<footer>
+   
+</footer>
+
+
+</html>

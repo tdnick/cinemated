@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <%- include("../partials/commonLinks.ejs")%>
+    <title>Alege biletele</title>
+	<script src = "../scripts/choose.js"></script>
+	<link href="stylesheets/choose.css" type = "text/css" rel = "stylesheet">
+</head>
+<body>
+    <header>
+        <div class="intro">        
+			<p>Cinemated</p>
+			<figure>
+			<img id = "logo" src = "/images/cinematedLogo.png" alt="cinemated logo" title="cinemated">
+			</figure>
+		</div>
+    </header>
+	<main>
+		<div id="alege">
+			<h2>
+				Alegeti bilete pentru: Nume Film
+			</h2>
+		</div>
+		<div id="choosing_box">
+			
+		</div>
+		</div>
+		<form action="choose.ejs" method="get">
+		<button id="but" type="submit" formaction="locuri">Next</button>
+		</form>
+	</main>
+
+</body>
+<footer>
+   
+</footer>
+
+
+</html>

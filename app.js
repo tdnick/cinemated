@@ -34,7 +34,12 @@ app.use(session({
     resave: true,
     saveUninitialized: false
 }));
-
+app.get("/choose", function(req, res) {
+    res.render("html/choose", {});
+});
+app.get("/locuri", function(req, res) {
+    res.render("html/locuri", {});
+});
 app.get("/", function (req, res) {
     res.render("html/index", {user: req.session.username});
 });

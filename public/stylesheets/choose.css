@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css?family=Pacifico|Source+Sans+Pro&display=swap');
+*{
+	font-family:Pacifico;
+	color:rgba(245, 245, 220, 1);
+}
+body {
+    background-color: rgba(25,25,25,1);
+    /* darkslategray;*/
+}
+#choosing_box{
+	background-color:rgb(240,220,130);
+	padding:2em;
+	padding-top:0.1em;
+	border-radius:0.5rem;
+	
+}
+.container {
+	
+	background-color:#162252;
+	box-sizing:border-box;
+	border-radius:0.5rem;
+	margin-top:2em;
+	padding: 2em;
+	display: grid;
+    grid-template-columns: 24em 8em auto 1em;	
+	
+}
+.container select, label {
+	margin-right:5em;
+}
+#but{
+	float:right;
+	padding:1em;
+	margin-top:1em;
+	border-radius:0.5rem;
+	color:#162252;
+}
+#alege{
+	padding:1em;
+}
+.total{
+	float:right;
+}
+#txt{
+	size:1em;
+}
+.pret label{
+	margin:0;
+}
