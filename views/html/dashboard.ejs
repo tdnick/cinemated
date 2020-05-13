@@ -9,25 +9,44 @@
 	</head>
 	<body>
 		<header>
-			<h1>Contul meu</h1>
+			<% if (!locals.user) { %>
+				<h1>Contul meu</h1>
+			<% } else { %>
+				<h1>Contul lui <%= user %></h1>
+			<% } %>
 		</header>
 		<main>
 			<% if (!locals.user) { %>
-				<p>Nu sunteti logat! <a href="/index">inapoi acasa</a></p>
+				<p>Nu sunteți logat! <button><a href="/index">Înapoi la site</a></button></p>
 			<% } else { %>
-				<p>Esti logat drept <b><%= user %></b>.</p>
-				<div id = "personalInfo">
-					<h2>Informații personale</h2>
-					<label>Username<input type = "text" value = "Username"></label>
-					<label>Nume Complet<input type = "text" value = "Nume complet"></label>
-					<label>Email<input type = "text" value = "Email"></label>
-					<label>Data nașterii<input type = "text" value = "dd/mm/yyyy"></label>
-					<div id = "modifications">
-						<button><a href = "#">Salveaza modificarile</a></button>
-					<button><a href="/changepw">Schimba parola...</a></button>
+				<button id="home"><a href="/index">Înapoi la site</a></button>
+				
+				<div id = "divide">
+					<div id = "dr">
+					<div id = "personalInfo">
+						<h2>Informații personale</h2>
+						<p>Nume: <%= userData.name %></p>
+						<p>Email: <%= userData.email %></p>
+						<button><a href="/undeva">Modifică datele contului</a></button>
+						<button><a href="/undeva">Schimbă parola</a></button>
+					</div>
+					<div id = "personalInfo">
+						<h2>Cardul meu Limitless</h2>
+						<p>Nu ești membru al programului Limitless!</p>
+						<button><a href="/undeva">Înregistrează-te acum!</a></button>
+					</div>
+					</div>
+					<div id = "dr">
+					<div id = "personalInfo">
+						<h2>Biletele mele</h2>
+						<p>Nu ai cumpărat bilete până în acest moment!</p>
+					</div>
+					<div id = "personalInfo">
+						<h2>Recenziile mele</h2>
+						<p>Nu ai completat nicio recenzie până în acest moment!</p>
+					</div>
 					</div>
 				</div>
-				<a href="/index">Inapoi acasa</a>
 			<% } %>
 		</main>
 		<footer>

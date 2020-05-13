@@ -4,7 +4,6 @@
 		<meta charset="UTF-8">
 		<title>Creare cont</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href = "stylesheets/dashboard.css" type = "text/css" rel = "stylesheet">
 		<link href = "stylesheets/register.css" type = "text/css" rel = "stylesheet">
 	</head>
 	<body>
@@ -12,7 +11,6 @@
 			<h1>Creare cont nou</h1>
 		</header>
 		<main>
-			<p>Atentie, deocamdata e fara validare !!</p>
 			<% if (locals.cntl == 1) { %>
 				<p>Username-ul ales este deja inregistrat!</p>
 			<% } else if (locals.cntl == 2) { %>
@@ -33,9 +31,10 @@
 				<label>
 					Parola: <input type="password" name="pass" required>
 				</label>
-				<input type="submit" value="Submit">
+				<input id = "btn" type="submit" value="Submit">
 			</form>
-			<a href = "/index" alt = "Pagina principală">Pagina principală</a>
+			</br>
+			<button><a href="/index">Înapoi la site</a></button>
 		</main>
 		<footer>
 			

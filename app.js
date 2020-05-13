@@ -49,7 +49,37 @@ app.get("/login", function (req, res) {
 });
 
 app.get("/dashboard", function (req, res) {
-    res.render("html/dashboard", {user: req.session.username});
+    oracledb.getConnection(connectionProperties, function (err, connection) {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send("Error connecting to DB");
+            return;
+        }
+        if (req.session.username){
+            var dbRequest = "SELECT * FROM users WHERE username = '" + req.session.username + "'";
+            connection.execute(dbRequest, {},
+                { outFormat: oracledb.OBJECT },
+                function (err, result) {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).send("Eroare");
+                        doRelease(connection);
+                        return;
+                    }
+                    result.rows.forEach(function (element) {
+                        ret = {name: element.FULL_NAME, email: element.EMAIL};
+                    }, this);
+                    doRelease(connection);
+                    console.log("Got user data");
+                    console.log(ret);
+                    res.render("html/dashboard", {user: req.session.username, userData: ret});
+            });
+        }
+        else {
+            doRelease(connection);
+            res.render("html/dashboard", {user: req.session.username});
+        }
+    });
 })
 
 app.get("/register", function (req, res) {

@@ -1,3 +1,62 @@
+@import url('https://fonts.googleapis.com/css?family=Pacifico|Source+Sans+Pro&display=swap');
+
+header {
+    color: white
+}
+
+h1 {
+    font-family: "Pacifico", cursive;
+    font-size: 3em;
+    margin: 20px;
+}
+
+body {
+    background-color: rgba(25,25,25,1);
+    font-family: Arial, sans-serif;
+}
+
+main {
+    color: white;
+    font-size: 1.3em;
+    margin: 30px;
+}
+
+button, #btn{
+    padding: 5px;
+    border-radius: 5px;
+}
+
+button a{
+    text-decoration: none;
+    color: rgba(104, 92, 26, 1);
+    font-weight: bold;
+    font-size: 15px;
+}
+
+input[type = "text"], input[type = "password"] {
+    padding: 10px;
+    font-size: 1.1em;
+    margin-left: 10px;
+    margin-top: 5px;
+    width: 90%;
+}
+
+input[type = "text"]:hover {
+    background-color: rgb(243, 235, 217);
+}
+
+label {
+    display: block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: 50%;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    color: rgba(104, 92, 26, 1);
+    font-size: 25px;
+}
+
 form {
     border: 2px solid white;
     padding: 20px;
