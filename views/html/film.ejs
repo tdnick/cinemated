@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <%- include("../partials/commonLinks.ejs")%>
+    <title><%= movieData.name %> - Cinemated</title>
+    <link href="stylesheets/film.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <header>
+    <%- include("../partials/header.ejs")%>
+    </header>
+    <main>
+    <% if (movieData.name != "") { %>
+        <div id = "movie_container">
+        <h2 id = "movie_name"><%= movieData.name %></h2>
+            <div id = "trailer_doublewide">
+                <iframe id = "trailer" src="<%= movieData.trailer %>">
+                </iframe>
+            </div>
+            <div id = "poster_div">
+                <img id = "poster" src="<%= movieData.poster %>" alt="<%= movieData.name %>">
+            </div>
+            <div id = "info">
+                <p id="descr"><%= movieData.desc %></p>
+                <table>
+                    <tr>
+                        <td>Durata</td>
+                        <td><%= movieData.time %> min</td>
+                    </tr>
+                    <tr>
+                        <td>Genul filmului</td>
+                        <td><%= movieData.genre %></td>
+                    </tr>
+                    <tr>
+                        <td>Distribuție</td>
+                        <td><%= movieData.actor %></td>
+                    </tr>
+                    <tr>
+                        <td>Regizor</td>
+                        <td><%= movieData.director %></td>
+                    </tr>
+                    <tr>
+                        <td>Anul apariției</td>
+                        <td><%= movieData.year %></td>
+                    </tr>
+                    <tr>
+                        <td>Limba originală</td>
+                        <td><%= movieData.lang %></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    <% } else { %>
+        <p id = "eroare">Nu ați selectat niciun film!</p>
+    <% } %>
+    </main>
+    <footer><%- include("../partials/footer.ejs")%></footer>
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+/*.containerMovies {*/
+/*	background-size: cover;*/
+/*	width: 1000px;*/
+/*	margin: auto;*/
+/*	display: flex;*/
+/*	flex-wrap: wrap;*/
+/*	justify-content: space-around;*/
+/*}*/
+/**/
+/*.containerMovies a{*/
+/*	color: rgba(104, 92, 26, 1);*/
+/*	text-decoration: none;*/
+/*}*/
+/**/
+/*.movieItem {*/
+/*	margin-top: 20px;*/
+/*	margin-bottom: 20px;*/
+/*	width: 400px;*/
+/*}*/
+/**/
+/*.containerMovies img {*/
+/*	height: 250px;*/
+/*	width: 50%;*/
+/*}*/
+/**/
+/*.distribution {*/
+/*	width: 100%;*/
+/*	height: 50px;*/
+/*}*/
+
+#main{
+	width: 100%;
+	text-align: center;
+}
+
+#movie_container{
+	display: grid;
+	grid-template-columns: 33% 67%;
+	grid-template-rows: auto 500px auto;
+	margin: auto;
+	max-width: 1200px;
+	width: 90%;
+}
+
+#trailer{
+	width: 100%;
+	height: 100%;
+}
+
+#poster{
+	width: 100%;
+}
+
+#movie_name{
+	grid-column-start: 1;
+	grid-column-end: 3;
+	font-family: "Pacifico";
+	color: white;
+	font-size: 48px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+
+#trailer_doublewide{
+	padding: 15px;
+	grid-column-start: 1;
+	grid-column-end: 3;
+}
+
+#poster_div{
+	padding: 15px;
+	grid-column-start: 1;
+	grid-column-end: 2;
+/*	grid-row-start: 2;*/
+/*	grid-row-end: 3;*/
+}
+
+#info{
+	padding: 15px;
+	grid-column-start: 2;
+	grid-column-end: 3;
+	color: white;
+	font-family: Arial;
+/*	grid-row-start: 2;*/
+/*	grid-row-end: 3;*/
+}
+
+table{
+	border-collapse: collapse;
+	margin-top: 25px;
+}
+
+table tr{
+	border-bottom: 1px solid rgba(255, 255, 255, 0.33);
+}
+
+table td{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 10px;
+}
+
+table td:first-child{
+	font-weight: bold;
+}
+
+#descr{
+	text-align: justify;
+}

@@ -11,12 +11,13 @@ movieTemplate.render = function (obj) {
 	}
 	
 	return "" +
+		"<a href=\"/film?id=" + obj.id + "\">" +
 		"<div class=\"" + classes(obj.genFilm) + "movieItem" + "\">" +
 		"<h1 class = \"movieName\">" + obj.numeFilm + " (" + obj.anAparitie + ")" + "</h1>" +
 		"<h2>" + obj.genFilm + "</h2>" +
 		"<p class = \"distribution\">" + "Distributie: " + obj.actori + "</p>" +
 		"<img src=\"" + obj.linkAfis + "\"alt=\"" + obj.numeFilm + "\">" +
-		"</div>" +
+		"</div></a>" +
 		"";
 		
 }

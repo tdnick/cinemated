@@ -9,6 +9,7 @@ const session = require('express-session')
 const formidable = require('formidable');
 const util = require('util');
 const crypto = require('crypto');
+const url = require('url');
 
 oracledb.autoCommit = true;
 
@@ -46,6 +47,53 @@ app.get("/", function (req, res) {
 
 app.get("/login", function (req, res) {
     res.render("html/login", {});
+});
+
+app.get("/film", function (req, res) {
+    const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    const search_params = current_url.searchParams;
+    
+    const id = search_params.get('id');
+    oracledb.getConnection(connectionProperties, function (err, connection) {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send("Error connecting to DB");
+            return;
+        }
+        if (id){
+            var dbRequest = "SELECT * FROM filme WHERE film_id = '" + id + "'";
+            connection.execute(dbRequest, {},
+                { outFormat: oracledb.OBJECT },
+                function (err, result) {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).send("Eroare");
+                        doRelease(connection);
+                        return;
+                    }
+                    result.rows.forEach(function (element) {
+                        ret = {name: element.NUME_FILM, 
+                                genre: element.GEN_FILM, 
+                                director: element.REGIZORI, 
+                                actor: element.ACTORI, 
+                                trailer: element.LINK_TRAILER, 
+                                poster: element.LINK_AFIS, 
+                                desc: element.DESCRIERE, 
+                                time: element.DURATA, 
+                                lang: element.LIMBA_ORIGINALA, 
+                                year: element.AN_APARITIE};
+                    }, this);
+                    doRelease(connection);
+                    console.log("Got movie data");
+                    console.log(ret);
+                    res.render("html/film", {user: req.session.username, movieData: ret});
+            });
+        } else {
+            var ret = {name: "", genre: ""}
+            doRelease(connection);
+            res.render("html/film", {user: req.session.username, movieData: ret});
+        }
+    });
 });
 
 app.get("/dashboard", function (req, res) {

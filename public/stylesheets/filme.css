@@ -34,12 +34,17 @@
 
 .containerMovies {
 	background-size: cover;
-    color: rgba(104, 92, 26, 1);
+    
 	width: 1000px;
 	margin: auto;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
+}
+
+.containerMovies a{
+	color: rgba(104, 92, 26, 1);
+	text-decoration: none;
 }
 
 .movieItem {
