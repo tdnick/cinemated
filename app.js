@@ -290,7 +290,7 @@ app.get("/limitless", function(req, res) {
 
 app.use(express.static('static'));
 app.use('/', router);
-app.listen(80, function(error) {
+app.listen(process.env.PORT, function(error) {
     if (error) {
         console.log("Something went wrong!", error);
     }
