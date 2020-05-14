@@ -49,53 +49,6 @@ app.get("/login", function (req, res) {
     res.render("html/login", {});
 });
 
-app.get("/film", function (req, res) {
-    const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
-    const search_params = current_url.searchParams;
-    
-    const id = search_params.get('id');
-    oracledb.getConnection(connectionProperties, function (err, connection) {
-        if (err) {
-            console.error(err.message);
-            res.status(500).send("Error connecting to DB");
-            return;
-        }
-        if (id){
-            var dbRequest = "SELECT * FROM filme WHERE film_id = '" + id + "'";
-            connection.execute(dbRequest, {},
-                { outFormat: oracledb.OBJECT },
-                function (err, result) {
-                    if (err) {
-                        console.error(err);
-                        res.status(500).send("Eroare");
-                        doRelease(connection);
-                        return;
-                    }
-                    result.rows.forEach(function (element) {
-                        ret = {name: element.NUME_FILM, 
-                                genre: element.GEN_FILM, 
-                                director: element.REGIZORI, 
-                                actor: element.ACTORI, 
-                                trailer: element.LINK_TRAILER, 
-                                poster: element.LINK_AFIS, 
-                                desc: element.DESCRIERE, 
-                                time: element.DURATA, 
-                                lang: element.LIMBA_ORIGINALA, 
-                                year: element.AN_APARITIE};
-                    }, this);
-                    doRelease(connection);
-                    console.log("Got movie data");
-                    console.log(ret);
-                    res.render("html/film", {user: req.session.username, movieData: ret});
-            });
-        } else {
-            var ret = {name: "", genre: ""}
-            doRelease(connection);
-            res.render("html/film", {user: req.session.username, movieData: ret});
-        }
-    });
-});
-
 app.get("/dashboard", function (req, res) {
     oracledb.getConnection(connectionProperties, function (err, connection) {
         if (err) {
@@ -235,12 +188,7 @@ app.get("/index", function (req, res) {
     res.render("html/index", {user: req.session.username});
 });
 
-app.get("/filme", function(req, res) {
-    res.render("html/filme", {user: req.session.username});
-});
-
-var router = express.Router();
-router.route('/movies/').get(function (request, response) {
+app.get("/filme", function (req, res) {
     console.log("GET MOVIES");
     oracledb.getConnection(connectionProperties, function (err, connection) {
         if (err) {
@@ -258,25 +206,85 @@ router.route('/movies/').get(function (request, response) {
                     doRelease(connection);
                     return;
                 }
-                var filme = [];
+                 // Merge sa dam split fix cand citim din db, yay
+                function classes(genres) {
+                    s = "";
+                    genres = genres.split(", ");
+                    for (let i of genres) {
+                        s += i + " ";
+                    }
+                    return s;
+                }
+
+                var movies = [];
                 result.rows.forEach(function (element) {
-                    filme.push({
+                    movies.push({
                         id: element.FILM_ID,
-                        numeFilm: element.NUME_FILM,
-                        genFilm: element.GEN_FILM,
-                        regizori: element.REGIZORI,
-                        actori: element.ACTORI,
-                        linkTrailer: element.LINK_TRAILER,
-                        linkAfis: element.LINK_AFIS,
-                        descriere: element.DESCRIERE,
-                        durata: element.DURATA,
-                        limbaOriginala: element.LIMBA_ORIGINALA,
-                        anAparitie: element.AN_APARITIE
+                        name: element.NUME_FILM,
+                        genre: classes(element.GEN_FILM),
+                        director: element.REGIZORI,
+                        actor: element.ACTORI,
+                        trailer: element.LINK_TRAILER,
+                        poster: element.LINK_AFIS,
+                        desc: element.DESCRIERE,
+                        time: element.DURATA,
+                        lang: element.LIMBA_ORIGINALA,
+                        year: element.AN_APARITIE
                     });
                 }, this);
-                response.json(filme);
                 doRelease(connection);
+                console.log("Got movies data");
+                res.render("html/filme", { user: req.session.username, moviesData: movies });
             });
+    });
+});
+
+app.get("/film", function (req, res) {
+    const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    const search_params = current_url.searchParams;
+
+    const id = search_params.get('id');
+    oracledb.getConnection(connectionProperties, function (err, connection) {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send("Error connecting to DB");
+            return;
+        }
+        if (id) {
+            var dbRequest = "SELECT * FROM filme WHERE film_id = '" + id + "'";
+            connection.execute(dbRequest, {},
+                { outFormat: oracledb.OBJECT },
+                function (err, result) {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).send("Error");
+                        doRelease(connection);
+                        return;
+                    }
+                    result.rows.forEach(function (element) {
+                        ret = {
+                            name: element.NUME_FILM,
+                            genre: element.GEN_FILM,
+                            director: element.REGIZORI,
+                            actor: element.ACTORI,
+                            trailer: element.LINK_TRAILER,
+                            poster: element.LINK_AFIS,
+                            desc: element.DESCRIERE,
+                            time: element.DURATA,
+                            lang: element.LIMBA_ORIGINALA,
+                            year: element.AN_APARITIE
+                        };
+                    }, this);
+                    doRelease(connection);
+                    console.log("Got movie data");
+                    console.log(ret);
+                    res.render("html/film", { user: req.session.username, movieData: ret });
+                });
+        } else {
+            var ret = { name: "", genre: "" }
+            doRelease(connection);
+            res.render("html/film", { user: req.session.username, movieData: ret });
+        }
     });
 });
 
@@ -288,8 +296,6 @@ app.get("/limitless", function(req, res) {
     res.render("html/limitless", {user: req.session.username});
 });
 
-app.use(express.static('static'));
-app.use('/', router);
 app.listen(port, function(error) {
     if (error) {
         console.log("Something went wrong!", error);

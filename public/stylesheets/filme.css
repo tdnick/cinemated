@@ -22,6 +22,7 @@
 }
 #filterContent {
 	display: none;
+	position: absolute;
 }
 
 .buttons {

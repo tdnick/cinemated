@@ -40,9 +40,14 @@
 		</div>
 	</div>
 
-        <div id="movies" class="containerMovies"></div>
-    
-    
+        <div id="movies" class="containerMovies"> 
+
+		<% for (var i = 0; i < moviesData.length; i++) { %>
+			<%- include('../partials/movieTemplate', {movie: moviesData[i]}); %>
+		<% } %>
+
+		</div>
+
 </body>
 
 <footer><%- include("../partials/footer.ejs")%></footer>
