@@ -1,0 +1,8 @@
+﻿<div class = "<%= movie.genre %> movieItem">
+    <a href = "/film?id=<%= movie.id %>" >
+        <h1 class = "movieName"> <%= movie.name %> (<%= movie.year %>) </h1>
+        <h2> <%= movie.genre %> </h2>
+        <p class = "distribution">Distributie: <%= movie.actor %> </p>
+        <img src = "<%= movie.poster %>" alt = "<%= movie.name %>">
+    </a>
+</div>
