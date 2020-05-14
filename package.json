@@ -4,7 +4,6 @@
   "description": "Retro cinema website",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
     "start": "node app.js"
   },
   "author": "Mihaela Antal-Burlacu, Veronica Chirut, Nicolas Iliescu, Andreea Stoian, Cristina Vultur",
