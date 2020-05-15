@@ -31,7 +31,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 app.use(session({
-    secret: 'abcdefg',//asta e pt login
+    secret: 'abcdefg', // for login
     resave: true,
     saveUninitialized: false
 }));
@@ -89,7 +89,7 @@ app.get("/register", function (req, res) {
 
 app.post("/register", function (req, res) {
     var form = new formidable.IncomingForm();
-    var control = 0; //nicio problema
+    var control = 0; // not a problem
     form.parse(req, function (err, fields, files) {
         oracledb.getConnection(connectionProperties, function (err, connection) {
             if (err) {
@@ -107,9 +107,9 @@ app.post("/register", function (req, res) {
                     if (err) {
                         console.error(err);
                         if (err.message.localeCompare("ORA-00001: unique constraint (VERONICACHIRUT.USERS_UK2) violated") == 0){
-                            control = 1; //username deja utilizat
+                            control = 1; // username already used
                         } else if (err.message.localeCompare("ORA-00001: unique constraint (VERONICACHIRUT.USERS_UK1) violated") == 0){
-                            control = 2; //adresa email deja utilizata
+                            control = 2; // email address already used
                         } else {
                             control = -1;
                         }
@@ -135,7 +135,7 @@ app.get('/logout', function(req, res) {
 
 app.post('/login', function (req, res) {
     var form = new formidable.IncomingForm();
-    var control = 0; //cod prestabilit pentru eroare generala de autentificare
+    var control = 0; // default code for general authentication error
     form.parse(req, function(err, fields, files) {
         oracledb.getConnection(connectionProperties, function (err, connection) {
             if (err) {
@@ -157,18 +157,19 @@ app.post('/login', function (req, res) {
                     var encrPass = cipher.update(fields.pass, 'utf8', 'hex');
                     encrPass += cipher.final('hex');
                     if (result.rows.length == 0){
-                        control = 3; //username-ul nu a fost gasit in baza de date
+                        control = 3; // username was not found in the database
                     }
                     result.rows.forEach(function (element) {
                         if (element.PASSWORD == encrPass){
                             //aici trebuie neaparat cu litere mari pt ca altfel nu face verificarea cum trb, imi pare rau de coding style :))
                             // e okay, nu sunt un coding style nazi :))))
                             // ms pwp apreciez
-                            control = 1; //date de logare valide
+							// cu placere ;)
+                            control = 1; // valid login data
                         }
                         else {
                             console.log("User tried to log in with wrong password");
-                            control = 2; //userul exista dar parola gresita
+                            control = 2; // the user exists but the password is wrong
                         }
                     }, this);
                     doRelease(connection);
@@ -207,6 +208,7 @@ app.get("/filme", function (req, res) {
                     return;
                 }
                  // Merge sa dam split fix cand citim din db, yay
+				 // Perfect :)
                 function classes(genres) {
                     s = "";
                     genres = genres.split(", ");

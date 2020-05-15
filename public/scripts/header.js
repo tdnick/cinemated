@@ -23,7 +23,6 @@ function showAccount() {
 // }
 
 window.onscroll = function () {
-    //
     navHeight = document.getElementById("hnav").offsetTop + parseInt(getComputedStyle(document.getElementById("hnav")).height);
 
     if (document.documentElement.scrollTop > navHeight) {

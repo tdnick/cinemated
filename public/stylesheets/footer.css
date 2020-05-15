@@ -5,15 +5,6 @@ footer p {
     margin-bottom: 20px;
 }
 
-#map{
-    
-    margin-top: 20px;  
-    margin-right: 20px;
-    width: 20%;
-    height: 180px;
-    float: right;
-}
-
 #text {
     position: relative;
     display: inline-block;
@@ -46,3 +37,14 @@ footer p {
 .fa-instagram {
     color: white;
   }
+  
+/*
+#map{
+    
+    margin-top: 20px;  
+    margin-right: 20px;
+    width: 20%;
+    height: 180px;
+    float: right;
+}
+*/

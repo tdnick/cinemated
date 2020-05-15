@@ -11,7 +11,7 @@ nav {
     text-align: center;
     /* background-color: maroon; */
     background: linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)), url("/images/clock2.gif");
-/*    background-image: url("/images/clock2.gif");*/
+	/* background-image: url("/images/clock2.gif");*/
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
