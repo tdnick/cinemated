@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <%- include("../partials/commonLinks.ejs")%>
+    <title>Confirmare rezervare</title>
+	<script src = "../scripts/confirm.js"></script>
+	<link href="stylesheets/confirm.css" type = "text/css" rel = "stylesheet">
+</head>
+<body>
+    <header>
+        <div class="intro">        
+			<p>Cinemated</p>
+			<figure>
+			<img id = "logo" src = "/images/cinematedLogo.png" alt="cinemated logo" title="cinemated">
+			</figure>
+		</div>
+    </header>
+	<main>
+		<div id="confirm">
+			<h2>
+				Confirmarea rezervarii
+			</h2>
+			<p> Va rugam sa verificati datele rezervarii.</p>
+		</div>
+		<div id="container">
+			<h2>Detalii rezervare:</h2>
+			<div class = "inline">
+				<p>Nume client: </p> <p>NUME RANDOM</p>
+			</div>
+			<div class = "inline">
+				<p>Adresa de mail:</p> <p>cevaceva@yahoo.com</p>
+			</div>
+			<div class = "inline">
+				<p>Nume Film :</p> <p>UN nume de film mai lung</p>
+			</div>
+			<div class = "inline">
+				<p>Data si ora:</p> <p>12 Candva 2034</p>
+			</div>
+			<div class = "inline">
+				<p>Locuri rezervate:</p> 
+				<ul id="selected_seats">
+					<li>R4 S10</li>
+					<li>R4 S11</li>
+			</div>			
+			<div class = "inline">				
+				<p>Nr bilete:</p><p>elev, adulti, studenti..</p>
+			</div>
+			<div class = "inline">
+				<p>Total plata:</p> <p> 0 </p>
+			</div>
+		</div>
+		</div>
+		<form action="confirm.ejs" method="get">
+		<button id="but" type="submit" formaction="last">Next</button>
+		</form>
+	</main>
+
+</body>
+<footer>
+   
+</footer>

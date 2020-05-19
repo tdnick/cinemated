@@ -38,8 +38,14 @@ app.use(session({
 app.get("/choose", function(req, res) {
     res.render("html/choose", {});
 });
+app.get("/confirm", function(req, res) {
+    res.render("html/confirm", {});
+});
 app.get("/locuri", function(req, res) {
     res.render("html/locuri", {});
+});
+app.get("/last", function(req, res) {
+    res.render("html/last", {});
 });
 app.get("/", function (req, res) {
     res.render("html/index", {user: req.session.username});

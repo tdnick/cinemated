@@ -32,9 +32,11 @@
 			<ul id="selected-seats"></ul>
 			<p>Bilete: <span id="counter">0</span></p>
 			<p>Total: <b><span id="total">0</span> lei</b></p>
-					
-			<button class="checkout-button">Cumpara</button>
-					
+			<form action="locuri.ejs" method="get">	
+			
+			<button class="checkout-button" type="submit" formaction="confirm">Cumpara</button>
+			
+			</form>		
 			<div id="legend"></div>
 		</div>
 		<div style="clear:both"></div>
