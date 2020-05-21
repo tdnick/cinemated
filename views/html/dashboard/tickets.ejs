@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Contul meu</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel = "shortcut icon" type = "image/x-icon" href="/images/favicon.ico"/>
+		<link rel="stylesheet" href="/stylesheets/dashboard.css" type = "text/css">
+	</head>
+	<body>
+		<header>
+			<h1>Bilete emise</h1>
+		</header>
+		
+		<nav class="sidenav">
+			<a href="/dashboard/info">Date personale</a>
+			<a href="/dashboard/security">Setări securitate</a>
+			<a href="/dashboard/limitless">Abonamentul meu Limitless</a>
+			<a href="/dashboard/tickets" id="active">Bilete emise</a>
+			<a href="/dashboard/settings">Setări cont</a>
+			<a href="/">Pagina principală</a>
+		</nav>
+		
+		<main>
+			<% if (!locals.user) { %>
+				<p>Pentru a vă putea administra contul, este necesar să vă <a href="/login">conectați!</a></p>
+			<% } else { %>
+				<h2>Funcționalitate (încă) neimplementată!</h2>
+			<% } %>
+		</main>
+		<footer>
+			
+		</footer>
+	</body>
+</html>

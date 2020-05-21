@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Contul meu</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel = "shortcut icon" type = "image/x-icon" href="/images/favicon.ico"/>
+		<link rel="stylesheet" href="/stylesheets/dashboard.css" type = "text/css">
+	</head>
+	<body>
+		<header>
+			<h1>Date personale</h1>
+		</header>
+		
+		<nav class="sidenav">
+			<a href="/dashboard/info" id="active">Date personale</a>
+			<a href="/dashboard/security">Setări securitate</a>
+			<a href="/dashboard/limitless">Abonamentul meu Limitless</a>
+			<a href="/dashboard/tickets">Bilete emise</a>
+			<a href="/dashboard/settings">Setări cont</a>
+			<a href="/">Pagina principală</a>
+		</nav>
+		
+		<main>
+			<% if (!locals.user) { %>
+				<p>Pentru a vă putea administra contul, este necesar să vă <a href="/login">conectați!</a></p>
+			<% } else { %>
+				<h2>Informații generale</h2>
+				<% if (locals.cntl == 1) { %>
+				<p>Adresa de e-mail introdusă este deja asociată altui cont!</p>
+				<% } else if (locals.cntl == 0) { %>
+				<p>Datele au fost actualizate cu succes!</p>
+				<% } %>
+				<form method="post">
+					<label>Nume:</label>
+					<input type="text" name="fname" value="<%= user.name %>">
+					<label>Adresă de e-mail:</label>
+					<input type="text" name="email" value="<%= user.email %>">
+					<input type="submit" value="Modifică datele">
+				</form>
+			<% } %>
+		</main>
+		<footer>
+			
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Contul meu</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel = "shortcut icon" type = "image/x-icon" href="/images/favicon.ico"/>
+		<link rel="stylesheet" href="/stylesheets/dashboard.css" type = "text/css">
+	</head>
+	<body>
+		<header>
+			<h1>Setări de securitate</h1>
+		</header>
+		
+		<nav class="sidenav">
+			<a href="/dashboard/info">Date personale</a>
+			<a href="/dashboard/security" id="active">Setări securitate</a>
+			<a href="/dashboard/limitless">Abonamentul meu Limitless</a>
+			<a href="/dashboard/tickets">Bilete emise</a>
+			<a href="/dashboard/settings">Setări cont</a>
+			<a href="/">Pagina principală</a>
+		</nav>
+		
+		<main>
+			<% if (!locals.user) { %>
+				<p>Pentru a vă putea administra contul, este necesar să vă <a href="/login">conectați!</a></p>
+			<% } else { %>
+				<h2>Modificarea parolei</h2>
+				<% if (locals.cntl == 0) { %>
+				<p>Parola a fost modificată cu succes!</p>
+				<% } else if (locals.cntl == 1) { %>
+				<p>Parola nouă nu corespunde în ambele căsuțe!</p>
+				<% } else if (locals.cntl == 2) { %>
+				<p>Parola veche nu corespunde cu baza noastră de date!</p>
+				<% } %>
+				<form method="post">
+					<label>Parola veche:</label>
+					<input type="password" name="oldpass">
+					<label>Parola nouă:</label>
+					<input type="password" name="newpass">
+					<label>Repetă parola nouă</label>
+					<input type="password" name="repeat">
+					<input type="submit" value="Schimbă parola">
+				</form>
+			<% } %>
+		</main>
+		<footer>
+			
+		</footer>
+	</body>
+</html>

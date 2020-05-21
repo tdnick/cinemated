@@ -4,55 +4,59 @@
     margin: 0;
 }
 
-header {
-    color: white
-}
-
-body {
-    background-color: rgba(25,25,25,1);
-    font-family: Arial, sans-serif;
-}
-
-main {
+header, main {
+    margin-left: min(30vw, 300px);
     color: white;
-    font-size: 1.3em;
-    margin: 30px;
 }
 
-button{
-    padding: 5px;
-    border-radius: 5px;
+h2{
+    margin-left: 20px;
+    font-size: 28px;
 }
 
-#home{
-    margin-bottom: 10px;
+.sidenav {
+    height: 100%;
+    width: 30%;
+    max-width: 300px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
 }
 
-button a{
+.sidenav a {
+    padding: 6px 16px 6px 16px;
     text-decoration: none;
-    color: rgba(104, 92, 26, 1);
-    font-weight: bold;
-    font-size: 15px;
+    font-size: 24px;
+    color: #818181;
+    display: block;
 }
 
-#divide{
-    display: table;
-    max-width: 1100px;
-    width: 100%;
-    margin: auto;
-    border-collapse: collapse;
-    text-align: center;
+.sidenav a:nth-last-of-type(2){
+    margin-bottom: 20px;
 }
 
-#dr{
-    display: table-row;
+.sidenav a:last-of-type{
+    color: rgb(104,92,26);
+    border-top: 1px solid white;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-#personalInfo {
-    display: table-cell;
-    width: 50%;
-    border: 2px solid gray;
-    padding: 10px;
+.sidenav a:hover, #active {
+    color: #f1f1f1;
+    background-color: green;
+}
+
+p a{
+    color: rgb(104,92,26);
+}
+
+p{
+    margin: 20px;
 }
 
 h1 {
@@ -61,3 +65,39 @@ h1 {
     margin: 20px;
 }
 
+body {
+    background-color: rgba(25,25,25,1);
+    font-family: Arial, sans-serif;
+}
+
+form{
+    padding: 20px;
+    width: 400px;
+}
+
+label{
+    display: block;
+    font-size: 20px;
+}
+
+input[type=text], input[type=password]{
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 5px;
+    width: 100%;
+    margin: 10px 10px 10px 0px;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+    border: 3px solid #555;
+}
+
+input[type=submit]{
+    margin-top: 10px;
+    color: rgba(104, 92, 26, 1);
+    padding: 8px;
+    font-size: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+}
