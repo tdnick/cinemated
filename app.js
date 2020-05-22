@@ -254,72 +254,50 @@ app.post("/register", function (req, res) {
 });
 
 app.post("/dashboard/security", function (req, res) {
-    //are buguri destul de mari dar merge
     var form = new formidable.IncomingForm();
-    var control = 0;
+    var control = -1; //unknown error
+    
     form.parse(req, function (err, fields, files) {
+        
+        var cipher1 = crypto.createCipher('aes-128-cbc', 'mypassword');
+        var oldPassword = cipher1.update(fields.oldpass, 'utf8', 'hex');
+        oldPassword += cipher1.final('hex');
         
         if (fields.newpass != fields.repeat) {
             control = 1; // passwords do not match
-            console.log("nu sunt la fel");
             res.render('html/dashboard/security', {cntl: control, user: req.session.userData});
-            return;
-        }
-        
-        oracledb.getConnection(connectionProperties, function (err, connection) {
-            if (err) {
-                console.error(err.message);
-                res.status(500).send("Error connecting to DB");
-                return;
-            }
-            
-            var cipher1 = crypto.createCipher('aes-128-cbc', 'mypassword');
-            var oldPassword = cipher1.update(fields.oldpass, 'utf8', 'hex');
-            oldPassword += cipher1.final('hex');
-            
-            var cipher2 = crypto.createCipher('aes-128-cbc', 'mypassword');
-            var newPassword = cipher2.update(fields.newpass, 'utf8', 'hex');
-            newPassword += cipher2.final('hex');
-            
-            var passRequest = "select * from users where username = '" + req.session.userData.username + "'";
-            
-            connection.execute(passRequest, {}, {outFormat: oracledb.OBJECT}, function (err, result) {
+        } else {
+            oracledb.getConnection(connectionProperties, function (err, connection) {
                 if (err) {
-                    console.error(err);
-                    res.status(500).send("Error getting current password");
-                    doRelease(connection);
+                    console.error(err.message);
+                    res.status(500).send("Error connecting to DB");
                     return;
                 }
-                result.rows.forEach(function (element) {
-                    ret = element.PASSWORD;
-                }, this);
-                //doRelease(connection);
-                console.log("Got password from user");
-                if (ret != oldPassword){
-                    console.log("wrong old pass");
-                    control = 2; //wrong old password
-                    doRelease(connection);
-                }
-            });
-            
-            if (control == 0){
-                var dbRequest = "update users set password = '" + newPassword + "' where username = '" + req.session.userData.username + "'";
-                console.log("username activ: " + req.session.userData.username);
+                
+                var cipher2 = crypto.createCipher('aes-128-cbc', 'mypassword');
+                var newPassword = cipher2.update(fields.newpass, 'utf8', 'hex');
+                newPassword += cipher2.final('hex');
+                    
+                var dbRequest = "update users set password = '" + newPassword + "' where (username = '" + req.session.userData.username + "' and password = '" + oldPassword + "')";
+                
                 connection.execute(dbRequest, {}, {outFormat: oracledb.OBJECT}, function (err, result) {
                     if (err) {
                         console.error(err);
-                        res.status(500).send("Error updating db");
                         doRelease(connection);
                         return;
                     }
+                    console.log(result.rowsAffected);
+                    if (result.rowsAffected == 0){
+                        control = 2; //old password was entered wrong
+                    } else if (result.rowsAffected == 1){
+                        console.log("Password updated successfully");
+                        control = 0;
+                    }
                     doRelease(connection);
-                    console.log("Password updated successfully");
                     res.render('html/dashboard/security', {cntl: control, user: req.session.userData});
                 });
-            } else {
-                res.render('html/dashboard/security', {cntl: control, user: req.session.userData});
-            }
-        });
+            });
+        }
     });
 });
 
