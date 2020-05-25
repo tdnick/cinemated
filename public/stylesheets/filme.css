@@ -5,6 +5,10 @@
 	display: block;
 }
 
+.checkboxLabel:hover {
+	color: gold;
+}
+
 .checkboxInput{
 	margin-right: 10px;
 }
@@ -20,6 +24,11 @@
 	border: 2px solid rgba(104, 92, 26, 1);
 
 }
+
+#filterIcon:hover {
+	border-color: gold;
+}
+
 #filterContent {
 	display: none;
 	position: absolute;
@@ -31,6 +40,12 @@
 	color: rgba(104, 92, 26, 1);
 	width: 100px;
 	padding: 10px;
+	border-radius: 5px;
+}
+
+.buttons:hover {
+	border-color: gold;
+	color: gold;
 }
 
 .containerMovies {

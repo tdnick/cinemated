@@ -2,6 +2,8 @@
 <html lang="ro">
 <head>
     <%- include("../partials/commonLinks.ejs")%>
+    <link href = "/stylesheets/limitless.css" type = "text/css" rel = "stylesheet">
+    <script src = "/scripts/limitless.js"></script>
     <title>Limitless</title>
 
 </head>
@@ -9,6 +11,35 @@
     <header>
     <%- include("../partials/header.ejs")%>
     </header>
+    <div id = "limContainer">
+    <img src = "/images/cinemated.jpg" alt = "Card Limitless" id = "card">
+    <form>
+        <h2 id = "h2Card">Informatii</h2>
+        <fieldset>
+            <legend>Detaliile clientului</legend>
+            <label><input type = "text" placeholder = "Nume..." id = "clientName"></label>
+            <label><input type = "text" placeholder = "Prenume..." id = "clientFirstname"></label>
+            <label><input type = "text" placeholder = "Adresa de email..."></label>
+            <label><input type = "text" placeholder = "Numar de telefon..."></label>
+        </fieldset>
+        <fieldset>
+            <legend>Tipul cardului</legend>
+            <label><input type = "radio" name = "typeOfCard">Standard</label>
+            <label><input type = "radio" name = "typeOfCard">Premium</label>
+        </fieldset>
+        <fieldset>
+            <legend>Perioada de valabilitate</legend>
+            <div id = "calendarContainer">
+                <div id = "calendarHeader">
+                    <span id = "monthYear"></span>
+                </div>
+                <div id = "dates"></div>
+            </div>
+            <p id = "chosenPeriod">Perioada aleasă: <span id = "period"></span></p>
+        </fieldset>
+    
+    </form>
+    </div>
     <p></br></br></br></br></br></br></br></br></br></br></br></br></br></br></p>
 
 </body>

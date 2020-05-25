@@ -101,3 +101,16 @@ input[type=submit]{
     cursor: pointer;
     background-color: #f0f0f0;
 }
+
+#aLimitless {
+    text-decoration: none;
+    color: white;
+    font-size: 1.3em;
+    margin: 20px;
+    position: relative;
+    top: 10px;
+}
+
+#aLimitless:hover {
+    color: gold;
+}

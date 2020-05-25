@@ -22,19 +22,19 @@ function showAccount() {
 //     //console.log(document.getElementById("hnav").offsetTop);
 // }
 
+
+
 window.onscroll = function () {
     navHeight = document.getElementById("hnav").offsetTop + parseInt(getComputedStyle(document.getElementById("hnav")).height);
 
     if (document.documentElement.scrollTop > navHeight) {
-        document.getElementById("hnav").classList.add("scrolled");
-        for (li of document.getElementById("hnav").children[0].children) {
-            li.children[0].classList.add("aScrolled");
-        }
+
+        document.getElementById("hnav").style.visibility = "hidden";
+        document.getElementById("hnavSticky").style.display = "block";
     }
     else {
-        document.getElementById("hnav").classList.remove("scrolled");
-        for (li of document.getElementById("hnav").children[0].children) {
-            li.children[0].classList.remove("aScrolled");
-        }
+        document.getElementById("hnav").style.visibility = "visible";
+        document.getElementById("hnavSticky").style.display = "none";
     }
+
 }

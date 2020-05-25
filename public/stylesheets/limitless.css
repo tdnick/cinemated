@@ -1,0 +1,92 @@
+#limContainer {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 50px;
+    /* z-index: -1; */
+    font-size: 1.1em;
+}
+
+#card {
+    width: 50%;
+    border-radius: 5px;
+}
+
+form {
+    border: 2px solid white;
+    width: 30%;
+    padding: 20px;
+}
+
+label {
+    color: white;
+    display: block;
+    position: relative;
+    width: 90%;
+    left: 50%;
+    transform: translate(-50%);
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+input[type = "text"] {
+    width: 80%;
+    height: 40px; 
+}
+
+input[type = "radio"] {
+    margin-right: 10px;
+}
+
+
+#h2Card {
+    color: white;
+}
+
+#calendarContainer {
+    color: white;
+    /* border: 2px solid gold; */
+    width: 50%;
+    padding: 10px;
+    margin: 10px;
+}
+
+table {
+    width: 100%;
+}
+
+td {
+    text-align: center;
+}
+
+.day:hover {
+    background-color: gold;
+}
+
+#monthYear {
+    margin: 5px;
+}
+
+tr:first-child {
+    background-color: rgba(104, 92, 26, 1);
+}
+
+fieldset {
+    border: 0;
+}
+
+legend {
+    color: white;
+}
+
+#chosenPeriod {
+    color: white;
+    width: 90%;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+#monthYear {
+    font-weight: bold;
+    color: gold;
+}
