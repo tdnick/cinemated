@@ -111,7 +111,7 @@ app.get("/filme", function (req, res) {
             return;
         }
         console.log("After connection");
-        connection.execute("SELECT * FROM filme", {},
+        connection.execute("SELECT * FROM filme ORDER BY film_id", {},
             { outFormat: oracledb.OBJECT },
             function (err, result) {
                 if (err) {

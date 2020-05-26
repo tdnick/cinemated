@@ -1,3 +1,31 @@
+#filter {
+	margin: 30px;
+}
+
+#filterIcon{
+	width: 50px;
+	background-color: rgba(104, 92, 26, 1);
+	border-radius: 50%;
+	border: 2px solid rgba(104, 92, 26, 1);
+}
+
+#filterIcon:hover {
+	border-color: gold;
+}
+
+#filterContent {
+	display: none;
+	position: absolute;
+}
+
+.filterIntro {
+	color: rgba(104, 92, 26, 1);
+	font-size: 1.2em;
+	margin-bottom: 10px;
+	display: block;
+	padding-top: 10px;
+}
+
 .checkboxLabel{
 	color: rgba(104, 92, 26, 1);
 	font-size: 1.2em;
@@ -13,25 +41,30 @@
 	margin-right: 10px;
 }
 
-#filter {
-	margin: 30px;
-}
-
-#filterIcon{
-	width: 50px;
-	background-color: rgba(104, 92, 26, 1);
-	border-radius: 50%;
+#selectFilter {
+	background-color: rgba(25,25,25,1);
+	color: rgba(104, 92, 26, 1);
 	border: 2px solid rgba(104, 92, 26, 1);
-
+	padding: 2px;
+	margin-bottom: 20px;
+	border-radius: 5px;
 }
 
-#filterIcon:hover {
-	border-color: gold;
+#selectFilter:hover {
+	color: gold;
 }
 
-#filterContent {
-	display: none;
-	position: absolute;
+.selectOption{
+	background-color: rgba(25,25,25,1);
+	color: rgba(104, 92, 26, 1);
+	border: 2px solid rgba(104, 92, 26, 1);
+	padding: 2px;
+	margin-bottom: 20px;
+	border-radius: 5px;
+}
+
+.selectOption:hover {
+	color: gold;
 }
 
 .buttons {
@@ -40,6 +73,7 @@
 	color: rgba(104, 92, 26, 1);
 	width: 100px;
 	padding: 10px;
+	margin: 5px;
 	border-radius: 5px;
 }
 
@@ -62,15 +96,15 @@
 	text-decoration: none;
 }
 
+.containerMovies img {
+	height: 250px;
+	width: 50%;
+}
+
 .movieItem {
 	margin-top: 20px;
 	margin-bottom: 20px;
 	width: 400px;
-}
-
-.containerMovies img {
-	height: 250px;
-	width: 50%;
 }
 
 .distribution {

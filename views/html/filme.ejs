@@ -21,6 +21,7 @@
 		<img id="filterIcon" src="/images/filter_icon.png" alt="filter">
 		<div id="filterContent">
 			<!-- Filtering by genre -->
+			<p class="filterIntro">Genul filmului:</p>
 			<div id="genres">
 				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="Actiune">Actiune</label>
 				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="Aventura">Aventura</label>
@@ -34,18 +35,29 @@
 				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="SF">SF</label>
 				<label class="checkboxLabel"><input type="checkbox" class="checkboxInput" value="Thriller">Thriller</label>
 			</div>
+			
+			<p class="filterIntro">Ordoneaza dupa:</p>
+			<div id="sorting">
+				<select id="selectFilter">
+					<option class="selectOption" value="default">Selecteaza optiunea</option>
+					<option class="selectOption" value="nameAZ">Nume A-Z</option>
+					<option class="selectOption" value="nameZA">Nume Z-A</option>
+					<option class="selectOption" value="durataDownUp">Crescator dupa durata</option>
+					<option class="selectOption" value="durataUpDown">Descrescator dupa durata</option>
+					<option class="selectOption" value="yearUpDown">Cele mai recente</option>
+					<option class="selectOption" value="yearDownUp">Cele mai vechi</option>
+				</select>
+			</div>
 		
-			<button class="buttons" id="filterButton">Filtreaza</button>
+			<button class="buttons" id="filterButton">Filtreaza</button></br>
 			<button class="buttons" id="resetButton">Reseteaza</button>
 		</div>
 	</div>
 
         <div id="movies" class="containerMovies"> 
-
-		<% for (var i = 0; i < moviesData.length; i++) { %>
-			<%- include('../partials/movieTemplate', {movie: moviesData[i]}); %>
-		<% } %>
-
+			<% for (var i = 0; i < moviesData.length; i++) { %>
+				<%- include('../partials/movieTemplate', {movie: moviesData[i]}); %>
+			<% } %>
 		</div>
 
 </body>
