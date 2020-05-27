@@ -76,10 +76,6 @@ app.get('/dashboard/security', function (req, res) {
     res.render("html/dashboard/security", {user: req.session.userData});
 })
 
-app.get('/dashboard/limitless', function (req, res) {
-    res.render("html/dashboard/limitless", {user: req.session.userData});
-})
-
 app.get('/dashboard/tickets', function (req, res) {
     res.render("html/dashboard/tickets", {user: req.session.userData});
 })
@@ -387,6 +383,39 @@ app.post('/login', function (req, res) {
         });
     });
 });
+
+app.post('/dashboard/settings', function (req, res) {
+    var form = new formidable.IncomingForm();
+    var control = 0;
+    form.parse(req, function (err, fields, files) {
+        oracledb.getConnection(connectionProperties, function (err, connection) {
+            if (err) {
+                console.error(err.message);
+                res.status(500).send("Error connecting to DB");
+                return;
+            }
+            var dbRequest = "update users set username = '" + fields.username + "' where username = '" + req.session.userData.username + "'";
+            console.log("username activ: " + req.session.userData.username);
+            connection.execute(dbRequest, {}, {outFormat: oracledb.OBJECT}, function (err, result) {
+                if (err) {
+                    console.error(err);
+                    if (err.message.localeCompare("ORA-00001: unique constraint (VERONICACHIRUT.USERS_UK2) violated") == 0){
+                        control = 1; //username already taken
+                    }
+                    res.render('html/dashboard/settings', {cntl: control, user: req.session.userData});
+                    doRelease(connection);
+                    return;
+                }
+                doRelease(connection);
+                req.session.userData.username = fields.username;
+                console.log("Username updated successfully");
+                if (control == 0){
+                    res.render('html/dashboard/settings', {cntl: control, user: req.session.userData});
+                }
+            })
+        })
+    })
+})
 
 app.listen(port, function(error) {
     if (error) {

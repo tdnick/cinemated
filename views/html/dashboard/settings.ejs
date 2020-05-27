@@ -6,16 +6,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel = "shortcut icon" type = "image/x-icon" href="/images/favicon.ico"/>
 		<link rel="stylesheet" href="/stylesheets/dashboard.css" type = "text/css">
+		<script>
+			function eroare() {
+				alert("Funcționalitate încă neimplementată!")
+			}
+		</script>
 	</head>
 	<body>
 		<header>
-			<h1>Setări de cont</h1>
+			<h1>Setări cont</h1>
 		</header>
 		
 		<nav class="sidenav">
 			<a href="/dashboard/info">Date personale</a>
 			<a href="/dashboard/security">Setări securitate</a>
-			<a href="/dashboard/limitless">Abonamentul meu Limitless</a>
 			<a href="/dashboard/tickets">Bilete emise</a>
 			<a href="/dashboard/settings" id="active">Setări cont</a>
 			<a href="/">Pagina principală</a>
@@ -25,7 +29,20 @@
 			<% if (!locals.user) { %>
 				<p>Pentru a vă putea administra contul, este necesar să vă <a href="/login">conectați!</a></p>
 			<% } else { %>
-				<h2>Aici vom avea posibilitatea de schimbat numele utilizatorului și de a șterge contul respectiv</h2>
+				<h2>Schimbare username</h2>
+				<% if (locals.cntl == 0) { %>
+				<p>Username-ul a fost schimbat cu succes!</p>
+				<% } else if (locals.cntl == 1) { %>
+				<p>Username-ul selectat este deja folosit!</p>
+				<% } %>
+				<form method="post">
+					<label>Nume utilizator:</label>
+					<input type="text" name="username" value="<%= user.username %>">
+					<input type="submit" value="Modifică">
+				</form>
+				<h2>Ștergere cont</h2>
+				<p>Atenție! Odată efectuată, această operațiune nu mai poate fi inversată!</p>
+				<button id="btn" onclick="eroare()">Șterge contul</button>
 			<% } %>
 		</main>
 		<footer>
