@@ -52,13 +52,18 @@
 			<button class="buttons" id="filterButton">Filtreaza</button></br>
 			<button class="buttons" id="resetButton">Reseteaza</button>
 		</div>
+		
+		<input type="text" id="searchBar" name="search" onkeyup="searchMovie()" placeholder="Introduceti titlul filmului"> 
+	
 	</div>
+	
+	<p id = "noMovie">Nu exista niciun film cu numele cautat.<br>Incercati din nou!</p>
 
-        <div id="movies" class="containerMovies"> 
-			<% for (var i = 0; i < moviesData.length; i++) { %>
-				<%- include('../partials/movieTemplate', {movie: moviesData[i]}); %>
-			<% } %>
-		</div>
+	<div id="movies" class="containerMovies"> 
+		<% for (var i = 0; i < moviesData.length; i++) { %>
+			<%- include('../partials/movieTemplate', {movie: moviesData[i]}); %>
+		<% } %>
+	</div>
 
 </body>
 

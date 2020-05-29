@@ -82,6 +82,18 @@
 	color: gold;
 }
 
+#searchBar {
+	float: right;
+	font: inherit;
+}
+
+#noMovie {
+	display: none;
+	color: rgba(104, 92, 26, 1);
+	font-size: 30px;
+	text-align: center;
+	
+}
 .containerMovies {
 	background-size: cover;
 	width: 1000px;

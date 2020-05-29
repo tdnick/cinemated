@@ -29,6 +29,15 @@ window.onload = function () {
 				selected = true;
 				break;
 			}
+		if(selected == false){
+			for(let i = 0; i < checkboxes.length; i++) {
+				var checkboxValue = checkboxes[i].value;
+				var movieDiv = document.getElementsByClassName(checkboxValue);
+				for(let j = 0; j < movieDiv.length; j++){
+					movieDiv[j].style.display = "block";
+				}
+			}
+		}
 		// if at least one checkbox is selected, we go through every movie
 		// for every checkbox value, we verify if the value exists between the classes of that movie
 		// if at least one of them exists and is checked, we display the movie; if not, display = none
@@ -48,21 +57,15 @@ window.onload = function () {
 				else
 					allMovies[i].style.display = "none";
 			}
-			
-			/*
-			// doesn't work for movies with multiple genres 
-			// depends on the position of the checkbox value
-			for(let i = 0; i < checkboxes.length; i++){
-				var checkboxValue = checkboxes[i].value;
-				var movieDiv = document.getElementsByClassName(checkboxValue);
-				for(let j = 0; j < movieDiv.length; j++){
-					if(checkboxes[i].checked == false)
-						movieDiv[j].style.display = "none";
-					else 
-						movieDiv[j].style.display = "block";
-				}
+			// if there are no movies with that value, we display a message
+			var noMovie = document.getElementById("noMovie");
+			if(ok == true){
+				noMovie.style.display = "none";
 			}
-			*/			
+			else {
+				noMovie.style.display = "block";
+				filterContent.style.display = "none";
+			}			
 		}
 		
 		// Sorting movies (select)
@@ -136,7 +139,6 @@ window.onload = function () {
 				moviePlace.appendChild(m);
 			}
 		}
-		
 	}
 	
 	// Reset button
@@ -166,5 +168,33 @@ window.onload = function () {
 			moviePlace.appendChild(m);
 		}
 	}
-	
+}
+
+// search bar
+// TO DO: design + filter connection
+// when i search a movie it doesn't keep the filter information (and viceversa)
+function searchMovie() {
+	var input = document.getElementById('searchBar').value;
+	input = input.toLowerCase();
+	var allMovies = document.getElementsByClassName("movieItem");
+	ok = true;
+	for(let i = 0; i < allMovies.length; i++){
+		var title = allMovies[i].getElementsByTagName("h1")[0].textContent;
+		title = title.substr(0, title.length - 7);
+		if(!title.toLowerCase().includes(input)){
+			allMovies[i].style.display = "none";
+		}
+		else {
+			allMovies[i].style.display = "block";
+			ok = false;
+		}
+	}
+	// if there are no movies with that value, we display a message
+	var noMovie = document.getElementById("noMovie");
+	if(ok == false){
+		noMovie.style.display = "none";
+	}
+	else {
+		noMovie.style.display = "block";
+	}
 }

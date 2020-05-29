@@ -11,13 +11,13 @@
     </header>
     <main>
     <% if (movieData.name != "") { %>
-        <div id = "movie_container">
-        <h2 id = "movie_name"><%= movieData.name %></h2>
-            <div id = "trailer_doublewide">
+        <div id = "movieContainer">
+        <h2 id = "movieName"><%= movieData.name %></h2>
+            <div id = "trailerDoublewide">
                 <iframe id = "trailer" src="<%= movieData.trailer %>">
                 </iframe>
             </div>
-            <div id = "poster_div">
+            <div id = "posterDiv">
                 <img id = "poster" src="<%= movieData.poster %>" alt="<%= movieData.name %>">
             </div>
             <div id = "info">
@@ -51,7 +51,7 @@
             </div>
         </div>
     <% } else { %>
-        <p id = "eroare">Nu ați selectat niciun film!</p>
+        <p id = "error">Nu ați selectat niciun film!</p>
     <% } %>
     </main>
     <footer><%- include("../partials/footer.ejs")%></footer>
