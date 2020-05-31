@@ -60,7 +60,8 @@ p{
 }
 
 h1 {
-    font-family: "Pacifico", cursive;
+    /*font-family: "Pacifico", cursive;*/
+	font-family: Quicksand;
     font-size: 3em;
     margin: 20px;
 }

@@ -162,7 +162,7 @@ app.get("/film", function (req, res) {
             return;
         }
         if (id) {
-            var dbRequest = "SELECT * FROM filme WHERE film_id = '" + id + "'";
+            var dbRequest = "SELECT * FROM filme LEFT JOIN ecranizari USING(film_id) WHERE film_id = '" + id + "'";
             connection.execute(dbRequest, {},
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
@@ -172,8 +172,11 @@ app.get("/film", function (req, res) {
                         doRelease(connection);
                         return;
                     }
+					
+					movies = []
+					screenings = []
                     result.rows.forEach(function (element) {
-                        ret = {
+                        movies.push({
                             name: element.NUME_FILM,
                             genre: element.GEN_FILM,
                             director: element.REGIZORI,
@@ -184,12 +187,21 @@ app.get("/film", function (req, res) {
                             time: element.DURATA,
                             lang: element.LIMBA_ORIGINALA,
                             year: element.AN_APARITIE
-                        };
+                        });
+						screenings.push({
+							ecrID: element.ECRANIZARE_ID,
+							data: element.DATA,
+							ora: element.ORA,
+							sala: element.SALA,
+						});
                     }, this);
                     doRelease(connection);
                     console.log("Got movie data");
+					ret = movies[0];
                     console.log(ret);
-                    res.render("html/film", { user: req.session.userData, movieData: ret });
+					console.log("Got screening data");
+					console.log(screenings);
+                    res.render("html/film", { user: req.session.userData, movieData: ret, screenData: screenings });
                 });
         } else {
             var ret = { name: "", genre: "" }

@@ -26,7 +26,6 @@
 	grid-column-end: 3;
 	/*font-family: Freight Sans Pro, sans-serif;*/
 	font-family: Quicksand;
-	/*font-weight: 300;*/
 	color: white;
 	font-size: 55px;
 	padding-top: 10px;
@@ -74,4 +73,22 @@ table td:first-child{
 
 #descr{
 	text-align: justify;
+}
+
+#containerScreenings {
+	margin-top: 25px;
+	color: white;
+}
+
+#selectScreening {
+	background-color: rgba(25,25,25,1);
+	color: white;
+	margin-top: 10px;
+	border-radius: 5px;
+	padding: 2px;
+}
+
+#noScreening {
+	color: white;
+	margin-top: 25px;
 }

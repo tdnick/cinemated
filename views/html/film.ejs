@@ -48,8 +48,24 @@
                         <td><%= movieData.lang %></td>
                     </tr>
                 </table>
+				<% if(screenData[0].ecrID !== null) { %>
+					<div id="containerScreenings">
+						<p>Alegeti ecranizarea la care doriti sa mergeti: </p>
+						<select id="selectScreening">
+							<% for (var i = 0; i < screenData.length; i++) { %>
+								<%- include('../partials/screeningTemplate', {screen: screenData[i]}); %>
+							<% } %>
+						</select>
+					</div>
+				<% } else { %>
+					<p id = "noScreening">Momentan nu exista ecranizari pentru filmul selectat.</p>
+				<% } %>
+				
             </div>
         </div>
+		
+		
+			
     <% } else { %>
         <p id = "error">Nu ați selectat niciun film!</p>
     <% } %>
