@@ -35,17 +35,17 @@ $(document).ready(function() {
 					.attr('id', 'cart-item-'+this.settings.id)
 					.data('seatId', this.settings.id)
 					.appendTo($cart);
-
+	
 				$counter.text(sc.find('selected').length+1);
-				$total.text(recalculateTotal(sc)+price);
+				
 							
 				return 'selected';
 			} else if (this.status() == 'selected') { //Checked
 					//Update Number
 					$counter.text(sc.find('selected').length-1);
 					//update totalnum
-					$total.text(recalculateTotal(sc)-price);
-						
+				
+					
 					//Delete reservation
 					$('#cart-item-'+this.settings.id).remove();
 					//optional
@@ -61,12 +61,3 @@ $(document).ready(function() {
 	sc.get(['1_2', '4_4','4_5','6_6','6_7','8_5','8_6','8_7','8_8', '10_1', '10_2']).status('unavailable');
 		
 });
-//sum total money
-function recalculateTotal(sc) {
-	var total = 0;
-	sc.find('selected').each(function () {
-		total += price;
-	});
-			
-	return total;
-}

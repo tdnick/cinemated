@@ -1,4 +1,14 @@
-
+//sum total money
+function recalculateTotal(total) {
+	var selections = document.getElementsByTagName("select");
+	var labels = document.getElementsByClassName("pret");
+	var total = document.getElementsByClassName("total");
+	total[0].value = 0;
+	for(let i=0;i<4;i++){
+		total[0].value += selections[i].value*labels[i].value;
+	}		
+	total[0].innerHTML = "Total: "+total[0].value;
+}
 function creare_select(tip){
 	var choosig_box=document.getElementById("choosing_box");
 	var container=document.createElement("div");
@@ -45,10 +55,17 @@ window.onload=function(){
 	creare_select("adulti");
 	creare_select("copii");
 	creare_select("elevi");
-	creare_select("studenti");
+	creare_select("studenti");	
 	var total=document.createElement("label");
+	total.value=0;
 	total.innerHTML = "Total: "+total.value;
 	total.className ="total";
-	choosig_box.appendChild(total)
-	
+	choosig_box.appendChild(total);
+	var selections = document.getElementsByTagName("select");	
+	selections[0].onchange = function(){recalculateTotal()};
+	selections[1].onchange = function(){recalculateTotal()};
+	selections[2].onchange = function(){recalculateTotal()};
+	selections[3].onchange = function(){recalculateTotal()};
 }
+		
+	
