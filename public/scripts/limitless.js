@@ -141,6 +141,13 @@ window.onload = function () {
         premiumImage.style.display = "none";
     }
 
+    var cd = document.getElementById("chosenDate");
+    if (cd) {
+        cd.style.left = parseInt(offsetLeft) + 50 + "px";
+        cd.style.top = parseInt(offsetTop) + 420 + "px";
+    }
+
+
     var chosenDate = document.createElement("div");
     chosenDate.style.width = "500px";
     chosenDate.style.height = "30px";
@@ -168,14 +175,44 @@ window.onload = function () {
             current = new Date(now.getFullYear(), now.getMonth()+1, 1);
 
             nextMonth = monthNameRo[current.getMonth()];
+
+            var endMonth = '';
+            var endDay = '';
+
             if(days.length - i < 30) {
                 period.innerHTML += (30 - days.length + i) + ' ' + nextMonth;
+                endMonth = now.getMonth() + 1;
+                endDay = 30 - days.length + i;
             }
             else {
                 period.innerHTML += (i + 30) + ' ' + document.getElementById("monthYear").innerHTML.split(" ")[0];
+                endMonth = now.getMonth();
+                endDay = i + 30;
             }
 
             chosenDate.innerHTML = "Valabil în perioada " +  period.innerHTML;
+
+            // startDate = document.getElementById("startDate");
+            let d = days[i].innerHTML;
+            let m = now.getMonth();
+            let y = now.getFullYear();
+            console.log(d)
+            console.log(m)
+            console.log(y)
+            startDate = new Date(y, m, d) 
+            
+            endDate = new Date(y, endMonth, endDay);
+
+            startDate= ("0" + startDate.getDate()).slice(-2) + "-" + ("0"+(startDate.getMonth()+1)).slice(-2) + "-" + startDate.getFullYear();
+            endDate = ("0" + endDate.getDate()).slice(-2) + "-" + ("0"+(endDate.getMonth()+1)).slice(-2) + "-" + endDate.getFullYear();
+            
+            document.getElementById("startDate").value = startDate;
+            document.getElementById("endDate").value = endDate;
+
+            console.log(startDate);
+            console.log(endDate);
+
+            
         }
     }
 

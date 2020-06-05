@@ -57,7 +57,8 @@ app.get("/last", function(req, res) {
 });
 
 app.get("/", function (req, res) {
-    res.render("html/index", {user: req.session.userData});
+    res.render("html/index", {user: req.session.userData,
+        limitless: req.session.limitlessData});
 });
 
 app.get("/login", function (req, res) {
@@ -95,7 +96,9 @@ app.get('/logout', function(req, res) {
 });
 
 app.get("/index", function (req, res) {
-    res.render("html/index", {user: req.session.userData});
+    res.render("html/index", {user: req.session.userData,
+        limitless: req.session.limitlessData});
+    
 });
 
 app.get("/filme", function (req, res) {
@@ -216,7 +219,11 @@ app.get("/despre", function(req, res) {
 });
 
 app.get("/limitless", function(req, res) {
-    res.render("html/limitless", {user: req.session.userData});
+    res.render("html/limitless", {user: req.session.userData,
+                                  limitless: req.session.limitlessData});
+
+    console.log(req.session.limitlessData)
+    console.log(req.session.userData)
 });
 
 // POST requests
@@ -370,7 +377,7 @@ app.post('/login', function (req, res) {
                         control = 3; // username was not found in the database
                     }
                     result.rows.forEach(function (element) {
-                        ret = {username: element.USERNAME, name: element.FULL_NAME, email: element.EMAIL};
+                        ret = {username: element.USERNAME, name: element.FULL_NAME, email: element.EMAIL, userId: element.USER_ID};
                         if (element.PASSWORD == encrPass){
                             //aici trebuie neaparat cu litere mari pt ca altfel nu face verificarea cum trb, imi pare rau de coding style :))
                             // e okay, nu sunt un coding style nazi :))))
@@ -383,17 +390,56 @@ app.post('/login', function (req, res) {
                             control = 2; // the user exists but the password is wrong
                         }
                     }, this);
-                    doRelease(connection);
+                    // doRelease(connection);
                     if (control == 1){
                         req.session.userData = ret;
-                        console.log("User logged in");
+                        console.log("User logged in");                       
+                    } else {
+                        res.render("html/login", {cntl: control});
+                    }
+                    //console.log(req.session.userData)
+
+            });
+            //console.log(req.session.userData)
+
+            dbRequest = "SELECT l.limitless_id, l.user_id, l.last_name, l.first_name, l.email, l.type, l.phone_number, l.start_date, l.end_date " +
+            "FROM users u JOIN limitless l ON (u.user_id = l.user_id) WHERE l.limitless_id = (SELECT MAX(limitless_id) FROM limitless WHERE user_id IN " +
+            "(SELECT user_id FROM users WHERE username = '" + fields.username + "'))";
+            
+            console.log(dbRequest)
+            connection.execute(dbRequest, {},
+                { outFormat: oracledb.OBJECT },
+                function (err, result) {
+                    if (err) {
+                        console.error(err.message);
+                        res.status(500).send("Error getting data from DB - limitless");
+                        doRelease(connection);
+                        return;
+                    }
+        
+                    result.rows.forEach(function (element) {
+                        ret = {lastName: element.LAST_NAME, firstName: element.FIRST_NAME, startDate: element.START_DATE, endDate: element.END_DATE};
+                        console.log(ret)
+                    }, this);
+                    req.session.limitlessData = ret;
+                    doRelease(connection); 
+
+                    if (control == 1){
+                        console.log("User logged in");                       
                         res.redirect('/index');
                     } else {
                         res.render("html/login", {cntl: control});
                     }
+
             });
+            // console.log(req.session.limitlessData)
+            // console.log(req.session.userData)
+
+            
         });
     });
+    console.log(req.session.limitlessData)
+    console.log(req.session.userData)
 });
 
 app.post('/dashboard/settings', function (req, res) {
@@ -428,6 +474,51 @@ app.post('/dashboard/settings', function (req, res) {
         })
     })
 })
+
+app.post("/limitless", function (req, res) {
+    var form = new formidable.IncomingForm();
+    var control = 0;
+    form.parse(req, function (err, fields, files) {
+        oracledb.getConnection(connectionProperties, function (err, connection) {
+            if (err) {
+                console.error(err.message);
+                res.status(500).send("Error connecting to DB");
+                return;
+            }
+            
+            // console.log(fields.lastName)
+            // console.log(fields.firstName)
+            // console.log(fields.email)
+            // console.log(fields.phoneNumber)
+            // console.log(fields.typeOfCard)
+            // console.log(fields.userId)
+            // console.log(fields.startDate)
+            // console.log(fields.endDate)
+            var dbRequest = 
+            "INSERT INTO limitless (limitless_id, user_id, last_name, first_name, email, type, phone_number, start_date, end_date)" + 
+            "VALUES(1 + (SELECT MAX(limitless_id) FROM limitless), " + fields.userId + ", '" + fields.lastName + "', '" + fields.firstName + "', '" + 
+            fields.email + "', '" + fields.typeOfCard + "', '" + fields.phoneNumber + "', TO_DATE('" + fields.startDate +  
+            "', 'dd-mm-yyyy'), TO_DATE('" + fields.endDate + "', 'dd-mm-yyyy'))";
+            console.log(dbRequest)
+            connection.execute(dbRequest, {}, 
+                {outFormat: oracledb.OBJECT},
+                function (err, result) {
+                    if (err) {
+                        console.error(err.message);
+                        res.render('html/limitless', {});
+                        doRelease(connection);
+                        return;
+                    }
+
+                    doRelease(connection);
+                    console.log("Card limitless successfully created!");
+                    res.redirect('filme');
+                });
+        });
+    });
+
+
+});
 
 app.listen(port, function(error) {
     if (error) {
