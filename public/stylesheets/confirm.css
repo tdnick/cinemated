@@ -17,7 +17,7 @@ main{
 	margin-right:5em;
 	margin-left:5em;
 }
-#selected_seats li{
+#selectedSeats li{
 	float:left; 
 	width:72px; 
 	height:26px; 

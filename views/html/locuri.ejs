@@ -22,21 +22,21 @@
 	<main>
 	
 		<div class="demo">
-   		<div id="seat-map">
+   		<div id="seatMap">
 			<div class="front">ECRAN</div>					
 		</div>
-		<div class="booking-details">
+		<div class="bookingDetails">
 			<p>Film: <span> Nume Film</span></p>
 			<p>Data: <span>Iunie 3, 21:00</span></p>
 			<p>Locuri: </p>
-			<ul id="selected-seats"></ul>
+			<ul id="selectedSeats"></ul>
 			<p>Bilete: <span id="counter">0</span></p>
 			<p>Total: <b><span id="total">0</span> lei</b></p>
-			<form action="locuri.ejs" method="get">	
 			
-			<button class="checkout-button" type="submit" formaction="confirm">Cumpara</button>
 			
-			</form>		
+			<button id="but" class="checkoutButton" type="submit" formaction="confirm">Cumpara</button>
+			
+			
 			<div id="legend"></div>
 		</div>
 		<div style="clear:both"></div>

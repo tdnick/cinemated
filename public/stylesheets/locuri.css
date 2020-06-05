@@ -10,22 +10,22 @@
 	padding: 3px;
 	border-radius: 5px;
 } 
-.booking-details {
+.bookingDetails {
 	float: right;
 	position: relative;
 	width:200px;
 	height: 450px; 
 } 
-.booking-details h3 {
+.bookingDetails h3 {
 	margin: 5px 5px 0 0;
 	font-size: 16px;
 } 
-.booking-details p{
+.bookingDetails p{
 	line-height:26px;
 	font-size:16px;
 	color:#999;
 } 
-.booking-details p span{
+.bookingDetails p span{
 	color:#666;
 } 
 
@@ -88,7 +88,7 @@ span.seatCharts-legendDescription {
 	margin-left: 5px;
 	line-height: 30px;
 } 
-.checkout-button {
+.checkoutButton {
 	display: block;
 	width:80px; 
 	height:24px; 
@@ -98,7 +98,7 @@ span.seatCharts-legendDescription {
 	font-size: 14px; 
 	cursor:pointer;
 } 
-#selected-seats {
+#selectedSeats {
 	max-height: 150px;
 	overflow-y: auto;
 	overflow-x: none;
@@ -109,7 +109,7 @@ span.seatCharts-legendDescription {
 	padding:1em;
 	
 }
-#selected-seats li{
+#selectedSeats li{
 	float:left; 
 	width:72px; 
 	height:26px; 

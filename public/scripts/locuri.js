@@ -1,9 +1,11 @@
+
 $(document).ready(function() {
-	var $cart = $('#selected-seats'), //Sitting Area
+	var array = []
+	var $cart = $('#selectedSeats'), //Sitting Area
 	$counter = $('#counter'), //Votes
 	$total = $('#total'); //Total money
 	
-	var sc = $('#seat-map').seatCharts({
+	var sc = $('#seatMap').seatCharts({
 		map: [  //Seating chart
 			'aaaaaaaaaa',
             'aaaaaaaaaa',
@@ -37,14 +39,14 @@ $(document).ready(function() {
 					.appendTo($cart);
 	
 				$counter.text(sc.find('selected').length+1);
-				
+				array.push((this.settings.row+1)+' '+this.settings.label)
 							
 				return 'selected';
 			} else if (this.status() == 'selected') { //Checked
 					//Update Number
 					$counter.text(sc.find('selected').length-1);
 					//update totalnum
-				
+					array.splice(array.indexOf((this.settings.row+1)+' '+this.settings.label),1);
 					
 					//Delete reservation
 					$('#cart-item-'+this.settings.id).remove();
@@ -59,5 +61,13 @@ $(document).ready(function() {
 	});
 	//sold seat
 	sc.get(['1_2', '4_4','4_5','6_6','6_7','8_5','8_6','8_7','8_8', '10_1', '10_2']).status('unavailable');
-		
+	
+	var total = document.getElementById("total");
+	total.innerHTML = localStorage.getItem("total");
+	var butt = document.getElementById("but");
+	butt.addEventListener('click',function(){
+	localStorage.setItem("selectedSeats",array);
+	window.document.location='confirm';
+	});
+	
 });

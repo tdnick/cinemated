@@ -35,7 +35,7 @@ body {
 	border-radius:0.5rem;
 	color:#162252;
 }
-#alege{
+#choose{
 	padding:1em;
 }
 .total{
@@ -44,6 +44,6 @@ body {
 #txt{
 	size:1em;
 }
-.pret label{
+.price label{
 	margin:0;
 }
