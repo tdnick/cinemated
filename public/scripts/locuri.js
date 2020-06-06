@@ -66,8 +66,14 @@ $(document).ready(function() {
 	total.innerHTML = localStorage.getItem("total");
 	var butt = document.getElementById("but");
 	butt.addEventListener('click',function(){
-	localStorage.setItem("selectedSeats",array);
-	window.document.location='confirm';
+	counter = document.getElementById("counter");
+	if(counter.innerHTML == localStorage.getItem("nrTickets")){
+		localStorage.setItem("selectedSeats",array);
+		window.document.location='confirm';
+	}
+	else{
+		alert("Numarul biletelor nu corespunde cu ce ati ales!");
+	}
 	});
 	
 });

@@ -76,7 +76,7 @@ window.onload=function(){
 		var selections = document.getElementsByTagName("select");
 		var nrTickets = 0;
 		for(let i = 0;i < 4; i++){
-			nrTickets += selections[i].value;
+			nrTickets += parseInt(selections[i].value);
 		}
 		localStorage.setItem('nrTickets',nrTickets);
 		localStorage.setItem('nrAdulti',selections[0].value);
