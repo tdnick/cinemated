@@ -3,7 +3,8 @@
 <head>
     <%- include("../partials/commonLinks.ejs")%>
     <link href = "/stylesheets/limitless.css" type = "text/css" rel = "stylesheet">
-    <script src = "/scripts/limitless.js"></script>
+    <%if (!locals.limitless || !locals.limitless.firstName){%><script src = "/scripts/limitless.js"></script> <%}
+    else {%><script src = "/scripts/limitlessConnected.js"></script><%}%>
     <title>Limitless</title>
 
 </head>
@@ -13,32 +14,49 @@
     </header>
     <div id = "limContainer">
     <img src = "/images/cinemated.jpg" alt = "Card Limitless" id = "card">
-    <form>
-        <h2 id = "h2Card">Informatii</h2>
-        <fieldset>
-            <legend>Detaliile clientului</legend>
-            <label><input type = "text" placeholder = "Nume..." id = "clientName"></label>
-            <label><input type = "text" placeholder = "Prenume..." id = "clientFirstname"></label>
-            <label><input type = "text" placeholder = "Adresa de email..."></label>
-            <label><input type = "text" placeholder = "Numar de telefon..."></label>
-        </fieldset>
-        <fieldset>
-            <legend>Tipul cardului</legend>
-            <label><input type = "radio" name = "typeOfCard">Standard</label>
-            <label><input type = "radio" name = "typeOfCard">Premium</label>
-        </fieldset>
-        <fieldset>
-            <legend>Perioada de valabilitate</legend>
-            <div id = "calendarContainer">
-                <div id = "calendarHeader">
-                    <span id = "monthYear"></span>
-                </div>
-                <div id = "dates"></div>
-            </div>
-            <p id = "chosenPeriod">Perioada aleasă: <span id = "period"></span></p>
-        </fieldset>
     
-    </form>
+    <%if (locals.user) {%>
+        
+        <%if (locals.limitless.lastName) {%>
+                <!-- <img src = "/images/cinemated.jpg" alt = "Card Limitless" id = "card"> -->
+                
+                <p id = "chosenName"><%= locals.limitless.lastName%>  <%=locals.limitless.firstName%></p>
+                <p id = "chosenDate"><%=locals.limitless.startDate.toString().split('T')[0]%> - <%=locals.limitless.endDate.toString().split('T')[0]%></p>
+                
+                <%}else {%>
+                    <form method="post">
+                        <h2 id = "h2Card">Informatii</h2>
+                        <fieldset>
+                            <legend>Detaliile clientului</legend>
+                            <label><input type = "text" placeholder = "Nume..." id = "clientName" name="lastName"></label>
+                            <label><input type = "text" placeholder = "Prenume..." id = "clientFirstname" name="firstName"></label>
+                            <label><input type = "text" placeholder = "Adresa de email..." name = "email"></label>
+                            <label><input type = "text" placeholder = "Numar de telefon..." name="phoneNumber"></label>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Tipul cardului</legend>
+                            <label><input type = "radio" name = "typeOfCard" value = 'STANDARD'>Standard</label>
+                            <label><input type = "radio" name = "typeOfCard" value = 'PREMIUM'>Premium</label>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Perioada de valabilitate</legend>
+                            <div id = "calendarContainer">
+                                <div id = "calendarHeader">
+                                    <span id = "monthYear"></span>
+                                </div>
+                                <div id = "dates"></div>
+                            </div>
+                            <p id = "chosenPeriod">Perioada aleasă: <span id = "period"></span></p>
+                            <input type = "hidden" name = "startDate" id = "startDate">
+                            <input type = "hidden" name = "endDate" id = "endDate">
+                            <input type = "hidden" name = "userId" id = "userId" value = <%= locals.user.userId%>>
+                        </fieldset>
+                    <button type="submit">Continuă</button>
+                    </form>
+    <%}} else {%>
+        <div><p style="color: white;">Pentru a va crea un card limitless, trebuie sa intrati in cont.</p></div>
+
+        <%}%>
     </div>
     <p></br></br></br></br></br></br></br></br></br></br></br></br></br></br></p>
 
