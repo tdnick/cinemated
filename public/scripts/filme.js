@@ -171,11 +171,10 @@ window.onload = function () {
 }
 
 // search bar
-// TO DO: design + filter connection
-// when i search a movie it doesn't keep the filter information (and viceversa)
 function searchMovie() {
 	var input = document.getElementById('searchBar').value;
 	input = input.toLowerCase();
+	if( input !== ""){
 	var allMovies = document.getElementsByClassName("movieItem");
 	ok = true;
 	for(let i = 0; i < allMovies.length; i++){
@@ -196,5 +195,6 @@ function searchMovie() {
 	}
 	else {
 		noMovie.style.display = "block";
+	}
 	}
 }

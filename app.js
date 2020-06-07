@@ -217,7 +217,7 @@ app.get("/choose", function (req, res) {
             return;
         }
         if (id) {
-            var dbRequest = "SELECT * FROM ecranizari join filme USING(film_id) WHERE  ecranizare_id  = '" + id + "'";
+            var dbRequest = "SELECT * FROM ecranizari JOIN filme USING(film_id) WHERE ecranizare_id  = '" + id + "'";
             connection.execute(dbRequest, {},
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
@@ -227,17 +227,13 @@ app.get("/choose", function (req, res) {
                         doRelease(connection);
                         return;
                     }
-					
-					movies = []
-					screenings = []
                     result.rows.forEach(function (element) {
-                        movies.push({
+                        ret = {
                             name: element.NUME_FILM
-                        });
+                        };
                     }, this);
                     doRelease(connection);
                     console.log("Got movie data");
-					ret = movies[0];
                     console.log(ret);				
                     res.render("html/choose", { user: req.session.userData, movieData: ret});
                 });
@@ -262,7 +258,7 @@ app.get("/locuri", function (req, res) {
             return;
         }
         if (id) {
-            var dbRequest = "SELECT * FROM ecranizari join filme USING(film_id) WHERE  ecranizare_id  = '" + id + "'";
+            var dbRequest = "SELECT * FROM ecranizari JOIN filme USING(film_id) WHERE ecranizare_id  = '" + id + "'";
             connection.execute(dbRequest, {},
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
@@ -272,23 +268,18 @@ app.get("/locuri", function (req, res) {
                         doRelease(connection);
                         return;
                     }
-					
-					movies = []
-					screenings = []
                     result.rows.forEach(function (element) {
-                        movies.push({
+                        ret = {
                             name: element.NUME_FILM                  
-                        });
-						screenings.push({							
+                        };
+						screening = {							
 							data: element.DATA,
 							ora: element.ORA,
 							sala: element.SALA
-						});
+						};
                     }, this);
                     doRelease(connection);
                     console.log("Got movie data");
-					ret = movies[0];
-					screening = screenings[0];
                     console.log(ret);
 					console.log("Got screening data");
 					console.log(screenings);
@@ -315,7 +306,7 @@ app.get("/confirm", function (req, res) {
             return;
         }
         if (id) {
-            var dbRequest = "SELECT * FROM ecranizari join filme USING(film_id) WHERE  ecranizare_id  = '" + id + "'";
+            var dbRequest = "SELECT * FROM ecranizari JOIN filme USING(film_id) WHERE ecranizare_id  = '" + id + "'";
             connection.execute(dbRequest, {},
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
@@ -325,23 +316,18 @@ app.get("/confirm", function (req, res) {
                         doRelease(connection);
                         return;
                     }
-					
-					movies = []
-					screenings = []
                     result.rows.forEach(function (element) {
-                        movies.push({
+                        ret = {
                             name: element.NUME_FILM                  
-                        });
-						screenings.push({							
+                        };
+						screening = {							
 							data: element.DATA,
 							ora: element.ORA,
 							sala: element.SALA
-						});
+						};
                     }, this);
                     doRelease(connection);
                     console.log("Got movie data");
-					ret = movies[0];
-					screening = screenings[0];
                     console.log(ret);
 					console.log("Got screening data");
 					console.log(screenings);
@@ -361,7 +347,6 @@ app.get("/despre", function(req, res) {
 app.get("/limitless", function(req, res) {
     res.render("html/limitless", {user: req.session.userData,
                                   limitless: req.session.limitlessData});
-
     console.log(req.session.limitlessData)
     console.log(req.session.userData)
 });
@@ -381,7 +366,7 @@ app.post("/register", function (req, res) {
             var cipher = crypto.createCipher('aes-128-cbc', 'mypassword');
             var encrPass= cipher.update(fields.pass, 'utf8', 'hex');
             encrPass += cipher.final('hex');
-            var dbRequest = "insert into users (username, email, password, full_name) values ('" + fields.username + "', '" + fields.email + "', '" + encrPass + "', '" + fields.fname + "')";
+            var dbRequest = "INSERT INTO users (username, email, password, full_name) VALUES ('" + fields.username + "', '" + fields.email + "', '" + encrPass + "', '" + fields.fname + "')";
             connection.execute(dbRequest, {},
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
@@ -433,7 +418,7 @@ app.post("/dashboard/security", function (req, res) {
                 var newPassword = cipher2.update(fields.newpass, 'utf8', 'hex');
                 newPassword += cipher2.final('hex');
                     
-                var dbRequest = "update users set password = '" + newPassword + "' where (username = '" + req.session.userData.username + "' and password = '" + oldPassword + "')";
+                var dbRequest = "UPDATE users SET password = '" + newPassword + "' WHERE (username = '" + req.session.userData.username + "' AND password = '" + oldPassword + "')";
                 
                 connection.execute(dbRequest, {}, {outFormat: oracledb.OBJECT}, function (err, result) {
                     if (err) {
@@ -466,7 +451,7 @@ app.post('/dashboard/info', function (req, res) {
                 res.status(500).send("Error connecting to DB");
                 return;
             }
-            var dbRequest = "update users set full_name = '" + fields.fname + "', email = '" + fields.email + "' where username = '" + req.session.userData.username + "'";
+            var dbRequest = "UPDATE users SET full_name = '" + fields.fname + "', email = '" + fields.email + "' WHERE username = '" + req.session.userData.username + "'";
             console.log("username activ: " + req.session.userData.username);
             connection.execute(dbRequest, {}, {outFormat: oracledb.OBJECT}, function (err, result) {
                 if (err) {
@@ -592,7 +577,7 @@ app.post('/dashboard/settings', function (req, res) {
                 res.status(500).send("Error connecting to DB");
                 return;
             }
-            var dbRequest = "update users set username = '" + fields.username + "' where username = '" + req.session.userData.username + "'";
+            var dbRequest = "UPDATE users SET username = '" + fields.username + "' WHERE username = '" + req.session.userData.username + "'";
             console.log("username activ: " + req.session.userData.username);
             connection.execute(dbRequest, {}, {outFormat: oracledb.OBJECT}, function (err, result) {
                 if (err) {

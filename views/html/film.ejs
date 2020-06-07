@@ -49,22 +49,25 @@
                         <td><%= movieData.lang %></td>
                     </tr>
                 </table>
-				<%if( user!=null){%>
-				<% if(screenData[0].ecrID != null) { %>
-					<div id="containerScreenings">
-						<p>Alegeti ecranizarea la care doriti sa mergeti: </p>
-						<select id="selectScreening">
-							<% for (var i = 0; i < screenData.length; i++) { %>
-								<%- include('../partials/screeningTemplate', {screen: screenData[i]}); %>
-							<% } %>
-						</select>
-						
-						<button id="but" type="submit" formaction="choose">Rezerva</button>
-						
-					</div>
-				<% } else { %>
-					<p id = "noScreening">Momentan nu exista ecranizari pentru filmul selectat.</p>
-				<% }} %>
+				<% if(user == null) { %>
+					<p class = "par">Pentru a rezerva un bilet trebuie sa fiti logat.</p>
+				<% } else {%>
+					<% if(screenData[0].ecrID != null) { %>
+						<div id="containerScreenings">
+							<p>Alegeti ecranizarea la care doriti sa mergeti: </p>
+							<select id="selectScreening">
+								<% for (var i = 0; i < screenData.length; i++) { %>
+									<%- include('../partials/screeningTemplate', {screen: screenData[i]}); %>
+								<% } %>
+							</select>
+							
+							<button id="but" type="submit" formaction="choose">Rezerva</button>
+							
+						</div>
+					<% } else { %>
+						<p class = "par">Momentan nu exista ecranizari pentru filmul selectat.</p>
+					<% } %>
+				<% } %>
 				
             </div>
         </div>
