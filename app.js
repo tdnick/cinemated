@@ -193,6 +193,7 @@ app.get("/film", function (req, res) {
                     console.log(ret);
 					console.log("Got screening data");
 					console.log(screenings);
+					console.log(req.session.userData);
                     res.render("html/film", { user: req.session.userData, movieData: ret, screenData: screenings });
                 });
         } else {
