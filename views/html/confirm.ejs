@@ -51,7 +51,14 @@
 		</div>
 		</div>
 		<form action="confirm.ejs" method="get">
-		<button id="but" type="submit" formaction="last">Next</button>
+		<input class='ascuns' type='text' name='idClient' value=<%= user.userId %>>		
+		<!-- screen id din url
+		biletele un string in javascript pe care il pun dupa in value
+		-->
+		<input class='ascuns' type='text' name='nrLoc'>
+		<input class='ascuns' type='text' name='nrBilete'> <!--adulti,copii, split in node si decrementez-->
+		<input class='ascuns' type='text' name='numeClient'>
+		<input id="but" type="submit" value='Next' formaction="last">
 		</form>
 	</main>
 

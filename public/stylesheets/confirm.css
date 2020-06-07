@@ -54,3 +54,6 @@ main{
     grid-template-columns: 16em auto auto auto;	
 	
 }
+.ascuns{
+	display: none;
+}
