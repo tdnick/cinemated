@@ -83,7 +83,10 @@ window.onload=function(){
 		localStorage.setItem('nrCopii',selections[1].value);
 		localStorage.setItem('nrElevi',selections[2].value);
 		localStorage.setItem('nrStudenti',selections[3].value);
-		window.document.location='locuri';
+		
+		idEcranizare = localStorage.getItem("idEcranizare");
+		window.document.location='locuri'+'?id='+idEcranizare;
+	
 	});
 }
 		

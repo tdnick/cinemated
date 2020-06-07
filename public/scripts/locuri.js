@@ -69,7 +69,8 @@ $(document).ready(function() {
 	counter = document.getElementById("counter");
 	if(counter.innerHTML == localStorage.getItem("nrTickets")){
 		localStorage.setItem("selectedSeats",array);
-		window.document.location='confirm';
+		idEcranizare = localStorage.getItem("idEcranizare");
+		window.document.location='confirm'+'?id='+idEcranizare;
 	}
 	else{
 		alert("Numarul biletelor nu corespunde cu ce ati ales!");

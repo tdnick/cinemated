@@ -40,17 +40,6 @@ function doRelease(connection) {
 
 // GET requests
 
-app.get("/choose", function(req, res) {
-    res.render("html/choose", {});
-});
-
-app.get("/confirm", function(req, res) {
-    res.render("html/confirm", {});
-});
-
-app.get("/locuri", function(req, res) {
-    res.render("html/locuri", {});
-});
 
 app.get("/last", function(req, res) {
     res.render("html/last", {});
@@ -213,7 +202,157 @@ app.get("/film", function (req, res) {
         }
     });
 });
+app.get("/choose", function (req, res) {
+    const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    const search_params = current_url.searchParams;
 
+    const id = search_params.get('id');
+	console.log("Got screening id");
+	console.log(id);
+    oracledb.getConnection(connectionProperties, function (err, connection) {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send("Error connecting to DB");
+            return;
+        }
+        if (id) {
+            var dbRequest = "SELECT * FROM ecranizari join filme USING(film_id) WHERE  ecranizare_id  = '" + id + "'";
+            connection.execute(dbRequest, {},
+                { outFormat: oracledb.OBJECT },
+                function (err, result) {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).send("Error");
+                        doRelease(connection);
+                        return;
+                    }
+					
+					movies = []
+					screenings = []
+                    result.rows.forEach(function (element) {
+                        movies.push({
+                            name: element.NUME_FILM
+                        });
+                    }, this);
+                    doRelease(connection);
+                    console.log("Got movie data");
+					ret = movies[0];
+                    console.log(ret);				
+                    res.render("html/choose", { user: req.session.userData, movieData: ret});
+                });
+        } else {
+            var ret = { name: "", genre: "" }
+            doRelease(connection);
+            res.render("html/choose", { user: req.session.userData, movieData: ret });
+        }
+    });
+});
+app.get("/locuri", function (req, res) {
+    const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    const search_params = current_url.searchParams;
+
+    const id = search_params.get('id');
+	console.log("Got screening id");
+	console.log(id);
+    oracledb.getConnection(connectionProperties, function (err, connection) {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send("Error connecting to DB");
+            return;
+        }
+        if (id) {
+            var dbRequest = "SELECT * FROM ecranizari join filme USING(film_id) WHERE  ecranizare_id  = '" + id + "'";
+            connection.execute(dbRequest, {},
+                { outFormat: oracledb.OBJECT },
+                function (err, result) {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).send("Error");
+                        doRelease(connection);
+                        return;
+                    }
+					
+					movies = []
+					screenings = []
+                    result.rows.forEach(function (element) {
+                        movies.push({
+                            name: element.NUME_FILM                  
+                        });
+						screenings.push({							
+							data: element.DATA,
+							ora: element.ORA,
+							sala: element.SALA
+						});
+                    }, this);
+                    doRelease(connection);
+                    console.log("Got movie data");
+					ret = movies[0];
+					screening = screenings[0];
+                    console.log(ret);
+					console.log("Got screening data");
+					console.log(screenings);
+                    res.render("html/locuri", { user: req.session.userData, movieData: ret, screen: screening });
+                });
+        } else {
+            var ret = { name: "", genre: "" }
+            doRelease(connection);
+            res.render("html/locuri", { user: req.session.userData, movieData: ret });
+        }
+    });
+});
+app.get("/confirm", function (req, res) {
+    const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    const search_params = current_url.searchParams;
+
+    const id = search_params.get('id');
+	console.log("Got screening id");
+	console.log(id);
+    oracledb.getConnection(connectionProperties, function (err, connection) {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send("Error connecting to DB");
+            return;
+        }
+        if (id) {
+            var dbRequest = "SELECT * FROM ecranizari join filme USING(film_id) WHERE  ecranizare_id  = '" + id + "'";
+            connection.execute(dbRequest, {},
+                { outFormat: oracledb.OBJECT },
+                function (err, result) {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).send("Error");
+                        doRelease(connection);
+                        return;
+                    }
+					
+					movies = []
+					screenings = []
+                    result.rows.forEach(function (element) {
+                        movies.push({
+                            name: element.NUME_FILM                  
+                        });
+						screenings.push({							
+							data: element.DATA,
+							ora: element.ORA,
+							sala: element.SALA
+						});
+                    }, this);
+                    doRelease(connection);
+                    console.log("Got movie data");
+					ret = movies[0];
+					screening = screenings[0];
+                    console.log(ret);
+					console.log("Got screening data");
+					console.log(screenings);
+                    res.render("html/confirm", { user: req.session.userData, movieData: ret, screen: screening });
+                });
+        } else {
+            var ret = { name: "", genre: "" }
+            doRelease(connection);
+            res.render("html/confirm", { user: req.session.userData, movieData: ret });
+        }
+    });
+});
 app.get("/despre", function(req, res) {
     res.render("html/despre", {user: req.session.userData});
 });

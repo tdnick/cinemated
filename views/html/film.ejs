@@ -3,6 +3,7 @@
 <head>
     <%- include("../partials/commonLinks.ejs")%>
     <title><%= movieData.name %> - Cinemated</title>
+	<script src = "../scripts/film.js"></script>
     <link href="stylesheets/film.css" type="text/css" rel="stylesheet">
 </head>
 <body>
@@ -56,6 +57,9 @@
 								<%- include('../partials/screeningTemplate', {screen: screenData[i]}); %>
 							<% } %>
 						</select>
+						
+						<button id="but" type="submit" formaction="choose">Rezerva</button>
+						
 					</div>
 				<% } else { %>
 					<p id = "noScreening">Momentan nu exista ecranizari pentru filmul selectat.</p>

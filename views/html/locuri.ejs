@@ -26,8 +26,8 @@
 			<div class="front">ECRAN</div>					
 		</div>
 		<div class="bookingDetails">
-			<p>Film: <span> Nume Film</span></p>
-			<p>Data: <span>Iunie 3, 21:00</span></p>
+			<p>Film: <span> <%= movieData.name %></span></p>
+			<p>Data: <span><%= screen.data %>,<%= screen.ora %></span></p>
 			<p>Locuri: </p>
 			<ul id="selectedSeats"></ul>
 			<p>Bilete: <span id="counter">0</span></p>
