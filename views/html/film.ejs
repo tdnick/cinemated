@@ -49,7 +49,8 @@
                         <td><%= movieData.lang %></td>
                     </tr>
                 </table>
-				<% if(screenData[0].ecrID !== null) { %>
+				<%if( user!=null){%>
+				<% if(screenData[0].ecrID != null) { %>
 					<div id="containerScreenings">
 						<p>Alegeti ecranizarea la care doriti sa mergeti: </p>
 						<select id="selectScreening">
@@ -63,7 +64,7 @@
 					</div>
 				<% } else { %>
 					<p id = "noScreening">Momentan nu exista ecranizari pentru filmul selectat.</p>
-				<% } %>
+				<% }} %>
 				
             </div>
         </div>
