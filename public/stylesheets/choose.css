@@ -12,7 +12,11 @@ body {
 	padding:2em;
 	padding-top:0.1em;
 	border-radius:0.5rem;
+	font-family:Arial;
 	
+}
+#choosing_box label{
+	font-family:Arial;
 }
 .container {
 	
@@ -35,11 +39,14 @@ body {
 	border-radius:0.5rem;
 	color:#162252;
 }
-#choose{
+#choose h2{
 	padding:1em;
+	font-family:Quicksand;
+	
 }
 .total{
 	float:right;
+	padding:0.3em;
 }
 #txt{
 	size:1em;
