@@ -57,3 +57,8 @@ main{
 .ascuns{
 	display: none;
 }
+
+#board {
+	width: 550px;
+	height: auto;
+}

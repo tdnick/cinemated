@@ -282,7 +282,7 @@ app.get("/locuri", function (req, res) {
                     console.log("Got movie data");
                     console.log(ret);
 					console.log("Got screening data");
-					console.log(screenings);
+					console.log(screening);
                     res.render("html/locuri", { user: req.session.userData, movieData: ret, screen: screening });
                 });
         } else {
@@ -330,7 +330,7 @@ app.get("/confirm", function (req, res) {
                     console.log("Got movie data");
                     console.log(ret);
 					console.log("Got screening data");
-					console.log(screenings);
+					console.log(screening);
                     res.render("html/confirm", { user: req.session.userData, movieData: ret, screen: screening });
                 });
         } else {

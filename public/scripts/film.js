@@ -1,10 +1,11 @@
-window.onload=function(){
+window.onload = function(){
 	var butt = document.getElementById("but");
-	butt.addEventListener('click',function(){
-		idEcranizare= document.getElementById("selectScreening").value;
-		idFilm= document.location.search.replace(/^.*?\=/,'');
+	butt.onclick = function() {
+		idEcranizare = document.getElementById("selectScreening").value;
+		idFilm = document.location.search.replace(/^.*?\=/,'');
 		localStorage.setItem('idFilm',idFilm);
 		localStorage.setItem('idEcranizare',idEcranizare);
-		window.document.location='choose'+'?id='+idEcranizare;
-	});
+		let params = 'scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=650,height=570,left=300,top=75';
+		window.open('http://localhost:5000/choose' + '?id='+idEcranizare, 'Choose', params);
+	}
 }
