@@ -15,6 +15,9 @@ window.onload=function(){
 	var nrCopii = localStorage.getItem("nrCopii");
 	var nrStudenti = localStorage.getItem("nrStudenti");
 	nrTickets.innerHTML=nrElevi+' elevi,'+nrAdulti+' adulti,'+nrCopii+' copii,'+nrStudenti+' studenti';
+	document.getElementById("bilete").value=nrElevi+','+nrAdulti+','+nrCopii+','+nrStudenti;
+	document.getElementById("locuri").value=localStorage.getItem("selectedSeats");
+	
 	var total = document.getElementById("total");
 	total.innerHTML = localStorage.getItem("total")+' lei';
 }

@@ -2,6 +2,7 @@
 	font-family: Quicksand;
 }
 .front{
+	
 	width: 300px;
 	margin: 5px 32px 45px 32px;
 	background-color: #f0f0f0; 
@@ -11,6 +12,7 @@
 	border-radius: 5px;
 } 
 .bookingDetails {
+	margin-top:1em;
 	float: right;
 	position: relative;
 	width:200px;
@@ -34,6 +36,7 @@
 } 
 
 div.seatCharts-cell {
+	font-family: Pacifico;
 	color: #182C4E;
 	height: 25px;
 	width: 25px;
@@ -93,17 +96,15 @@ span.seatCharts-legendDescription {
 	margin-left: 5px;
 	line-height: 30px;
 } 
-.checkoutButton {
-	display: block;
-	width:80px; 
-	height:24px; 
-	line-height:20px;
-	margin: 10px auto;
-	border:1px solid #999;
-	font-size: 14px; 
-	cursor:pointer;
+#but{
+	float:right;
+	padding:1em;
+	margin-top:1em;
+	border-radius:0.5rem;
+	color:#162252;
 	font-family: Pacifico;
-} 
+	margin-right:1em;
+}
 #selectedSeats {
 	max-height: 150px;
 	overflow-y: auto;

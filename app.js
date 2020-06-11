@@ -320,7 +320,8 @@ app.get("/confirm", function (req, res) {
                         ret = {
                             name: element.NUME_FILM                  
                         };
-						screening = {							
+						screening = {		
+							ecrID: element.ECRANIZARE_ID,
 							data: element.DATA,
 							ora: element.ORA,
 							sala: element.SALA
@@ -352,7 +353,56 @@ app.get("/limitless", function(req, res) {
 });
 
 // POST requests
-
+app.post("/confirm", function (req, res) {
+    var form = new formidable.IncomingForm();
+    var control = 0; // not a problem
+    form.parse(req, function (err, fields, files) {
+        oracledb.getConnection(connectionProperties, function (err, connection) {
+            if (err) {
+                console.error(err.message);
+                res.status(500).send("Error connecting to DB");
+                return;
+            }
+			
+			var types=fields.nrBilete.split(',');
+		
+			var s_types=['elevi','adulti','copii','studenti']
+			var i=0;
+			
+            var seats = fields.nrLoc.split(",");
+			console.log(seats);
+			var crypto = require("crypto");
+			var rezervare_id = crypto.randomBytes(7).toString('hex');
+            for (let seat of seats) {		
+            while(types[i]<0 && i<4){				
+				i += 1;
+			}
+			
+			rp=seat.split(" ");
+			row=rp[0];
+			place=rp[1];
+			console.log(fields.idClient);
+			console.log(fields.idEcr);
+            var dbRequest = "INSERT INTO bilete (bilet_id,rezervare_id, nr_loc,tip_bilet,user_id,ecranizare_id,rand) VALUES (1+(SELECT COUNT(*) FROM bilete), '" + rezervare_id + "', '" + place + "', '" + s_types[i] + "', '" + fields.idClient + "', '" + fields.idEcr + "', '" + row + "')";
+            types[i] += -1;
+			connection.execute(dbRequest, {},
+                { outFormat: oracledb.OBJECT },
+                function (err, result) {
+                    if (err) {
+                        console.error(err);
+                      
+                        return;
+                    }
+                    doRelease(connection);
+                    console.log("bilet adaugat");
+                    
+            });
+			
+			}
+        });
+		 res.redirect('last');
+    });
+});
 app.post("/register", function (req, res) {
     var form = new formidable.IncomingForm();
     var control = 0; // not a problem

@@ -52,15 +52,16 @@
 			</div>
 		</div>
 		</div>
-		<form action="confirm.ejs" method="get">
-		<input class='ascuns' type='text' name='idClient' value=<%= user.userId %>>		
+		<form method="post">
+		<input class='ascuns' type='text' name='idClient' value="<%= user.userId %>">	
+		<input class='ascuns' type='text' name='idEcr' value="<%= screen.ecrID %>">
 		<!-- screen id din url
 		biletele un string in javascript pe care il pun dupa in value
 		-->
-		<input class='ascuns' type='text' name='nrLoc'>
-		<input class='ascuns' type='text' name='nrBilete'> <!--adulti,copii, split in node si decrementez-->
-		<input class='ascuns' type='text' name='numeClient'>
-		<input id="but" type="submit" value='Next' formaction="last">
+
+		<input id="locuri" class='ascuns' type='text' name='nrLoc'>
+		<input id="bilete" class='ascuns' type='text' name='nrBilete'> <!--adulti,copii, split in node si decrementez-->
+		<input id="but" type="submit" value='Next'>
 		</form>
 	</main>
 
