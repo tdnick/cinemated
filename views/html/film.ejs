@@ -50,23 +50,25 @@
                     </tr>
                 </table>
 				<% if(user == null) { %>
-					<p class = "par">Pentru a rezerva un bilet trebuie sa fiti logat.</p>
+					<p class = "par">Înregistrează-te acum pentru a putea cumpăra bilete!</p>
 				<% } else {%>
 					<% if(screenData[0].ecrID != null) { %>
 						<div id="containerScreenings">
-							<p>Alegeti ecranizarea la care doriti sa mergeti: </p>
+							<p>Alege ecranizarea: </p>
 							<select id="selectScreening">
 								<% for (var i = 0; i < screenData.length; i++) { %>
 									<%- include('../partials/screeningTemplate', {screen: screenData[i]}); %>
 								<% } %>
 							</select>
 							
-							<button id="but" type="submit" formaction="choose">Rezerva</button>
+							<button id="but" type="submit" formaction="choose">Rezervă</button>
 							
 						</div>
 					<% } else { %>
-						<p class = "par">Momentan nu exista ecranizari pentru filmul selectat.</p>
-					<% } %>
+						<p class = "par">Momentan, acest film nu rulează în cinematograf.</p>
+					<% } if (user.isAdmin) { %>
+                        <a id = "btn" href = "delete?id=<%=movieData.id%>">Sterge film</a>
+                    <% } %>
 				<% } %>
 				
             </div>

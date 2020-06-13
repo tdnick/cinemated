@@ -169,6 +169,7 @@ app.get("/film", function (req, res) {
 					screenings = []
                     result.rows.forEach(function (element) {
                         movies.push({
+                            id: element.FILM_ID,
                             name: element.NUME_FILM,
                             genre: element.GEN_FILM,
                             director: element.REGIZORI,
@@ -351,6 +352,50 @@ app.get("/limitless", function(req, res) {
     console.log(req.session.limitlessData)
     console.log(req.session.userData)
 });
+
+app.get("/delete", function (req, res) {
+    const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    const search_params = current_url.searchParams;
+
+    const id = search_params.get('id');
+    if (req.session.userData){
+        if (req.session.userData.isAdmin){
+            oracledb.getConnection(connectionProperties, function (err, connection) {
+                if (err) {
+                    console.error(err.message);
+                    res.status(500).send("Error connecting to DB");
+                    return;
+                }
+                if (id) {
+                    var dbRequest = "DELETE FROM filme WHERE film_id = '" + id + "'";
+                    connection.execute(dbRequest, {},
+                        { outFormat: oracledb.OBJECT },
+                        function (err, result) {
+                            if (err) {
+                                console.error(err);
+                                res.status(500).send("Error on delete");
+                                doRelease(connection);
+                                return;
+                            }
+                            doRelease(connection);
+                            if (result.rowsAffected == 0){
+                                console.log("Tried to delete a movie which doesn't exist!");
+                            } else {
+                                console.log("Movie id " + id + " deleted successfully");
+                            }
+                            res.redirect("/filme");
+                        });
+                } else {
+                    res.status(500).send("No movie was given for deletion!");
+                }
+            });
+        } else {
+            res.status(500).send("Operation forbidden! Not logged in as administrator!");
+        }
+    } else {
+        res.status(500).send("Operation forbidden! Not logged in!");
+    }
+})
 
 // POST requests
 app.post("/confirm", function (req, res) {
@@ -552,7 +597,7 @@ app.post('/login', function (req, res) {
                         control = 3; // username was not found in the database
                     }
                     result.rows.forEach(function (element) {
-                        ret = {username: element.USERNAME, name: element.FULL_NAME, email: element.EMAIL, userId: element.USER_ID};
+                        ret = {username: element.USERNAME, name: element.FULL_NAME, email: element.EMAIL, userId: element.USER_ID, isAdmin: element.IS_ADMIN};
                         if (element.PASSWORD == encrPass){
                             //aici trebuie neaparat cu litere mari pt ca altfel nu face verificarea cum trb, imi pare rau de coding style :))
                             // e okay, nu sunt un coding style nazi :))))
@@ -648,6 +693,40 @@ app.post('/dashboard/settings', function (req, res) {
             })
         })
     })
+})
+
+app.post("/filme", function (req, res) {
+    var form = new formidable.IncomingForm();
+    var control = 0;
+    form.parse(req, function (err, fields, files) {
+        oracledb.getConnection(connectionProperties, function (err, connection) {
+            if (err) {
+                console.error(err.message);
+                res.status(500).send("Error connecting to DB");
+                return;
+            }
+            var dbRequest = 
+            "INSERT INTO filme (film_id, nume_film, gen_film, regizori, actori, link_trailer, link_afis, descriere, durata, limba_originala, an_aparitie)" + 
+            " VALUES (1 + (SELECT count(film_id) FROM filme), '" + fields.title + "', '" + fields.genre + "', '" + fields.director + "', '" + 
+            fields.actor + "', '" + fields.trailer + "', '" + fields.poster + "', '" + fields.desc +  
+            "', " + fields.time + ", '" + fields.lang + "', " + fields.year + ")";
+            console.log(dbRequest)
+            connection.execute(dbRequest, {}, 
+                {outFormat: oracledb.OBJECT},
+                function (err, result) {
+                    if (err) {
+                        console.error(err.message);
+                        res.redirect('filme');
+                        doRelease(connection);
+                        return;
+                    }
+
+                    doRelease(connection);
+                    console.log("Movie successfully added!");
+                    res.redirect('filme');
+                });
+        });
+    });
 })
 
 app.post("/limitless", function (req, res) {

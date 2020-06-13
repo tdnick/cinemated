@@ -34,7 +34,7 @@ nav li {
     display: inline-block;
     position: relative;
     margin-top: 1.7em;
-
+    
 }
 
 nav a {
@@ -45,6 +45,7 @@ nav a {
     color: rgba(245, 245, 220, 1);
     font-weight: bold;
     font-family: "Pacifico", cursive;
+    
 }
 
 nav a:hover {
@@ -187,4 +188,5 @@ nav a:hover:before{
     top: 0;
     background-color: transparent;
     position: absolute;
+    text-align: center;
 }

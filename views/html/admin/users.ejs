@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Administrare site</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel = "shortcut icon" type = "image/x-icon" href="/images/favicon.ico"/>
+		<link rel="stylesheet" href="/stylesheets/dashboard.css" type = "text/css">
+		<script>
+			function eroare() {
+				alert("Funcționalitate încă neimplementată!")
+			}
+		</script>
+	</head>
+	<body>
+		<header>
+			<h1>Utilizatori</h1>
+		</header>
+		
+		<nav class="sidenav">
+			<a href="/admin/movies">Filme</a>
+			<a id="active" href="/admin/users">Utilizatori</a>
+			<a href="/">Pagina principală</a>
+		</nav>
+		
+		<main>
+			<% if (!locals.user || locals.user.isAdmin == 0) { %>
+				<p>Această secțiune este destinată administratorilor!<br/>
+				<a href="/login">Login</a></p>
+			<% } else if (locals.user.isAdmin == 1){ %>
+				<h2>Bază de date utilizatori</h2>
+				<p>În curând!</p>
+			<% } %>
+		</main>
+		<footer>
+			
+		</footer>
+	</body>
+</html>

@@ -19,6 +19,61 @@
 
 	<div id="filter">
 		<img id="filterIcon" src="/images/filter_icon.png" alt="filter">
+		<% if (locals.user) { 
+			if (locals.user.isAdmin) { %>
+		<img id="addMovieIcon" src="/images/add_icon.svg" alt="filter">
+		<% } } %>
+		
+		<% if (locals.user) { 
+			if (locals.user.isAdmin) { %>
+		<div id="addMovie" class="modal">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<span id = "closeButton" class="close">&times;</span>
+				<h2>Adaugă film în baza de date</h2>
+			</div>
+
+			<div class="modal-body">
+				<form method="post">
+<!-- 				nume, gen, regizori, actori, trailer, afis, descriere, durata, lb, an -->
+					<label>
+						Titlu: <input type="text" name="title" required="required">
+					</label>
+					<label>
+						Gen(uri): <input type="text" name="genre" required="required">
+					</label>
+					<label>
+						Regizor(i): <input type="text" name="director" required="required">
+					</label>
+					<label>
+						Actori: <input type="text" name="actor" required="required">
+					</label>
+					<label>
+						Link trailer: <input type="text" name="trailer" required="required">
+					</label>
+					<label>
+						Link afiș: <input type="text" name="poster" required="required">
+					</label>
+					<label>
+						Descriere: <textarea name="desc" id="desc" rows="4" tabindex="4" required="required"></textarea>
+					</label>
+					<label>
+						Durată: <input type="text" name="time" required="required">
+					</label>
+					<label>
+						Limba originală: <input type="text" name="lang" required="required">
+					</label>
+					<label>
+						Anul apariției: <input type="text" name="year" required="required">
+					</label>
+					
+					<button id = "btn">Submit</button>
+			  </form>	
+			</div>
+		</div>
+		</div>
+		<% } } %>
 		<div id="filterContent">
 			<!-- Filtering by genre -->
 			<p class="filterIntro">Genul filmului:</p>

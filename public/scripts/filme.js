@@ -1,18 +1,37 @@
 window.onload = function () {
 	// when we press the "filterIcon", all filtering choices appear in the page
-	// if we press again, they dissapear
+	// if we press again, they disappear
 	var filter = document.getElementById("filterIcon");
-	var clicked = false;
+	var addMovie = document.getElementById("addMovieIcon");
+	var closeButton = document.getElementById("closeButton");
+	var clickedF = false;
+	var clickedM = false;
 	
 	filter.onclick = function(){
 		var filterContent = document.getElementById("filterContent");
-		if(clicked == false){
+		if(clickedF == false){
 			filterContent.style.display = "block";
-			clicked = true;
+			clickedF = true;
 		}
 		else {
 			filterContent.style.display = "none";
-			clicked = false;
+			clickedF = false;
+		}
+	}
+	
+	addMovie.onclick = function () {
+		var addMovieDiv = document.getElementById("addMovie");
+		if(clickedM == false){
+			addMovieDiv.style.display = "block";
+			clickedM = true;
+		}
+	}
+	
+	closeButton.onclick = function () {
+		var addMovieDiv = document.getElementById("addMovie");
+		if(clickedM == true){
+			addMovieDiv.style.display = "none";
+			clickedM = false;
 		}
 	}
 	

@@ -18,6 +18,9 @@
 			<a href="/dashboard/tickets" id="active">Bilete emise</a>
 			<a href="/dashboard/settings">Setări cont</a>
 			<a href="/">Pagina principală</a>
+			<% if (locals.user.isAdmin == 1) { %>
+			<a href="/admin">Pentru administratori</a>
+			<% } %>
 		</nav>
 		
 		<main>
