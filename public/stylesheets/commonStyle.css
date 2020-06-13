@@ -48,9 +48,10 @@ section {
     animation: descAnimation 2s ease-in-out;
     animation-fill-mode:forwards;
     animation-iteration-count: 1;
+	text-align: justify;
 }
 
 @keyframes descAnimation {
     from {top: 0px;}
-    to {top: 50px;}
+    to {top: 20px;}
 }

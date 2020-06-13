@@ -85,8 +85,46 @@ app.get('/logout', function(req, res) {
 });
 
 app.get("/index", function (req, res) {
-    res.render("html/index", {user: req.session.userData,
-        limitless: req.session.limitlessData});
+	    oracledb.getConnection(connectionProperties, function (err, connection) {
+        if (err) {
+            console.error(err.message);
+            response.status(500).send("Error connecting to DB");
+            return;
+        }
+        console.log("After connection");
+        connection.execute("SELECT * FROM filme ORDER BY film_id", {},
+            { outFormat: oracledb.OBJECT },
+            function (err, result) {
+                if (err) {
+                    console.error(err.message);
+                    response.status(500).send("Error getting data from DB");
+                    doRelease(connection);
+                    return;
+                }
+           
+                var movies = [];
+                result.rows.forEach(function (element) {
+                    movies.push({
+                        id: element.FILM_ID,
+                        name: element.NUME_FILM,
+                        poster: element.LINK_AFIS,
+                        desc: element.DESCRIERE,
+						year: element.AN_APARITIE
+                    });
+                }, this);
+                doRelease(connection);
+                console.log("Got movies data");
+				
+				function getRndInteger(min, max) {
+					return Math.floor(Math.random() * (max - min + 1) ) + min;
+				}
+				
+				randomMovie = movies[getRndInteger(0, movies.length - 2)];
+				lstMovie = movies[movies.length - 1];
+				
+                res.render("html/index", { user: req.session.userData, randMovie: randomMovie, lastMovie: lstMovie });
+            });
+    });
     
 });
 
