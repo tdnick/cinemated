@@ -44,6 +44,11 @@
 		</div>
 		<div style="clear:both"></div>
 		<button id="but" class="checkoutButton" type="submit" formaction="confirm">Next</button>
+		<div id="hidden">
+		<% for (var i = 0; i < selectedSeats.length; i++) { %>
+			<p><%=selectedSeats[i].row%>_<%=selectedSeats[i].place%></p> %>
+		<% } %>
+		</div>
    </div>
 	</main>
 

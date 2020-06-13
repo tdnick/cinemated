@@ -247,9 +247,9 @@ app.get("/choose", function (req, res) {
 app.get("/locuri", function (req, res) {
     const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     const search_params = current_url.searchParams;
-
+	
     const id = search_params.get('id');
-	console.log("Got screening id");
+	console.log("Got screening id here");
 	console.log(id);
     oracledb.getConnection(connectionProperties, function (err, connection) {
         if (err) {
@@ -258,8 +258,11 @@ app.get("/locuri", function (req, res) {
             return;
         }
         if (id) {
-            var dbRequest = "SELECT * FROM ecranizari JOIN filme USING(film_id) WHERE ecranizare_id  = '" + id + "'";
-            connection.execute(dbRequest, {},
+				ret=[];
+				screening=[];
+				rows=[];
+				var dbRequestSec = "SELECT nume_film, data, ora, sala, nr_loc, rand FROM ecranizari JOIN filme USING(film_id) JOIN bilete USING(ecranizare_id) WHERE ecranizare_id = '" + id + "'";
+				 connection.execute(dbRequestSec, {},
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -269,27 +272,29 @@ app.get("/locuri", function (req, res) {
                         return;
                     }
                     result.rows.forEach(function (element) {
-                        ret = {
+                        rows.push({
+                            place: element.NR_LOC,
+							row: element.RAND
+					});
+					ret.push({
                             name: element.NUME_FILM                  
-                        };
-						screening = {							
+                        });
+						screening.push = ({							
 							data: element.DATA,
 							ora: element.ORA,
 							sala: element.SALA
-						};
+						});
+					
                     }, this);
                     doRelease(connection);
-                    console.log("Got movie data");
-                    console.log(ret);
-					console.log("Got screening data");
-					console.log(screening);
-                    res.render("html/locuri", { user: req.session.userData, movieData: ret, screen: screening });
+                    console.log("Got rows");
+                    console.log(rows);               
+					res.render("html/locuri", { selectedSeats: rows, user: req.session.userData, movieData: ret, screen: screening });					
                 });
-        } else {
-            var ret = { name: "", genre: "" }
-            doRelease(connection);
-            res.render("html/locuri", { user: req.session.userData, movieData: ret });
         }
+		else{
+			doRelease(connection);
+		}
     });
 });
 app.get("/confirm", function (req, res) {
@@ -334,6 +339,7 @@ app.get("/confirm", function (req, res) {
 					console.log(screening);
                     res.render("html/confirm", { user: req.session.userData, movieData: ret, screen: screening });
                 });
+				
         } else {
             var ret = { name: "", genre: "" }
             doRelease(connection);
@@ -356,6 +362,8 @@ app.get("/limitless", function(req, res) {
 app.post("/confirm", function (req, res) {
     var form = new formidable.IncomingForm();
     var control = 0; // not a problem
+	var crypto = require("crypto");
+	var rezervare_id = crypto.randomBytes(7).toString('hex');
     form.parse(req, function (err, fields, files) {
         oracledb.getConnection(connectionProperties, function (err, connection) {
             if (err) {
@@ -371,8 +379,7 @@ app.post("/confirm", function (req, res) {
 			
             var seats = fields.nrLoc.split(",");
 			console.log(seats);
-			var crypto = require("crypto");
-			var rezervare_id = crypto.randomBytes(7).toString('hex');
+			
             for (let seat of seats) {		
             while(types[i]<0 && i<4){				
 				i += 1;
@@ -400,7 +407,10 @@ app.post("/confirm", function (req, res) {
 			
 			}
         });
-		 res.redirect('last');
+		 ret = {
+                nr: rezervare_id                
+                };
+		 res.render('html/last', {rezervare: ret, user: req.session.userData});
     });
 });
 app.post("/register", function (req, res) {
