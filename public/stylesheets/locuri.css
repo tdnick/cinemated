@@ -1,6 +1,9 @@
 *{
 	font-family: Quicksand;
 }
+#hidden{
+	display:none;
+}
 .front{
 	
 	width: 300px;
