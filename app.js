@@ -547,7 +547,7 @@ app.post("/register", function (req, res) {
             var cipher = crypto.createCipher('aes-128-cbc', 'mypassword');
             var encrPass= cipher.update(fields.pass, 'utf8', 'hex');
             encrPass += cipher.final('hex');
-            var dbRequest = "INSERT INTO users (username, email, password, full_name) VALUES ('" + fields.username + "', '" + fields.email + "', '" + encrPass + "', '" + fields.fname + "')";
+            var dbRequest = "INSERT INTO users (username, email, password, full_name, is_admin) VALUES ('" + fields.username + "', '" + fields.email + "', '" + encrPass + "', '" + fields.fname + "', 0)";
             connection.execute(dbRequest, {},
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
@@ -722,10 +722,9 @@ app.post('/login', function (req, res) {
                         doRelease(connection);
                         return;
                     }
-        
+                    var ret;
                     result.rows.forEach(function (element) {
                         ret = {lastName: element.LAST_NAME, firstName: element.FIRST_NAME, startDate: element.START_DATE, endDate: element.END_DATE};
-                        console.log(ret)
                     }, this);
                     req.session.limitlessData = ret;
                     doRelease(connection); 
@@ -852,6 +851,7 @@ app.post("/limitless", function (req, res) {
 
                     doRelease(connection);
                     console.log("Card limitless successfully created!");
+                    req.session.limitlessData = {lastName: fields.lastName, firstName: fields.firstName, startDate: fields.startDate, endDate: fields.endDate}
                     res.redirect('filme');
                 });
         });

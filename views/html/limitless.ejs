@@ -17,7 +17,7 @@
     
     <%if (locals.user) {%>
         
-        <%if (locals.limitless.lastName) {%>
+        <%if (locals.limitless && locals.limitless.lastName) {%>
                 <!-- <img src = "/images/cinemated.jpg" alt = "Card Limitless" id = "card"> -->
                 
                 <p id = "chosenName"><%= locals.limitless.lastName%>  <%=locals.limitless.firstName%></p>

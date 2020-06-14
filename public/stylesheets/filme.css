@@ -13,6 +13,10 @@
 	border-color: gold;
 }
 
+#addMovieIcon{
+	float: right;
+}
+
 #filterContent {
 	display: none;
 	position: absolute;
@@ -83,8 +87,16 @@
 }
 
 #searchBar {
-	float: right;
+	width: 350px;
+	position: absolute;
+	left: 50%;
+	margin-left: -175px;
+	height: 40px;
+	font-size: 36px;
 	font: inherit;
+	padding-left: 5px;
+	padding-right: 5px;
+	border: 2px solid rgba(104, 92, 26, 1);
 }
 
 #noMovie {
@@ -204,7 +216,7 @@
 	background-color: ghostwhite;
 }
 
-label {
+form label {
 	display: block;
 	margin-right: 10px;
 	margin-bottom: 10px;
