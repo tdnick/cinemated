@@ -9,14 +9,14 @@
 	</head>
 	<body>
 		<header>
-			<h1>Bilete emise</h1>
+			<h1>Biletele mele</h1>
 		</header>
 		
 		<% if (locals.user) { %>
 		<nav class="sidenav">
 			<a href="/dashboard/info">Date personale</a>
 			<a href="/dashboard/security">Setări securitate</a>
-			<a href="/dashboard/tickets" id="active">Bilete emise</a>
+			<a href="/dashboard/tickets" id="active">Biletele mele</a>
 			<a href="/dashboard/settings">Setări cont</a>
 			<% if (locals.user.isAdmin == 1) { %>
 			<a href="/dashboard/users">Administrare utilizatori</a>
@@ -29,7 +29,31 @@
 			<% if (!locals.user) { %>
 				<p>Pentru a vă putea administra contul, este necesar să vă <a href="/login">conectați!</a></p>
 			<% } else { %>
-				<h2>Funcționalitate (încă) neimplementată!</h2>
+				<p>Atenție! Anularea unui bilet este ireversibilă!</p>
+				<table>
+					<thead>
+						<td>Cod rezervare</td>
+						<td>Cod bilet</td>
+						<td>Tip bilet</td>
+						<td>Film</td>
+						<td>Data și ora</td>
+						<td>Sală, rând și loc</td>
+						<td></td>
+					</thead>
+					<tbody>
+						<% for (let i = 0; i < locals.ticketData.length; i++) { %>
+						<tr>
+							<td><%= locals.ticketData[i].resCode %></td>
+							<td><%= locals.ticketData[i].code %></td>
+							<td><%= locals.ticketData[i].type %></td>
+							<td><%= locals.ticketData[i].name %></td>
+							<td><%= locals.ticketData[i].date %>, <%= locals.ticketData[i].time %></td>
+							<td>Sala <%= locals.ticketData[i].room %>, Rând <%= locals.ticketData[i].row %>, Loc <%= locals.ticketData[i].seat %></td>
+							<td><a href="/deleteticket?id=<%= locals.ticketData[i].code %>&user=<%= locals.user.id %>">Anulează bilet</a></td>
+						</tr>
+						<% } %>
+					</tbody>
+				</table>
 			<% } %>
 		</main>
 		<footer>
