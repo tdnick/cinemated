@@ -213,14 +213,16 @@ app.get('/logout', function(req, res) {
 });
 
 app.get("/index", function (req, res) {
-	    oracledb.getConnection(connectionProperties, function (err, connection) {
+    oracledb.getConnection(connectionProperties, function (err, connection) {
         if (err) {
             console.error(err.message);
             response.status(500).send("Error connecting to DB");
             return;
         }
         console.log("After connection");
-        connection.execute("SELECT * FROM filme ORDER BY film_id", {},
+
+        var dbRequest = "SELECT film_id, nume_film, link_afis, descriere, an_aparitie, NVL((SELECT AVG(stars) FROM recenzii WHERE film_id = f.film_id), 0) stars FROM filme f  ORDER BY film_id";
+        connection.execute(dbRequest, {},
             { outFormat: oracledb.OBJECT },
             function (err, result) {
                 if (err) {
@@ -229,7 +231,7 @@ app.get("/index", function (req, res) {
                     doRelease(connection);
                     return;
                 }
-           
+
                 var movies = [];
                 result.rows.forEach(function (element) {
                     movies.push({
@@ -237,20 +239,31 @@ app.get("/index", function (req, res) {
                         name: element.NUME_FILM,
                         poster: element.LINK_AFIS,
                         desc: element.DESCRIERE,
-						year: element.AN_APARITIE
+                        year: element.AN_APARITIE,
+                        stars: element.STARS
                     });
                 }, this);
                 doRelease(connection);
                 console.log("Got movies data");
-				
-				function getRndInteger(min, max) {
-					return Math.floor(Math.random() * (max - min + 1) ) + min;
-				}
-				
-				randomMovie = movies[getRndInteger(0, movies.length - 2)];
-				lstMovie = movies[movies.length - 1];
-				
-                res.render("html/index", { user: req.session.userData, randMovie: randomMovie, lastMovie: lstMovie });
+
+                function getRndInteger(min, max) {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                }
+
+                randomMovie = movies[getRndInteger(0, movies.length - 2)];
+                lstMovie = movies[movies.length - 1];
+
+
+                // Get the movie with the best reviews
+                var max = 0;
+                for (var i = 0; i < movies.length; i++) {
+                    if (movies[i].stars > max) {
+                        max = i;
+                    }
+                }
+                bestMovie = movies[max];
+
+                res.render("html/index", { user: req.session.userData, randMovie: randomMovie, lastMovie: lstMovie, bestReviewedMovie: bestMovie });
             });
     });
     
@@ -320,8 +333,9 @@ app.get("/film", function (req, res) {
             return;
         }
         if (id) {
-            var dbRequest = "SELECT * FROM filme LEFT JOIN ecranizari USING(film_id) WHERE film_id = '" + id + "'";
-            connection.execute(dbRequest, {},
+
+            var dbRequest = "SELECT * FROM filme LEFT JOIN ecranizari USING(film_id) LEFT JOIN recenzii USING(film_id) LEFT JOIN users USING (user_id) WHERE film_id = :film_id";
+            connection.execute(dbRequest, [id],
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -330,12 +344,15 @@ app.get("/film", function (req, res) {
                         doRelease(connection);
                         return;
                     }
-					
-					movies = []
-					screenings = []
+
+                    movies = []
+                    screenings = []
+                    comments = []
+                    distinctScreenings = []
+                    distinctComments = []
+
                     result.rows.forEach(function (element) {
                         movies.push({
-                            id: element.FILM_ID,
                             name: element.NUME_FILM,
                             genre: element.GEN_FILM,
                             director: element.REGIZORI,
@@ -347,22 +364,49 @@ app.get("/film", function (req, res) {
                             lang: element.LIMBA_ORIGINALA,
                             year: element.AN_APARITIE
                         });
-						screenings.push({
-							ecrID: element.ECRANIZARE_ID,
-							data: element.DATA,
-							ora: element.ORA,
-							sala: element.SALA,
-						});
+
+                        if (!(distinctScreenings.includes(element.ECRANIZARE_ID))) {
+                            distinctScreenings.push(element.ECRANIZARE_ID);
+                            screenings.push({
+                                ecrID: element.ECRANIZARE_ID,
+                                data: element.DATA,
+                                ora: element.ORA,
+                                sala: element.SALA
+                            });
+                        }
+
+                        if (!(distinctComments.includes(element.RECENZIE_ID))) {
+                            distinctComments.push(element.RECENZIE_ID);
+                            comments.push({
+                                comID: element.RECENZIE_ID,
+                                username: element.USERNAME,
+                                stars: element.STARS,
+                                comment: element.MESAJ
+                            });
+                        }
+
                     }, this);
                     doRelease(connection);
                     console.log("Got movie data");
-					ret = movies[0];
+                    ret = movies[0];
                     console.log(ret);
-					console.log("Got screening data");
-					console.log(screenings);
-					console.log(req.session.userData);
-                    res.render("html/film", { user: req.session.userData, movieData: ret, screenData: screenings });
+
+                    console.log("Got screening data");
+
+                    console.log("Got reviews");
+                    console.log(comments);
+
+                    var avgRaiting = 0;
+                    for (var i = 0; i < comments.length; i++) {
+                        avgRaiting += comments[i].stars;
+                    }
+                    avgRaiting /= comments.length;
+                    console.log(avgRaiting);
+                    req.session.avgRaitingData = avgRaiting;
+
+                    res.render("html/film", { user: req.session.userData, movieData: ret, screenData: screenings, commentData: comments, avgRaitingData: avgRaiting });
                 });
+
         } else {
             var ret = { name: "", genre: "" }
             doRelease(connection);
@@ -370,6 +414,7 @@ app.get("/film", function (req, res) {
         }
     });
 });
+
 app.get("/choose", function (req, res) {
     const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     const search_params = current_url.searchParams;
@@ -1041,14 +1086,14 @@ app.post("/filme", function (req, res) {
                 res.status(500).send("Error connecting to DB");
                 return;
             }
-            var dbRequest = 
-            "INSERT INTO filme (film_id, nume_film, gen_film, regizori, actori, link_trailer, link_afis, descriere, durata, limba_originala, an_aparitie)" + 
-            " VALUES (1 + (SELECT count(film_id) FROM filme), '" + fields.title + "', '" + fields.genre + "', '" + fields.director + "', '" + 
-            fields.actor + "', '" + fields.trailer + "', '" + fields.poster + "', '" + fields.desc +  
-            "', " + fields.time + ", '" + fields.lang + "', " + fields.year + ")";
+            var dbRequest =
+                "INSERT INTO filme (film_id, nume_film, gen_film, regizori, actori, link_trailer, link_afis, descriere, durata, limba_originala, an_aparitie)" +
+                " VALUES (1 + (SELECT count(film_id) FROM filme), '" + fields.title + "', '" + fields.genre + "', '" + fields.director + "', '" +
+                fields.actor + "', '" + fields.trailer + "', '" + fields.poster + "', '" + fields.desc +
+                "', " + fields.time + ", '" + fields.lang + "', " + fields.year + ")";
             console.log(dbRequest)
-            connection.execute(dbRequest, {}, 
-                {outFormat: oracledb.OBJECT},
+            connection.execute(dbRequest, {},
+                { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
                         console.error(err.message);
@@ -1063,7 +1108,38 @@ app.post("/filme", function (req, res) {
                 });
         });
     });
-})
+});
+
+app.post("/film", function (req, res) {
+    const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    const search_params = current_url.searchParams;
+
+    const idFilm = search_params.get('id');
+    var form = new formidable.IncomingForm();
+    form.parse(req, function (err, fields, files) {
+        oracledb.getConnection(connectionProperties, function (err, connection) {
+            if (err) {
+                console.error(err.message);
+                res.status(500).send("Error connecting to DB");
+                return;
+            }
+
+            var dbRequest = "INSERT INTO recenzii (recenzie_id, stars, data_recenzie, user_id, film_id, mesaj)" +
+                "VALUES( (SELECT count(*) FROM recenzii) + 1, :stars, TO_CHAR(SYSDATE, 'DD-MON-YYYY HH:MI:SS'), :userId, :idFilm, :mesaj)";
+            console.log(req.body);
+            connection.execute(dbRequest, [parseInt(fields.stars), req.session.userData.userId, idFilm, fields.comment],
+                { outFormat: oracledb.OBJECT },
+                function (err, result) {
+                    if (err) {
+                        console.error(err);
+                    }
+                    res.end();
+                    doRelease(connection);
+                });
+            res.redirect('film?id=' + idFilm);
+        });
+    });
+});
 
 app.post("/limitless", function (req, res) {
     var form = new formidable.IncomingForm();
