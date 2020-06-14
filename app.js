@@ -53,7 +53,9 @@ app.get("/", function (req, res) {
             return;
         }
         console.log("After connection");
-        connection.execute("SELECT * FROM filme ORDER BY film_id", {},
+
+        var dbRequest = "SELECT film_id, nume_film, link_afis, descriere, an_aparitie, NVL((SELECT AVG(stars) FROM recenzii WHERE film_id = f.film_id), 0) stars FROM filme f  ORDER BY film_id";
+        connection.execute(dbRequest, {},
             { outFormat: oracledb.OBJECT },
             function (err, result) {
                 if (err) {
@@ -62,7 +64,7 @@ app.get("/", function (req, res) {
                     doRelease(connection);
                     return;
                 }
-           
+
                 var movies = [];
                 result.rows.forEach(function (element) {
                     movies.push({
@@ -70,20 +72,31 @@ app.get("/", function (req, res) {
                         name: element.NUME_FILM,
                         poster: element.LINK_AFIS,
                         desc: element.DESCRIERE,
-						year: element.AN_APARITIE
+                        year: element.AN_APARITIE,
+                        stars: element.STARS
                     });
                 }, this);
                 doRelease(connection);
                 console.log("Got movies data");
-				
-				function getRndInteger(min, max) {
-					return Math.floor(Math.random() * (max - min + 1) ) + min;
-				}
-				
-				randomMovie = movies[getRndInteger(0, movies.length - 2)];
-				lstMovie = movies[movies.length - 1];
-				
-                res.render("html/index", { user: req.session.userData, randMovie: randomMovie, lastMovie: lstMovie });
+
+                function getRndInteger(min, max) {
+                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                }
+
+                randomMovie = movies[getRndInteger(0, movies.length - 2)];
+                lstMovie = movies[movies.length - 1];
+
+
+                // Get the movie with the best reviews
+                var max = 0;
+                for (var i = 0; i < movies.length; i++) {
+                    if (movies[i].stars > max) {
+                        max = i;
+                    }
+                }
+                bestMovie = movies[max];
+
+                res.render("html/index", { user: req.session.userData, randMovie: randomMovie, lastMovie: lstMovie, bestReviewedMovie: bestMovie });
             });
     });
 });

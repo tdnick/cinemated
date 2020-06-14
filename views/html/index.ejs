@@ -25,14 +25,17 @@
 			</section>
 		</a>
         
-        <section>
-            <h1>Filmul cu cele mai bune review-uri</h1>
-            <div class = "moviesContainer">
-                <img class = "recMovies" src="/images/scene1.gif" alt="Best Reviews">
-                <p class = "des">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis tristique sollicitudin nibh sit amet. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Orci sagittis eu volutpat odio facilisis mauris. Lorem donec massa sapien faucibus. Sed ullamcorper morbi tincidunt ornare massa eget egestas purus viverra. Cras semper auctor neque vitae tempus quam pellentesque. Sit amet risus nullam eget felis eget. Varius vel pharetra vel turpis nunc eget lorem dolor sed. Senectus et netus et malesuada. Diam maecenas sed enim ut sem viverra aliquet eget sit. Ac ut consequat semper viverra nam.
-                </p>
-        </section>
+        <a href = "/film?id=<%= bestReviewedMovie.id %>" class = "<%=bestReviewedMovie.id %> indexMovie">
+			<section>
+				<h1>Filmul cu cele mai bune review-uri</h1>
+				<div class = "moviesContainer">
+					<img class = "posterMovie" src="<%= bestReviewedMovie.poster %>" alt="<%= bestReviewedMovie.name %>">
+					<div>
+						<h2 class = "movieName"><%= bestReviewedMovie.name %> (<%= bestReviewedMovie.year %>)</h2>
+						<p class = "des"><%= bestReviewedMovie.desc %></p>
+					</div>
+			</section>
+		</a>
 
         <a href = "/film?id=<%= lastMovie.id %>" class = "<%=lastMovie.id %> indexMovie">
 			<section>
