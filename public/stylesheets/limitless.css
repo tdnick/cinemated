@@ -6,7 +6,7 @@
     font-size: 1.1em;
 }
 
-#card {
+#card, #cardNoLimitless {
     width: 50%;
     border-radius: 5px;
 }
@@ -123,4 +123,19 @@ button:hover {
 #chosenName {
 
     font-size: 20px;
+}
+
+.noLimitlessDiv {
+    color: white;
+    font-size: 1.2em;
+    margin: 20px;
+}
+
+#cardNoLimitless {
+    margin-left: 50px;
+}
+
+h2 {
+    color: gold;
+    margin-bottom: 20px;
 }

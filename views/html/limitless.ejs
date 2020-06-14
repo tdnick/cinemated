@@ -13,12 +13,12 @@
     <%- include("../partials/header.ejs")%>
     </header>
     <div id = "limContainer">
-    <img src = "/images/cinemated.jpg" alt = "Card Limitless" id = "card">
+    
     
     <%if (locals.user) {%>
         
         <%if (locals.limitless && locals.limitless.lastName) {%>
-                <!-- <img src = "/images/cinemated.jpg" alt = "Card Limitless" id = "card"> -->
+                <img src = "/images/cinemated.jpg" alt = "Card Limitless" id = "card">
                 
                 <p id = "chosenName"><%= locals.limitless.lastName%>  <%=locals.limitless.firstName%></p>
                 <p id = "chosenDate"><%=locals.limitless.startDate.toString().split('T')[0]%> - <%=locals.limitless.endDate.toString().split('T')[0]%></p>
@@ -54,7 +54,18 @@
                     <button type="submit">Continuă</button>
                     </form>
     <%}} else {%>
-        <div><p style="color: white;">Pentru a va crea un card limitless, trebuie sa intrati in cont.</p></div>
+        <img src = "/images/cinemated.jpg" alt = "Card Limitless" id = "cardNoLimitless">
+        <div  class = "noLimitlessDiv">
+            <h2>Alatura-te acum pentru a vedea toate filmele care iti plac, de ori de cate ori iti doresti!</h1>
+            <p>Pentru o luna intreaga, vei putea viziona orice film difuzat in cinemaul nostru, fara a mai fi necesar
+                sa platesti biletul inainte. El este deja al tau!
+                Abonamentul Limitless iti aduce nu numai posibilitatea de a te bucura oricand de filmele pe care le indragesti, ci si
+                numeroase discounturi, precum 30% reducere la meniurile de popcorn si invitatii la premierele noastre. Ce mai astepti?
+            </p>
+
+            <p>Pentru a-ti un card limitless, trebuie sa intri in cont.</p>
+        
+        </div>
 
         <%}%>
     </div>

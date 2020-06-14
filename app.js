@@ -10,6 +10,9 @@ const formidable = require('formidable');
 const util = require('util');
 const crypto = require('crypto');
 const url = require('url');
+const dbHandler = require("./public/scripts/dbHandler");
+
+const dataBase = new dbHandler();
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -54,8 +57,8 @@ app.get("/", function (req, res) {
         }
         console.log("After connection");
 
-        var dbRequest = "SELECT film_id, nume_film, link_afis, descriere, an_aparitie, NVL((SELECT AVG(stars) FROM recenzii WHERE film_id = f.film_id), 0) stars FROM filme f  ORDER BY film_id";
-        connection.execute(dbRequest, {},
+        // var dbRequest = "SELECT film_id, nume_film, link_afis, descriere, an_aparitie, NVL((SELECT AVG(stars) FROM recenzii WHERE film_id = f.film_id), 0) stars FROM filme f  ORDER BY film_id";
+        connection.execute(dataBase.getAllMovies(), {},
             { outFormat: oracledb.OBJECT },
             function (err, result) {
                 if (err) {
@@ -126,8 +129,8 @@ app.get('/dashboard/tickets', function (req, res) {
                 return;
             }
 
-            var dbRequest = "SELECT user_id, rezervare_id, bilet_id, tip_bilet, nume_film, data, ora, sala, rand, nr_loc FROM bilete JOIN ecranizari USING(ecranizare_id) JOIN filme USING(film_id) where user_id = " + req.session.userData.id + " order by rezervare_id";
-            connection.execute(dbRequest, {},
+            //var dbRequest = "SELECT user_id, rezervare_id, bilet_id, tip_bilet, nume_film, data, ora, sala, rand, nr_loc FROM bilete JOIN ecranizari USING(ecranizare_id) JOIN filme USING(film_id) where user_id = " + req.session.userData.id + " order by rezervare_id";
+            connection.execute(dataBase.getDashboardTickets(), [req.session.userData.id],
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -173,8 +176,8 @@ app.get('/dashboard/users', function (req, res) {
             return;
         }
 
-        var dbRequest = "SELECT * FROM users order by user_id";
-        connection.execute(dbRequest, {},
+       // var dbRequest = "SELECT * FROM users order by user_id";
+        connection.execute(dataBase.getAllUsers(), {},
             { outFormat: oracledb.OBJECT },
             function (err, result) {
                 if (err) {
@@ -221,8 +224,8 @@ app.get("/index", function (req, res) {
         }
         console.log("After connection");
 
-        var dbRequest = "SELECT film_id, nume_film, link_afis, descriere, an_aparitie, NVL((SELECT AVG(stars) FROM recenzii WHERE film_id = f.film_id), 0) stars FROM filme f  ORDER BY film_id";
-        connection.execute(dbRequest, {},
+        //var dbRequest = "SELECT film_id, nume_film, link_afis, descriere, an_aparitie, NVL((SELECT AVG(stars) FROM recenzii WHERE film_id = f.film_id), 0) stars FROM filme f  ORDER BY film_id";
+        connection.execute(dataBase.getIndex(), {},
             { outFormat: oracledb.OBJECT },
             function (err, result) {
                 if (err) {
@@ -278,7 +281,7 @@ app.get("/filme", function (req, res) {
             return;
         }
         console.log("After connection");
-        connection.execute("SELECT * FROM filme ORDER BY film_id", {},
+        connection.execute(dataBase.getFilme(), {},
             { outFormat: oracledb.OBJECT },
             function (err, result) {
                 if (err) {
@@ -334,8 +337,8 @@ app.get("/film", function (req, res) {
         }
         if (id) {
 
-            var dbRequest = "SELECT * FROM filme LEFT JOIN ecranizari USING(film_id) LEFT JOIN recenzii USING(film_id) LEFT JOIN users USING (user_id) WHERE film_id = :film_id";
-            connection.execute(dbRequest, [id],
+           // var dbRequest = "SELECT * FROM filme LEFT JOIN ecranizari USING(film_id) LEFT JOIN recenzii USING(film_id) LEFT JOIN users USING (user_id) WHERE film_id = :film_id";
+            connection.execute(dataBase.getFilm(), [id],
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -429,9 +432,9 @@ app.get("/choose", function (req, res) {
             return;
         }
         if (id) {
-				var dbRequest = "SELECT * FROM limitless WHERE user_id  = '" + req.session.userData.userId + "'  ORDER BY end_date DESC";				
+				// var dbRequest = "SELECT * FROM limitless WHERE user_id  = '" + req.session.userData.userId + "'  ORDER BY end_date DESC";				
 				cards = []
-				connection.execute(dbRequest, {},
+				connection.execute(dataBase.getChoose(), [req.session.userData.userId],
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -487,8 +490,8 @@ app.get("/locuri", function (req, res) {
 				ret=[];
 				screening=[];
 				rows=[];
-				var dbRequestSec = "SELECT nume_film, data, ora, sala, nr_loc, rand FROM ecranizari JOIN filme USING(film_id) LEFT JOIN bilete USING(ecranizare_id) WHERE ecranizare_id = '" + id + "'";
-				 connection.execute(dbRequestSec, {},
+				// var dbRequestSec = "SELECT nume_film, data, ora, sala, nr_loc, rand FROM ecranizari JOIN filme USING(film_id) LEFT JOIN bilete USING(ecranizare_id) WHERE ecranizare_id = '" + id + "'";
+				 connection.execute(dataBase.getLocuri(), [id],
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -539,8 +542,8 @@ app.get("/confirm", function (req, res) {
             return;
         }
         if (id) {
-            var dbRequest = "SELECT * FROM ecranizari JOIN filme USING(film_id) WHERE ecranizare_id  = '" + id + "'";
-            connection.execute(dbRequest, {},
+            // var dbRequest = "SELECT * FROM ecranizari JOIN filme USING(film_id) WHERE ecranizare_id  = '" + id + "'";
+            connection.execute(dataBase.getEcranizari(), [id],
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -600,8 +603,8 @@ app.get("/delete", function (req, res) {
                     return;
                 }
                 if (id) {
-                    var dbRequest = "DELETE FROM filme WHERE film_id = '" + id + "'";
-                    connection.execute(dbRequest, {},
+                    // var dbRequest = "DELETE FROM filme WHERE film_id = '" + id + "'";
+                    connection.execute(dataBase.deleteMovie(), [id],
                         { outFormat: oracledb.OBJECT },
                         function (err, result) {
                             if (err) {
@@ -646,8 +649,8 @@ app.get("/toggleAdmin", function (req, res) {
                         return;
                     }
                     if (id) {
-                        var dbRequest = "UPDATE users SET is_admin = " + code + " WHERE user_id = '" + id + "'";
-                        connection.execute(dbRequest, {},
+                        // var dbRequest = "UPDATE users SET is_admin = " + code + " WHERE user_id = '" + id + "'";
+                        connection.execute(dataBase.setAdmin(), [code, id],
                             { outFormat: oracledb.OBJECT },
                             function (err, result) {
                                 if (err) {
@@ -693,8 +696,8 @@ app.get("/deleteuser", function (req, res) {
                     return;
                 }
                 if (id) {
-                    var dbRequest = "DELETE FROM users WHERE user_id = '" + id + "'";
-                    connection.execute(dbRequest, {},
+                    // var dbRequest = "DELETE FROM users WHERE user_id = '" + id + "'";
+                    connection.execute(dataBase.deleteFromUsers(), [id],
                         { outFormat: oracledb.OBJECT },
                         function (err, result) {
                             if (err) {
@@ -744,8 +747,8 @@ app.get("/deleteticket", function (req, res) {
                     return;
                 }
                 if (id) {
-                    var dbRequest = "DELETE FROM bilete WHERE bilet_id = '" + id + "'";
-                    connection.execute(dbRequest, {},
+                    // var dbRequest = "DELETE FROM bilete WHERE bilet_id = '" + id + "'";
+                    connection.execute(dataBase.deleteFromBilete(), [id],
                         { outFormat: oracledb.OBJECT },
                         function (err, result) {
                             if (err) {
@@ -807,9 +810,10 @@ app.post("/confirm", function (req, res) {
 			place=rp[1];
 			console.log(fields.idClient);
 			console.log(fields.idEcr);
-            var dbRequest = "INSERT INTO bilete (bilet_id,rezervare_id, nr_loc,tip_bilet,user_id,ecranizare_id,rand) VALUES (1+(SELECT MAX(bilet_id) FROM bilete), '" + rezervare_id + "', '" + place + "', '" + s_types[i] + "', '" + fields.idClient + "', '" + fields.idEcr + "', '" + row + "')";
+            // var dbRequest = "INSERT INTO bilete (bilet_id,rezervare_id, nr_loc,tip_bilet,user_id,ecranizare_id,rand) VALUES (1+(SELECT MAX(bilet_id) FROM bilete), '" 
+            // + rezervare_id + "', '" + place + "', '" + s_types[i] + "', '" + fields.idClient + "', '" + fields.idEcr + "', '" + row + "')";
             types[i] += -1;
-			connection.execute(dbRequest, {},
+			connection.execute(dataBase.insertIntoBilete(), [rezervare_id, place, s_types[i], fields.idClient, fields.idEcr, row],
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -843,8 +847,8 @@ app.post("/register", function (req, res) {
             var cipher = crypto.createCipher('aes-128-cbc', 'mypassword');
             var encrPass= cipher.update(fields.pass, 'utf8', 'hex');
             encrPass += cipher.final('hex');
-            var dbRequest = "INSERT INTO users (username, email, password, full_name, is_admin) VALUES ('" + fields.username + "', '" + fields.email + "', '" + encrPass + "', '" + fields.fname + "', 0)";
-            connection.execute(dbRequest, {},
+            // var dbRequest = "INSERT INTO users (username, email, password, full_name, is_admin) VALUES ('" + fields.username + "', '" + fields.email + "', '" + encrPass + "', '" + fields.fname + "', 0)";
+            connection.execute(dataBase.insertIntoUsers(), [fields.username, fields.email, encrPass, fields.fname],
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -895,9 +899,9 @@ app.post("/dashboard/security", function (req, res) {
                 var newPassword = cipher2.update(fields.newpass, 'utf8', 'hex');
                 newPassword += cipher2.final('hex');
                     
-                var dbRequest = "UPDATE users SET password = '" + newPassword + "' WHERE (username = '" + req.session.userData.username + "' AND password = '" + oldPassword + "')";
+                // var dbRequest = "UPDATE users SET password = '" + newPassword + "' WHERE (username = '" + req.session.userData.username + "' AND password = '" + oldPassword + "')";
                 
-                connection.execute(dbRequest, {}, {outFormat: oracledb.OBJECT}, function (err, result) {
+                connection.execute(dataBase.updatePassword(), [newPassword, req.session.userData.username, oldPassword], {outFormat: oracledb.OBJECT}, function (err, result) {
                     if (err) {
                         console.error(err);
                         doRelease(connection);
@@ -928,9 +932,9 @@ app.post('/dashboard/info', function (req, res) {
                 res.status(500).send("Error connecting to DB");
                 return;
             }
-            var dbRequest = "UPDATE users SET full_name = '" + fields.fname + "', email = '" + fields.email + "' WHERE username = '" + req.session.userData.username + "'";
-            console.log("username activ: " + req.session.userData.username);
-            connection.execute(dbRequest, {}, {outFormat: oracledb.OBJECT}, function (err, result) {
+            // var dbRequest = "UPDATE users SET full_name = '" + fields.fname + "', email = '" + fields.email + "' WHERE username = '" + req.session.userData.username + "'";
+            // console.log("username activ: " + req.session.userData.username);
+            connection.execute(dataBase.updateUserInfo(), [fields.fname, fields.email, req.session.userData.username], {outFormat: oracledb.OBJECT}, function (err, result) {
                 if (err) {
                     console.error(err);
                     if (err.message.localeCompare("ORA-00001: unique constraint (VERONICACHIRUT.USERS_UK1) violated") == 0){
@@ -962,8 +966,10 @@ app.post('/login', function (req, res) {
                 res.status(500).send("Error connecting to DB");
                 return;
             }
-            var dbRequest = "SELECT * FROM users WHERE username = '" + fields.username + "'";
-            connection.execute(dbRequest, {},
+            // var dbRequest = "SELECT * FROM users WHERE username = '" + fields.username + "'";
+            // var dbRequest = dataBase.getUser();
+            // console.log(dbRequest);
+            connection.execute(dataBase.getUser(), [fields.username],
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -1004,12 +1010,12 @@ app.post('/login', function (req, res) {
             });
             //console.log(req.session.userData)
 
-            dbRequest = "SELECT l.limitless_id, l.user_id, l.last_name, l.first_name, l.email, l.type, l.phone_number, l.start_date, l.end_date " +
-            "FROM users u JOIN limitless l ON (u.user_id = l.user_id) WHERE l.limitless_id = (SELECT MAX(limitless_id) FROM limitless WHERE user_id IN " +
-            "(SELECT user_id FROM users WHERE username = '" + fields.username + "'))";
+            // dbRequest = "SELECT l.limitless_id, l.user_id, l.last_name, l.first_name, l.email, l.type, l.phone_number, l.start_date, l.end_date " +
+            // "FROM users u JOIN limitless l ON (u.user_id = l.user_id) WHERE l.limitless_id = (SELECT MAX(limitless_id) FROM limitless WHERE user_id IN " +
+            // "(SELECT user_id FROM users WHERE username = '" + fields.username + "'))";
             
-            console.log(dbRequest)
-            connection.execute(dbRequest, {},
+            // console.log(dbRequest)
+            connection.execute(dataBase.getLimitless(), [fields.username],
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -1033,8 +1039,6 @@ app.post('/login', function (req, res) {
                     }
 
             });
-            // console.log(req.session.limitlessData)
-            // console.log(req.session.userData)
 
             
         });
@@ -1053,9 +1057,9 @@ app.post('/dashboard/settings', function (req, res) {
                 res.status(500).send("Error connecting to DB");
                 return;
             }
-            var dbRequest = "UPDATE users SET username = '" + fields.username + "' WHERE username = '" + req.session.userData.username + "'";
-            console.log("username activ: " + req.session.userData.username);
-            connection.execute(dbRequest, {}, {outFormat: oracledb.OBJECT}, function (err, result) {
+            // var dbRequest = "UPDATE users SET username = '" + fields.username + "' WHERE username = '" + req.session.userData.username + "'";
+            // console.log("username activ: " + req.session.userData.username);
+            connection.execute(dataBase.updateUsername(), [fields.username, req.session.userData.username], {outFormat: oracledb.OBJECT}, function (err, result) {
                 if (err) {
                     console.error(err);
                     if (err.message.localeCompare("ORA-00001: unique constraint (VERONICACHIRUT.USERS_UK2) violated") == 0){
@@ -1086,13 +1090,14 @@ app.post("/filme", function (req, res) {
                 res.status(500).send("Error connecting to DB");
                 return;
             }
-            var dbRequest =
-                "INSERT INTO filme (film_id, nume_film, gen_film, regizori, actori, link_trailer, link_afis, descriere, durata, limba_originala, an_aparitie)" +
-                " VALUES (1 + (SELECT count(film_id) FROM filme), '" + fields.title + "', '" + fields.genre + "', '" + fields.director + "', '" +
-                fields.actor + "', '" + fields.trailer + "', '" + fields.poster + "', '" + fields.desc +
-                "', " + fields.time + ", '" + fields.lang + "', " + fields.year + ")";
-            console.log(dbRequest)
-            connection.execute(dbRequest, {},
+            // var dbRequest =
+            //     "INSERT INTO filme (film_id, nume_film, gen_film, regizori, actori, link_trailer, link_afis, descriere, durata, limba_originala, an_aparitie)" +
+            //     " VALUES (1 + (SELECT count(film_id) FROM filme), '" + fields.title + "', '" + fields.genre + "', '" + fields.director + "', '" +
+            //     fields.actor + "', '" + fields.trailer + "', '" + fields.poster + "', '" + fields.desc +
+            //     "', " + fields.time + ", '" + fields.lang + "', " + fields.year + ")";
+            // console.log(dbRequest)
+            connection.execute(dataBase.insertIntoFilme(), [fields.title, fields.genre, fields.director, fields.actor, fields.trailer, fields.poster, fields.desc,
+                    fields.time, fields.lang, fields.year],
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -1124,10 +1129,10 @@ app.post("/film", function (req, res) {
                 return;
             }
 
-            var dbRequest = "INSERT INTO recenzii (recenzie_id, stars, data_recenzie, user_id, film_id, mesaj)" +
-                "VALUES( (SELECT count(*) FROM recenzii) + 1, :stars, TO_CHAR(SYSDATE, 'DD-MON-YYYY HH:MI:SS'), :userId, :idFilm, :mesaj)";
+            // var dbRequest = "INSERT INTO recenzii (recenzie_id, stars, data_recenzie, user_id, film_id, mesaj)" +
+            //     "VALUES( (SELECT count(*) FROM recenzii) + 1, :stars, TO_CHAR(SYSDATE, 'DD-MON-YYYY HH:MI:SS'), :userId, :idFilm, :mesaj)";
             console.log(req.body);
-            connection.execute(dbRequest, [parseInt(fields.stars), req.session.userData.userId, idFilm, fields.comment],
+            connection.execute(dataBase.insertIntoRecenzii(), [parseInt(fields.stars), req.session.userData.userId, idFilm, fields.comment],
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -1152,21 +1157,8 @@ app.post("/limitless", function (req, res) {
                 return;
             }
             
-            // console.log(fields.lastName)
-            // console.log(fields.firstName)
-            // console.log(fields.email)
-            // console.log(fields.phoneNumber)
-            // console.log(fields.typeOfCard)
-            // console.log(fields.userId)
-            // console.log(fields.startDate)
-            // console.log(fields.endDate)
-            var dbRequest = 
-            "INSERT INTO limitless (limitless_id, user_id, last_name, first_name, email, type, phone_number, start_date, end_date)" + 
-            "VALUES(1 + (SELECT MAX(limitless_id) FROM limitless), " + fields.userId + ", '" + fields.lastName + "', '" + fields.firstName + "', '" + 
-            fields.email + "', '" + fields.typeOfCard + "', '" + fields.phoneNumber + "', TO_DATE('" + fields.startDate +  
-            "', 'dd-mm-yyyy'), TO_DATE('" + fields.endDate + "', 'dd-mm-yyyy'))";
-            console.log(dbRequest)
-            connection.execute(dbRequest, {}, 
+            connection.execute(dataBase.insertIntoLimitless(), [fields.userId, fields.lastName, fields.firstName, fields.email, fields.typeOfCard, fields.phoneNumber,
+                    fields.startDate, fields.endDate], 
                 {outFormat: oracledb.OBJECT},
                 function (err, result) {
                     if (err) {
