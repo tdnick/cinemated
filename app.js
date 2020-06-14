@@ -429,7 +429,7 @@ app.get("/locuri", function (req, res) {
 				ret=[];
 				screening=[];
 				rows=[];
-				var dbRequestSec = "SELECT nume_film, data, ora, sala, nr_loc, rand FROM ecranizari JOIN filme USING(film_id) JOIN bilete USING(ecranizare_id) WHERE ecranizare_id = '" + id + "'";
+				var dbRequestSec = "SELECT nume_film, data, ora, sala, nr_loc, rand FROM ecranizari JOIN filme USING(film_id) LEFT JOIN bilete USING(ecranizare_id) WHERE ecranizare_id = '" + id + "'";
 				 connection.execute(dbRequestSec, {},
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
@@ -759,7 +759,7 @@ app.post("/confirm", function (req, res) {
                       
                         return;
                     }
-                    if(types[i] <= 0 && i == 3) doRelease(connection);
+                    if(types[i] <= 0 && i>=3) doRelease(connection);
                     console.log("bilet adaugat");
                     
             });
