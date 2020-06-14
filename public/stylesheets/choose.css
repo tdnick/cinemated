@@ -7,6 +7,9 @@ body {
     background-color: rgba(25,25,25,1);
     /* darkslategray;*/
 }
+p{
+	font-family: Arial;
+}
 #choosing_box{
 	background-color:rgb(240,220,130);
 	/*padding:2em;*/

@@ -298,8 +298,9 @@ app.get("/choose", function (req, res) {
             return;
         }
         if (id) {
-            var dbRequest = "SELECT * FROM ecranizari JOIN filme USING(film_id) WHERE ecranizare_id  = '" + id + "'";
-            connection.execute(dbRequest, {},
+				var dbRequest = "SELECT * FROM limitless WHERE user_id  = '" + req.session.userData.userId + "'  ORDER BY end_date DESC";				
+				cards = []
+				connection.execute(dbRequest, {},
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
@@ -308,20 +309,33 @@ app.get("/choose", function (req, res) {
                         doRelease(connection);
                         return;
                     }
-                    result.rows.forEach(function (element) {
-                        ret = {
-                            name: element.NUME_FILM
-                        };
+                    result.rows.forEach(function (element) { 	
+						console.log(element.START_DATE);						
+						cards.push({
+                            id: element.LIMITLESS_ID,
+							startDate: element.START_DATE,
+							endDate: element.END_DATE
+                        });
                     }, this);
                     doRelease(connection);
-                    console.log("Got movie data");
-                    console.log(ret);				
-                    res.render("html/choose", { user: req.session.userData, movieData: ret});
+                    console.log("Got LIMITLESS data");
+                    console.log(cards);				
+                   if(cards.length == 0){
+					res.render("html/choose", { user: req.session.userData, limitless: null});
+				}
+				var datetime = new Date();
+				for(i = 0; i< cards.length;i++){
+				if(new Date(cards[i].startDate) < datetime && new Date(cards[i].endDate) > datetime){
+					res.render("html/choose", { user: req.session.userData, limitless: cards[i]});
+					break;
+				}	}
                 });
+								
+			
         } else {
             var ret = { name: "", genre: "" }
             doRelease(connection);
-            res.render("html/choose", { user: req.session.userData, movieData: ret });
+            res.render("html/choose", { user: req.session.userData });
         }
     });
 });
@@ -360,7 +374,7 @@ app.get("/locuri", function (req, res) {
 					ret.push({
                             name: element.NUME_FILM                  
                         });
-						screening.push = ({							
+					screening.push({							
 							data: element.DATA,
 							ora: element.ORA,
 							sala: element.SALA
@@ -369,8 +383,10 @@ app.get("/locuri", function (req, res) {
                     }, this);
                     doRelease(connection);
                     console.log("Got rows");
-                    console.log(rows);               
-					res.render("html/locuri", { selectedSeats: rows, user: req.session.userData, movieData: ret, screen: screening });					
+                    console.log(rows);      
+					console.log(ret);
+					console.log(screening);
+					res.render("html/locuri", { selectedSeats: rows, user: req.session.userData, movieData: ret[0], screen: screening[0] });					
                 });
         }
 		else{
@@ -551,7 +567,7 @@ app.post("/confirm", function (req, res) {
 			console.log(seats);
 			
             for (let seat of seats) {		
-            while(types[i]<0 && i<4){				
+            while(types[i] <= 0 && i<4){				
 				i += 1;
 			}
 			
@@ -560,7 +576,7 @@ app.post("/confirm", function (req, res) {
 			place=rp[1];
 			console.log(fields.idClient);
 			console.log(fields.idEcr);
-            var dbRequest = "INSERT INTO bilete (bilet_id,rezervare_id, nr_loc,tip_bilet,user_id,ecranizare_id,rand) VALUES (1+(SELECT COUNT(*) FROM bilete), '" + rezervare_id + "', '" + place + "', '" + s_types[i] + "', '" + fields.idClient + "', '" + fields.idEcr + "', '" + row + "')";
+            var dbRequest = "INSERT INTO bilete (bilet_id,rezervare_id, nr_loc,tip_bilet,user_id,ecranizare_id,rand) VALUES (1+(SELECT MAX(bilet_id) FROM bilete), '" + rezervare_id + "', '" + place + "', '" + s_types[i] + "', '" + fields.idClient + "', '" + fields.idEcr + "', '" + row + "')";
             types[i] += -1;
 			connection.execute(dbRequest, {},
                 { outFormat: oracledb.OBJECT },
@@ -570,7 +586,7 @@ app.post("/confirm", function (req, res) {
                       
                         return;
                     }
-                    doRelease(connection);
+                    if(types[i] <= 0 && i == 3) doRelease(connection);
                     console.log("bilet adaugat");
                     
             });

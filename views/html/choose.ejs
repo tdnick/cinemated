@@ -19,9 +19,12 @@
 	-->
 	<main>
 		<div id="choose">
-			<h2>
-				Alegeti bilete pentru: <%= movieData.name %>
+			<h2 id="complet">
+				Alegeti bilete pentru:
 			</h2>
+			 <% if (limitless) { %>
+			  <p id="limitless">Aveti un bilet gratis datorita cardului Limitless! Selectati restul biletelor dorite.</p>
+			 <% }%>
 		</div>
 		<div id="choosing_box">
 			

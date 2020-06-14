@@ -54,7 +54,9 @@ window.onload=function(){
 	
 	var choosig_box=document.getElementById("choosing_box");
 	var butt = document.getElementById("but");
-	
+	var movieComplete = document.getElementById("complet");
+	var movieName = localStorage.getItem("movieName");
+	movieComplete.innerHTML = "Alegeti bilete pentru: " + movieName; 
 	create_select("adulti");
 	create_select("copii");
 	create_select("elevi");
@@ -71,6 +73,10 @@ window.onload=function(){
 	selections[2].onchange = function(){recalculateTotal()};
 	selections[3].onchange = function(){recalculateTotal()};
 	butt.addEventListener('click',function(){
+		var limitless = 0;
+		if(document.getElementById("limitless")){
+			limitless = 1;
+		}
 		var total=document.getElementsByClassName("total");
 		localStorage.setItem('total',total[0].value);		
 		var selections = document.getElementsByTagName("select");
@@ -78,8 +84,8 @@ window.onload=function(){
 		for(let i = 0;i < 4; i++){
 			nrTickets += parseInt(selections[i].value);
 		}
-		localStorage.setItem('nrTickets',nrTickets);
-		localStorage.setItem('nrAdulti',selections[0].value);
+		localStorage.setItem('nrTickets',nrTickets- 1 + 1 +limitless);
+		localStorage.setItem('nrAdulti',selections[0].value- 1 + 1 +limitless);
 		localStorage.setItem('nrCopii',selections[1].value);
 		localStorage.setItem('nrElevi',selections[2].value);
 		localStorage.setItem('nrStudenti',selections[3].value);
