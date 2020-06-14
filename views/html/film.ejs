@@ -4,6 +4,10 @@
     <%- include("../partials/commonLinks.ejs")%>
     <title><%= movieData.name %> - Cinemated</title>
 	<script src = "../scripts/film.js"></script>
+    <% if (locals.user) { %>
+    <% if (locals.user.isAdmin) { %>
+    <script src = "../scripts/delete-confirm.js"></script>
+    <% } } %>
     <link href="stylesheets/film.css" type="text/css" rel="stylesheet">
 </head>
 <body>
@@ -67,7 +71,7 @@
 					<% } else { %>
 						<p class = "par">Momentan, acest film nu rulează în cinematograf.</p>
 					<% } if (user.isAdmin) { %>
-                        <a id = "btn" href = "delete?id=<%=movieData.id%>">Sterge film</a>
+                        <button id = "btn" onclick="sigur_film(<%= movieData.id %>)">Sterge film</a>
                     <% } %>
 				<% } %>
 				

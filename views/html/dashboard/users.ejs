@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Contul meu</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel = "shortcut icon" type = "image/x-icon" href="/images/favicon.ico"/>
+		<link rel="stylesheet" href="/stylesheets/dashboard.css" type = "text/css">
+	</head>
+	<body>
+		<header>
+			<h1>Date personale</h1>
+		</header>
+		
+		<% if (locals.user) { %>
+			<% if (locals.user.isAdmin == 1) { %>
+			<nav class="sidenav">
+				<a href="/dashboard/info">Date personale</a>
+				<a href="/dashboard/security">Setări securitate</a>
+				<a href="/dashboard/tickets">Bilete emise</a>
+				<a href="/dashboard/settings">Setări cont</a>
+				<a href="/dashboard/users" id="active">Administrare utilizatori</a>
+				<a href="/">Pagina principală</a>
+			</nav>
+		<% } } %>
+		
+		<main>
+			<p>n-ai voie</p>
+		</main>
+		<footer>
+			
+		</footer>
+	</body>
+</html>

@@ -12,17 +12,19 @@
 			<h1>Bilete emise</h1>
 		</header>
 		
+		<% if (locals.user) { %>
 		<nav class="sidenav">
 			<a href="/dashboard/info">Date personale</a>
 			<a href="/dashboard/security">Setări securitate</a>
 			<a href="/dashboard/tickets" id="active">Bilete emise</a>
 			<a href="/dashboard/settings">Setări cont</a>
-			<a href="/">Pagina principală</a>
 			<% if (locals.user.isAdmin == 1) { %>
-			<a href="/admin">Pentru administratori</a>
+			<a href="/dashboard/users">Administrare utilizatori</a>
 			<% } %>
+			<a href="/">Pagina principală</a>
 		</nav>
-		
+		<% } %>
+				
 		<main>
 			<% if (!locals.user) { %>
 				<p>Pentru a vă putea administra contul, este necesar să vă <a href="/login">conectați!</a></p>

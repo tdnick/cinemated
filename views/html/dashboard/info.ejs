@@ -12,16 +12,18 @@
 			<h1>Date personale</h1>
 		</header>
 		
+		<% if (locals.user) { %>
 		<nav class="sidenav">
 			<a href="/dashboard/info" id="active">Date personale</a>
 			<a href="/dashboard/security">Setări securitate</a>
 			<a href="/dashboard/tickets">Bilete emise</a>
 			<a href="/dashboard/settings">Setări cont</a>
-			<a href="/">Pagina principală</a>
 			<% if (locals.user.isAdmin == 1) { %>
-			<a href="/admin">Pentru administratori</a>
+			<a href="/dashboard/users">Administrare utilizatori</a>
 			<% } %>
+			<a href="/">Pagina principală</a>
 		</nav>
+		<% } %>
 		
 		<main>
 			<% if (!locals.user) { %>

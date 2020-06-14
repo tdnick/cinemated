@@ -92,12 +92,12 @@ app.get("/login", function (req, res) {
     res.render("html/login", {});
 });
 
-app.get("/dashboard/info", function (req, res) {
-    res.render("html/dashboard/info", {user: req.session.userData});
-})
-
 app.get('/dashboard', function (req, res) {
     res.redirect("/dashboard/info");
+})
+
+app.get("/dashboard/info", function (req, res) {
+    res.render("html/dashboard/info", {user: req.session.userData});
 })
 
 app.get('/dashboard/security', function (req, res) {
@@ -110,6 +110,10 @@ app.get('/dashboard/tickets', function (req, res) {
 
 app.get('/dashboard/settings', function (req, res) {
     res.render("html/dashboard/settings", {user: req.session.userData});
+})
+
+app.get('/dashboard/users', function (req, res) {
+    res.render("html/dashboard/users", {user: req.session.userData});
 })
 
 app.get("/register", function (req, res) {
@@ -479,6 +483,51 @@ app.get("/delete", function (req, res) {
     }
 })
 
+app.get("/deleteuser", function (req, res) {
+    const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    const search_params = current_url.searchParams;
+
+    const id = search_params.get('id');
+    if (req.session.userData){
+        if (req.session.userData.id == id){
+            oracledb.getConnection(connectionProperties, function (err, connection) {
+                if (err) {
+                    console.error(err.message);
+                    res.status(500).send("Error connecting to DB");
+                    return;
+                }
+                if (id) {
+                    var dbRequest = "DELETE FROM users WHERE user_id = '" + id + "'";
+                    connection.execute(dbRequest, {},
+                        { outFormat: oracledb.OBJECT },
+                        function (err, result) {
+                            if (err) {
+                                console.error(err);
+                                res.status(500).send("Error on delete");
+                                doRelease(connection);
+                                return;
+                            }
+                            doRelease(connection);
+                            if (result.rowsAffected == 0){
+                                console.log("Tried to delete a user which doesn't exist!");
+                            } else {
+                                console.log("Account id " + id + " deleted successfully");
+                            }
+                            req.session.destroy();
+                            res.status(500).send('Account deleted successfully. Sorry to see you go! <a href="index">Home</a>');
+                        });
+                } else {
+                    res.status(500).send("No account was given for deletion!");
+                }
+            });
+        } else {
+            res.status(500).send("Operation forbidden! Not your account!");
+        }
+    } else {
+        res.status(500).send("Operation forbidden! Not logged in!");
+    }
+})
+
 // POST requests
 app.post("/confirm", function (req, res) {
     var form = new formidable.IncomingForm();
@@ -683,7 +732,7 @@ app.post('/login', function (req, res) {
                         control = 3; // username was not found in the database
                     }
                     result.rows.forEach(function (element) {
-                        ret = {username: element.USERNAME, name: element.FULL_NAME, email: element.EMAIL, userId: element.USER_ID, isAdmin: element.IS_ADMIN};
+                        ret = {id: element.USER_ID, username: element.USERNAME, name: element.FULL_NAME, email: element.EMAIL, userId: element.USER_ID, isAdmin: element.IS_ADMIN};
                         if (element.PASSWORD == encrPass){
                             //aici trebuie neaparat cu litere mari pt ca altfel nu face verificarea cum trb, imi pare rau de coding style :))
                             // e okay, nu sunt un coding style nazi :))))

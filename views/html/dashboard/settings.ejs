@@ -6,27 +6,24 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel = "shortcut icon" type = "image/x-icon" href="/images/favicon.ico"/>
 		<link rel="stylesheet" href="/stylesheets/dashboard.css" type = "text/css">
-		<script>
-			function eroare() {
-				alert("Funcționalitate încă neimplementată!")
-			}
-		</script>
+		<script src = "../scripts/delete-confirm.js"></script>
 	</head>
 	<body>
 		<header>
 			<h1>Setări cont</h1>
 		</header>
-		
+		<% if (locals.user) { %>
 		<nav class="sidenav">
 			<a href="/dashboard/info">Date personale</a>
 			<a href="/dashboard/security">Setări securitate</a>
 			<a href="/dashboard/tickets">Bilete emise</a>
 			<a href="/dashboard/settings" id="active">Setări cont</a>
-			<a href="/">Pagina principală</a>
 			<% if (locals.user.isAdmin == 1) { %>
-			<a href="/admin">Pentru administratori</a>
+			<a href="/dashboard/users">Administrare utilizatori</a>
 			<% } %>
+			<a href="/">Pagina principală</a>
 		</nav>
+		<% } %>
 		
 		<main>
 			<% if (!locals.user) { %>
@@ -45,7 +42,7 @@
 				</form>
 				<h2>Ștergere cont</h2>
 				<p>Atenție! Odată efectuată, această operațiune nu mai poate fi inversată!</p>
-				<button id="btn" onclick="eroare()">Șterge contul</button>
+				<button id="btn" onclick="sigur_user(<%= user.id %>)">Șterge contul</button>
 			<% } %>
 		</main>
 		<footer>
