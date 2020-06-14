@@ -105,7 +105,47 @@ app.get('/dashboard/security', function (req, res) {
 })
 
 app.get('/dashboard/tickets', function (req, res) {
-    res.render("html/dashboard/tickets", {user: req.session.userData});
+    if (req.session.userData){
+        oracledb.getConnection(connectionProperties, function (err, connection) {
+            if (err) {
+                console.error(err.message);
+                res.status(500).send("Error connecting to DB");
+                return;
+            }
+
+            var dbRequest = "SELECT user_id, rezervare_id, bilet_id, tip_bilet, nume_film, data, ora, sala, rand, nr_loc FROM bilete JOIN ecranizari USING(ecranizare_id) JOIN filme USING(film_id) where user_id = " + req.session.userData.id + " order by rezervare_id";
+            connection.execute(dbRequest, {},
+                { outFormat: oracledb.OBJECT },
+                function (err, result) {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).send("Error");
+                        doRelease(connection);
+                        return;
+                    }
+    				
+    				tickets = []
+                    result.rows.forEach(function (element) {
+                        tickets.push({
+                            resCode: element.REZERVARE_ID,
+                            code: element.BILET_ID,
+                            type: element.TIP_BILET,
+                            name: element.NUME_FILM,
+                            date: element.DATA,
+                            time: element.ORA,
+                            room: element.SALA,
+                            row: element.RAND,
+                            seat: element.NR_LOC
+                        });
+                    }, this);
+                    doRelease(connection);
+                    console.log("Got all ticket data");
+                    res.render("html/dashboard/tickets", { user: req.session.userData, ticketData: tickets});
+                });
+        });
+    } else {
+        res.render("html/dashboard/tickets", { user: req.session.userData });
+    }
 })
 
 app.get('/dashboard/settings', function (req, res) {
@@ -113,7 +153,40 @@ app.get('/dashboard/settings', function (req, res) {
 })
 
 app.get('/dashboard/users', function (req, res) {
-    res.render("html/dashboard/users", {user: req.session.userData});
+    oracledb.getConnection(connectionProperties, function (err, connection) {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send("Error connecting to DB");
+            return;
+        }
+
+        var dbRequest = "SELECT * FROM users order by user_id";
+        connection.execute(dbRequest, {},
+            { outFormat: oracledb.OBJECT },
+            function (err, result) {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send("Error");
+                    doRelease(connection);
+                    return;
+                }
+				
+				users = []
+                result.rows.forEach(function (element) {
+                    users.push({
+                        id: element.USER_ID,
+                        username: element.USERNAME,
+                        name: element.FULL_NAME,
+                        email: element.EMAIL,
+                        isAdmin: element.IS_ADMIN,
+                    });
+                }, this);
+                doRelease(connection);
+                console.log("Got all user data");
+				console.log(req.session.userData);
+                res.render("html/dashboard/users", { user: req.session.userData, usersData: users});
+            });
+    });
 })
 
 app.get("/register", function (req, res) {
@@ -499,13 +572,62 @@ app.get("/delete", function (req, res) {
     }
 })
 
+app.get("/toggleAdmin", function (req, res) {
+    const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    const search_params = current_url.searchParams;
+
+    const id = search_params.get('id');
+    const code = search_params.get('code');
+    if (req.session.userData){
+        if (req.session.userData.isAdmin){
+            if (code == "0" || code == "1"){
+                oracledb.getConnection(connectionProperties, function (err, connection) {
+                    if (err) {
+                        console.error(err.message);
+                        res.status(500).send("Error connecting to DB");
+                        return;
+                    }
+                    if (id) {
+                        var dbRequest = "UPDATE users SET is_admin = " + code + " WHERE user_id = '" + id + "'";
+                        connection.execute(dbRequest, {},
+                            { outFormat: oracledb.OBJECT },
+                            function (err, result) {
+                                if (err) {
+                                    console.error(err);
+                                    res.status(500).send("Error on toggling admin");
+                                    doRelease(connection);
+                                    return;
+                                }
+                                doRelease(connection);
+                                if (result.rowsAffected == 0){
+                                    console.log("Tried to edit a user which doesn't exist!");
+                                } else {
+                                    console.log("Account id " + id + " toggle admin success");
+                                }
+                                res.redirect("dashboard/users");
+                            });
+                    } else {
+                        res.status(500).send("No account was given for toggling admin!");
+                    }
+                });
+            } else {
+                res.status(500).send("Wrong admin toggle code!");
+            }
+        } else {
+            res.status(500).send("Operation forbidden! Not logged in as admin!");
+        }
+    } else {
+        res.status(500).send("Operation forbidden! Not logged in!");
+    }
+})
+
 app.get("/deleteuser", function (req, res) {
     const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
     const search_params = current_url.searchParams;
 
     const id = search_params.get('id');
     if (req.session.userData){
-        if (req.session.userData.id == id){
+        if (req.session.userData.id == id || req.session.userData.isAdmin){
             oracledb.getConnection(connectionProperties, function (err, connection) {
                 if (err) {
                     console.error(err.message);
@@ -529,8 +651,12 @@ app.get("/deleteuser", function (req, res) {
                             } else {
                                 console.log("Account id " + id + " deleted successfully");
                             }
-                            req.session.destroy();
-                            res.status(500).send('Account deleted successfully. Sorry to see you go! <a href="index">Home</a>');
+                            if (!req.session.userData.isAdmin){
+                                req.session.destroy();
+                                res.status(500).send('Account deleted successfully. Sorry to see you go! <a href="index">Home</a>');
+                            } else {
+                                res.redirect("dashboard/users");
+                            }
                         });
                 } else {
                     res.status(500).send("No account was given for deletion!");
@@ -539,6 +665,53 @@ app.get("/deleteuser", function (req, res) {
         } else {
             res.status(500).send("Operation forbidden! Not your account!");
         }
+    } else {
+        res.status(500).send("Operation forbidden! Not logged in!");
+    }
+})
+
+app.get("/deleteticket", function (req, res) {
+    const current_url = new URL(req.protocol + '://' + req.get('host') + req.originalUrl);
+    const search_params = current_url.searchParams;
+
+    const id = search_params.get('id');
+    const user = search_params.get('user');
+    if (req.session.userData){
+        
+        if (req.session.userData.id == user){
+            oracledb.getConnection(connectionProperties, function (err, connection) {
+                if (err) {
+                    console.error(err.message);
+                    res.status(500).send("Error connecting to DB");
+                    return;
+                }
+                if (id) {
+                    var dbRequest = "DELETE FROM bilete WHERE bilet_id = '" + id + "'";
+                    connection.execute(dbRequest, {},
+                        { outFormat: oracledb.OBJECT },
+                        function (err, result) {
+                            if (err) {
+                                console.error(err);
+                                res.status(500).send("Error on deleting ticket");
+                                doRelease(connection);
+                                return;
+                            }
+                            doRelease(connection);
+                            if (result.rowsAffected == 0){
+                                console.log("Tried to delete a ticket which doesn't exist!");
+                            } else {
+                                console.log("Ticket id " + id + " deleted successfully ");
+                            }
+                            res.redirect("dashboard/tickets");
+                        });
+                } else {
+                    res.status(500).send("No ticket was given for deletion!");
+                }
+            });
+        } else {
+            res.status(500).send("Operation forbidden! Not your ticket!");
+        }
+        
     } else {
         res.status(500).send("Operation forbidden! Not logged in!");
     }

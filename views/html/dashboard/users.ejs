@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<header>
-			<h1>Date personale</h1>
+			<h1>Tabel utilizatori</h1>
 		</header>
 		
 		<% if (locals.user) { %>
@@ -17,7 +17,7 @@
 			<nav class="sidenav">
 				<a href="/dashboard/info">Date personale</a>
 				<a href="/dashboard/security">Setări securitate</a>
-				<a href="/dashboard/tickets">Bilete emise</a>
+				<a href="/dashboard/tickets">Biletele mele</a>
 				<a href="/dashboard/settings">Setări cont</a>
 				<a href="/dashboard/users" id="active">Administrare utilizatori</a>
 				<a href="/">Pagina principală</a>
@@ -25,7 +25,46 @@
 		<% } } %>
 		
 		<main>
-			<p>n-ai voie</p>
+			<% if (locals.user) { %>
+				<% if (locals.user.isAdmin == 1) { %>
+				<p>Atenție! Ștergerea unui cont implică eliminarea din baza de date a tuturor datelor asociate (recenzii, bilete, rezervări, abonamente Limitless)!</p>
+				<p>Operațiunea este ireversibilă!</p>
+				<table id = "admin">
+					<thead>
+						<td>ID</td>
+						<td>Username</td>
+						<td>Adresă e-mail</td>
+						<td>Nume complet</td>
+						<td>Administrator</td>
+						<td></td>
+						<td></td>
+					</thead>
+					<tbody>
+						<% for (let i = 0; i < locals.usersData.length; i++) { %>
+						<tr>
+							<td><%= locals.usersData[i].id %></td>
+							<td><%= locals.usersData[i].username %></td>
+							<td><%= locals.usersData[i].email %></td>
+							<td><%= locals.usersData[i].name %></td>
+							<td>
+								<% if (locals.usersData[i].isAdmin) { %> Da
+								<% } else { %> Nu <% } %>
+							</td>
+							<td>
+								<% if (locals.usersData[i].isAdmin == 1) { %>
+								<a href="/toggleAdmin?id=<%= locals.usersData[i].id %>&code=0">Deop</a>
+								<% } else if (locals.usersData[i].isAdmin == 0) { %>
+								<a href="/toggleAdmin?id=<%= locals.usersData[i].id %>&code=1">Op</a>
+								<% } %>
+							</td>
+							<td><a href="/deleteuser?id=<%= locals.usersData[i].id %>">Șterge cont</a></td>
+						</tr>
+						<% } %>
+					</tbody>
+				</table>
+			<% } } else {%>
+			<p>Secțiune rezervată administratorilor!</p>
+			<% } %>
 		</main>
 		<footer>
 			
