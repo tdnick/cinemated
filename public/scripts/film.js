@@ -1,70 +1,112 @@
 window.onload = function () {
     var ratedIndex = -1;
-    resetStarColors();
+    var avrageRaitingColor = '#ffd700';
+    var userRaitingColor = '#9b7617';
+    var user = document.getElementById("user").textContent;
+    var starRaiting = document.getElementById("raiting").textContent;
+    const nStars = document.querySelectorAll(".nr");
+    var usernameList = this.document.querySelectorAll(".usernames");
 
-    if (localStorage.getItem('ratedIndex') != null) {
-        setStars(parseInt(localStorage.getItem('ratedIndex')));
-    }
+    setStars(starRaiting, avrageRaitingColor);
 
-    $('.movieStars').on('click', function () {
-        ratedIndex = parseInt($(this).data('index'));
-        localStorage.setItem('ratedIndex', ratedIndex);
-        document.getElementById("starsInput").value = ratedIndex + 1;
+    if (user) {
+        // Userul este autentificat
 
-        var modal = document.getElementById("myModal");
-        var span = document.getElementsByClassName("close")[0];
-        modal.style.display = "block";
-        span.onclick = function () {
-            modal.style.display = "none";
-        }
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+        // Verific daca user-ul a dat deja recenzie
+        var username = this.document.getElementById("username").textContent;
+        var exists = false;
+        var nrStars;
+        for (var i = 0; i < usernameList.length; i++) {
+            if (usernameList[i].textContent == username) {
+                exists = true;
+                nrStars = nStars[i].textContent;
             }
         }
-    });
 
-    $('.movieStars').mouseover(function () {
-        resetStarColors();
-        var currentIndex = parseInt($(this).data('index'));
-        setStars(currentIndex);
-    });
+        if (exists == true) {
+            // Userul a votat deja filmul
+            setStars(nrStars, userRaitingColor);
+            document.getElementById("raiting").innerHTML = starRaiting;
+            $('.movieStars').mouseover(function () {
+                $('#cRaiting .tooltiptext2').css('visibility', 'visible');
+            });
 
-    $('.movieStars').mouseleave(function () {
-        resetStarColors();
+            $('.movieStars').mouseleave(function () {
+                $('#cRaiting .tooltiptext2').css('visibility', 'hidden');
+            });
 
-        if (ratedIndex != -1)
-           setStars(ratedIndex);
-    });
 
-    function setStars(max) {
-        for (var i = 0; i <= max; i++) {
-            $('.movieStars:eq(' + i + ')').css('color', '#9b7617');
-            $('.movieStars:eq(' + i + ')').removeClass('far');
-            $('.movieStars:eq(' + i + ')').addClass('fas');
+        } else {
+            // Userul nu a dat inca o recenzie
+
+            // Click pe stele
+            $('.movieStars').on('click', function () {
+                ratedIndex = parseInt($(this).data('index'));
+                document.getElementById("starsInput").value = ratedIndex + 1;
+
+
+                var modal = document.getElementById("myModal");
+                var span = document.getElementsByClassName("close")[0];
+                modal.style.display = "block";
+                span.onclick = function () {
+                    modal.style.display = "none";
+                }
+                window.onclick = function (event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+
+                // Hover pe modal => se pastreaza formatul raiting-ului user-ului
+                $('.modal').mouseover(function () {
+                    setStars(ratedIndex + 1, userRaitingColor);
+                    document.getElementById("raiting").innerHTML = (ratedIndex + 1).toFixed(1);
+                });
+
+                // Daca am parasit modalul se revine la raiting-ul mediu
+                $('.modal').mouseleave(function () {
+                    setStars(starRaiting, avrageRaitingColor);
+                    document.getElementById("raiting").innerHTML = starRaiting;
+                });
+
+            });
+
+            // Hover pe stele
+            $('.movieStars').mouseover(function () {
+                resetStarColors();
+                var currentIndex = parseInt($(this).data('index'));
+                setStars(currentIndex + 1, userRaitingColor);
+                document.getElementById("raiting").innerHTML = (currentIndex + 1).toFixed(1);
+            });
+
+            $('.movieStars').mouseleave(function () {
+                setStars(starRaiting, avrageRaitingColor);
+                document.getElementById("raiting").innerHTML = starRaiting;
+            });
         }
-    }
 
-    function resetStarColors() {
-        $('.movieStars').css('color', 'white');
-        for (var i = 0; i <= 4; i++) {
-            $('.movieStars:eq(' + i + ')').removeClass('fas');
-            $('.movieStars:eq(' + i + ')').addClass('far');
-        }
-    }
-
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
-    for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.display === "block") {
-                content.style.display = "none";
-            } else {
-                content.style.display = "block";
-            }
+    } else {
+        // User-ul nu s-a autentificat deci nu poate da recenzie
+        $('.movieStars').mouseover(function () {
+            $('#cRaiting .tooltiptext').css('visibility', 'visible');
         });
+
+        $('.movieStars').mouseleave(function () {
+            $('#cRaiting .tooltiptext').css('visibility', 'hidden');
+        });
+        
+    }
+
+    // Setez raiting-ul fiecarui user din sectiunea de comentarii
+    var k = 0;
+    for (var i = 0; i < nStars.length; i++) {
+        for (var j = 0; j < nStars[i].textContent; j++) {
+            $('.review:eq(' + k + ')').css('color', '#daa520');
+            $('.review:eq(' + k + ')').removeClass('far');
+            $('.review:eq(' + k + ')').addClass('fas');
+            k += 1;
+        }
+        k += 5 - nStars[i].textContent;
     }
 
     var butt = document.getElementById("but");
@@ -79,3 +121,25 @@ window.onload = function () {
         window.open('http://localhost:5000/choose' + '?id=' + idEcranizare, 'Choose', params);
     }
 };
+
+function setStars(starRaiting, color) {
+    for (var i = 0; i <= parseInt(starRaiting - 1); i++) {
+        $('.movieStars:eq(' + i + ')').css('color', color);
+        $('.movieStars:eq(' + i + ')').removeClass('far');
+        $('.movieStars:eq(' + i + ')').addClass('fas');
+    }
+
+    for (var i = parseInt(starRaiting); i < 5; i++) {
+        $('.movieStars:eq(' + i + ')').css('color', 'white');
+        $('.movieStars:eq(' + i + ')').removeClass('fas');
+        $('.movieStars:eq(' + i + ')').addClass('far');
+    }
+}
+
+function resetStarColors() {
+    $('.movieStars').css('color', 'white');
+    for (var i = 0; i <= 4; i++) {
+        $('.movieStars:eq(' + i + ')').removeClass('fas');
+        $('.movieStars:eq(' + i + ')').addClass('far');
+    }
+}

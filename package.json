@@ -17,5 +17,14 @@
     "node-localstorage": "^2.1.6",
     "oracledb": "^4.2.0",
     "stripe": "^8.44.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tdnick/cinemated.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tdnick/cinemated/issues"
+  },
+  "homepage": "https://github.com/tdnick/cinemated#readme"
 }

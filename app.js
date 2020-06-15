@@ -383,6 +383,7 @@ app.get("/film", function (req, res) {
                             comments.push({
                                 comID: element.RECENZIE_ID,
                                 username: element.USERNAME,
+                                dataR: element.DATA_RECENZIE,
                                 stars: element.STARS,
                                 comment: element.MESAJ
                             });

@@ -123,6 +123,15 @@ table td:first-child{
 	margin-top: 25px;
 }
 
+#cRaiting {
+	display: flex;
+	color: white;
+}
+
+#raiting {
+	padding-left: 10px;
+}
+
 .modal {
 	display: none;
 	position: fixed;
@@ -260,7 +269,43 @@ input[type = "submit"] {
 	padding: 16px;
 	margin: 16px 0;
 	width: 90%;
+	height: 110px;
 	margin-left: 5%;
+	display: grid;
+	grid-auto-columns: 85% 15%;
+}
+
+.usernames {
+	grid-column-start: 1;
+	grid-column-end: 2;
+	font-size: 25px;
+	padding-top: 100%;
+}
+
+.data {
+	font-size: small;
+	color: grey;
+	padding-left: 5px;
+}
+
+.userRaiting {
+	grid-column-start: 2;
+	grid-column-end: 3;
+
+}
+
+.commentArea {
+	padding-top: 15px;
+	grid-column-start: 1;
+	grid-column-end: 3;
+	text-align: center;
+	box-shadow:
+  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+  0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+  0 12.5px 10px rgba(0, 0, 0, 0.06),
+  0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+  0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+  0 100px 80px rgba(0, 0, 0, 0.12);
 }
 
 .container span {
@@ -269,14 +314,42 @@ input[type = "submit"] {
 	display: flex;
 }
 
-@media (max-width: 500px) {
-	.container {
-		text-align: center;
-	}
+
+#cRaiting .tooltiptext,
+#cRaiting .tooltiptext2 {
+	visibility: hidden;
+	background-color: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	top: 61%;
+	margin-left: -10px;
+	font-size: medium;
 }
 
-#rating {
-	color: white;
+#cRaiting .tooltiptext {
+	width: 350px;
+	right: 6%;
+}
+
+#cRaiting .tooltiptext2 {
+	width: 200px;
+	right: 10.5%;
+}
+
+#cRaiting .tooltiptext::after,
+#cRaiting .tooltiptext2::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: black transparent transparent transparent;
 }
 
 #starsInput {
@@ -285,4 +358,13 @@ input[type = "submit"] {
 
 #user {
 	display: none;
+}
+
+.comCheck {
+	padding-left: 20px;
+	font-size: 40px;
+	font-family: Quicksand;
+	color: white;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }

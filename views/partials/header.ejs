@@ -3,7 +3,7 @@
         <div id = "logs">
         <a id = "acc" href = "javascript:void(0);" title = "My Account" alt = "Account"> <img src = "/images/login.png" onclick="showAccount()"></a>
         <% if(locals.user) { %>
-            <p>Bun venit, <b><%= user.username %></b>!</p>
+            <p>Bun venit, <b id="username"><%= user.username %></b>!</p>
         <% } else { %>
             <p>Nu sunteți logat!</p>
         <% } %>

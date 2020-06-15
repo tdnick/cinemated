@@ -18,18 +18,21 @@
     </header>
     <main>
     <% if (movieData.name != "") { %>
+        <div id = "user"><%= user %></div>
+
         <div id = "movieContainer">
 
             <h2 id = "movieName"><%= movieData.name %></h2>
-
                 <h2 id = "reviewContainer">
-                <div id="rating">
+                <div id = "cRaiting">
                         <i class="far fa-star movieStars" data-index="0"></i>
                         <i class="far fa-star movieStars" data-index="1"></i>
                         <i class="far fa-star movieStars" data-index="2"></i>
                         <i class="far fa-star movieStars" data-index="3"></i>
                         <i class="far fa-star movieStars" data-index="4"></i>
-                        <%= avgRaitingData %>/5
+                        <p id="raiting"><%= (avgRaitingData).toFixed(1) %></p>/5
+                        <span class="tooltiptext">Pentru a da o recenzie trebuie să fiți autentificat.</span>
+                        <span class="tooltiptext2">Multumim pentru recenzie!</span>
                 </div>
              </h2>
 
@@ -102,12 +105,12 @@
 
     <% if(commentData[0].username != null) { %>
         <div id = "commentsContainer">
-            <h4 id = "movieName">Comentarii</h4>
+            <h4 class = "comCheck">Comentarii</h4>
             <% for (var i = 0; i < commentData.length; i++) { %>
 				<%- include('../partials/commentTemplate', {comment: commentData[i]}); %>
 			<% } %>
     <% } else { %>
-        <p>Nu exista comentarii</p>
+        <p class = "comCheck">Nu există comentarii</p>
     <% } %>
 
 
