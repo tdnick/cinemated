@@ -64,8 +64,8 @@ window.onload=function(){
 	var total=document.createElement("label");
 	total.value=0;
 
-	total.innerHTML = "Total: "+total.value;
-	total.className ="total";
+	total.innerHTML = "Total: " + total.value + " lei";
+	total.className = "total";
 	choosig_box.appendChild(total);
 	var selections = document.getElementsByTagName("select");	
 	selections[0].onchange = function(){recalculateTotal()};

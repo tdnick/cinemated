@@ -17,7 +17,7 @@
 				<h1>Recomandarea noastra</h1>
 				<div class = "moviesContainer">
 					<img class = "posterMovie" src = "<%= randMovie.poster %>" alt = "<%= randMovie.name %>">
-					<div>
+					<div class = "infoDiv">
 						<h2 class = "movieName"><%= randMovie.name %> (<%= randMovie.year %>)</h2>
 						<p class = "des"><%= randMovie.desc %></p>
 					</div>
@@ -30,7 +30,7 @@
 				<h1>Filmul cu cele mai bune review-uri</h1>
 				<div class = "moviesContainer">
 					<img class = "posterMovie" src="<%= bestReviewedMovie.poster %>" alt="<%= bestReviewedMovie.name %>">
-					<div>
+					<div class = "infoDiv">
 						<h2 class = "movieName"><%= bestReviewedMovie.name %> (<%= bestReviewedMovie.year %>)</h2>
 						<p class = "des"><%= bestReviewedMovie.desc %></p>
 					</div>
@@ -42,7 +42,7 @@
 				<h1>Urmeaza sa apara...</h1>
 				<div class = "moviesContainer">
 					<img class = "posterMovie" src = "<%= lastMovie.poster %>" alt = "<%= lastMovie.name %>">
-					<div>
+					<div class = "infoDiv">
 						<h2 class = "movieName"><%= lastMovie.name %> (<%= lastMovie.year %>)</h2>
 						<p class = "des"><%= lastMovie.desc %></p>
 					</div>

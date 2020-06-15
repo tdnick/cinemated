@@ -1,63 +1,69 @@
 @import url('https://fonts.googleapis.com/css?family=Pacifico|Source+Sans+Pro&display=swap');
 *{
-	font-family: Pacifico;
+	font-family: Arial;
 	color: rgba(245, 245, 220, 1);
 }
 body {
     background-color: rgba(25,25,25,1);
     /* darkslategray;*/
 }
-p{
-	font-family: Arial;
+
+#limitless{
+	padding-left: 1em;
 }
+
 #choosing_box{
 	background-color:rgb(240,220,130);
 	/*padding:2em;*/
-	padding: 1.5em;
-	padding-top:0.1em;
+	padding: 1.2em;
+	padding-bottom: 2.4em;
+	margin-top: 1.5em;
 	border-radius:0.5rem;
-	font-family:Arial;
-	
+	font-family: Arial;
 }
+
 #choosing_box label{
 	font-family: Arial;
 }
+
 .container {
-	
 	background-color:#162252;
 	box-sizing:border-box;
 	border-radius:0.5rem;
-	/*margin-top:2em;*/
-	margin-top: 1.5em;
-	/*padding: 2em;*/
-	padding: 1.5em;
+	margin-top: 1.2em;
+	padding: 1.2em;
 	display: grid;
     grid-template-columns: 24em 8em auto 1em;	
-	
 }
+
 .container select, label {
 	/*margin-right:5em;*/
-	margin-right:2em;
+	margin-right: 2.5em;
 }
 #but{
 	float:right;
+	font-family: Pacifico;
 	padding:1em;
 	margin-top:1em;
+	margin-right: 2em;
 	border-radius:0.5rem;
 	color:#162252;
 }
 #choose h2{
-	padding:1em;
-	font-family:Quicksand;
-	
+	padding: 1em;
+	font-family: Quicksand;
 }
+
 .total{
 	float:right;
-	padding:0.3em;
+	padding: 0.5em;
+	color: black;
 }
+
 #txt{
 	size:1em;
 }
+
 .price label{
 	margin:0;
 }

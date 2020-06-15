@@ -5,7 +5,6 @@
 	display:none;
 }
 .front{
-	
 	width: 300px;
 	margin: 5px 32px 45px 32px;
 	background-color: #f0f0f0; 
@@ -15,10 +14,10 @@
 	border-radius: 5px;
 } 
 .bookingDetails {
-	margin-top:1em;
+	margin-top:3em;
 	float: right;
 	position: relative;
-	width:200px;
+	width: 300px;
 	height: 450px; 
 	
 } 
@@ -116,8 +115,7 @@ span.seatCharts-legendDescription {
 } 
 #legend{
 	color:rgba(245, 245, 220, 1);
-	padding:1em;
-	
+	padding: 1em;
 }
 #selectedSeats li{
 	float:left; 
@@ -130,4 +128,5 @@ span.seatCharts-legendDescription {
 	font-size:14px;
 	font-weight:bold;
 	text-align:center;
+	font-family: Pacifico;
 } 

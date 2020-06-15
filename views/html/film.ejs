@@ -23,7 +23,7 @@
             <h2 id = "movieName"><%= movieData.name %></h2>
 
                 <h2 id = "reviewContainer">
-                <div>
+                <div id="rating">
                         <i class="far fa-star movieStars" data-index="0"></i>
                         <i class="far fa-star movieStars" data-index="1"></i>
                         <i class="far fa-star movieStars" data-index="2"></i>
@@ -86,7 +86,7 @@
 					<% } else { %>
 						<p class = "par">Momentan, acest film nu rulează în cinematograf.</p>
 					<% } if (user.isAdmin) { %>
-                        <button id = "btn" onclick="sigur_film(<%= movieData.id %>)">Sterge film</a>
+                        <button id = "btn" onclick="sigur_film(<%= movieData.id %>)">Sterge acest film</a>
                     <% } %>
 				<% } %>
 				
