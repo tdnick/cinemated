@@ -12,6 +12,6 @@ ca parte a cursului de Metode de Dezvoltare Software, Facultatea de Matematică 
 
 Proiect dezvoltat folosind HTML/CSS/JavaScript, jQuery, Node.js + OracleDB.
 
-Un demo funcțional al aplicației poate fi accesat [aici](https://cinemated-mds.herokuapp.com).
+Atenție! Codul regăsit mai sus nu va rula fără o conexiune la o bază de date de tip Oracle! Un demo funcțional al aplicației poate fi accesat [aici](https://cinemated-mds.herokuapp.com).
 
 Pentru mai multe informații, accesați documentația [aici](https://github.com/tdnick/cinemated/blob/master/docs/Documentatie-MDS-PDF.pdf).
