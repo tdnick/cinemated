@@ -118,6 +118,13 @@ table td:first-child{
 	border-radius: 5px;
 }
 
+#btnModal {
+	background-color: rgba(56, 41, 10, 0.8);
+	color: white;
+	border-radius: 5px;
+
+}
+
 .par {
 	color: white;
 	margin-top: 25px;
