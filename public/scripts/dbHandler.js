@@ -87,7 +87,7 @@ class dbHandler {
     }
 
     getFilm() {
-        return "SELECT * FROM filme LEFT JOIN ecranizari USING(film_id) LEFT JOIN recenzii USING(film_id) LEFT JOIN users USING (user_id) WHERE film_id = :film_id order by TO_DATE(data_recenzie, 'DD-MON-YYYY HH:MI:SS')";
+        return "SELECT * FROM filme LEFT JOIN ecranizari USING(film_id) LEFT JOIN recenzii USING(film_id) LEFT JOIN users USING (user_id) WHERE film_id = :film_id ORDER BY TO_DATE(data_recenzie, 'DD-MON-YYYY HH:MI:SS') DESC";
     }
 
     getFilme() {
