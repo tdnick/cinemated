@@ -18,7 +18,17 @@
     <%if (locals.user) {%>
         <img src = "/images/cinemated.jpg" alt = "Card Limitless" id = "card">
         
-        <%if (locals.limitless && locals.limitless.lastName) {%>        
+        <%if (locals.limitless && locals.limitless.lastName) {%>     
+        
+                <div class = "limitlessDiv">
+                    <h2>Toate filmele tale preferate, ori de câte ori îți dorești!</h1>
+                    <p>Mulțumim că ai ales cardul Limitless! Valabilitatea sa poate fi consultată în graficul din stânga acestui text. În acea perioadă, vei putea viziona orice film difuzat in cinema-ul nostru, fără a mai fi necesară achiziționarea unui bilet. El este deja al tău!
+                        Abonamentul Limitless îți aduce nu numai posibilitatea de a te bucura oricând de filmele pe care le îndrăgesti, ci și
+                        numeroase discounturi, precum 30% reducere la meniurile de popcorn și invitații la premierele noastre!
+                    </p>
+                
+                </div>
+                
                 <p id = "chosenName"><%= locals.limitless.lastName%>  <%=locals.limitless.firstName%></p>
                 <p id = "chosenDate"><%=locals.limitless.startDate.toString().split('T')[0]%> - <%=locals.limitless.endDate.toString().split('T')[0]%></p>
                 
@@ -62,7 +72,7 @@
                 numeroase discounturi, precum 30% reducere la meniurile de popcorn si invitatii la premierele noastre. Ce mai astepti?
             </p>
 
-            <p>Pentru a-ti un card limitless, trebuie sa intri in cont.</p>
+            <p>Pentru a te inscrie in programul Limitless, trebuie sa intri in cont.</p>
         
         </div>
 

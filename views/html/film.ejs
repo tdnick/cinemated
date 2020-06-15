@@ -94,6 +94,16 @@
 				<% } %>
 				
             </div>
+            <% if(commentData[0].username != null) { %>
+                <div id = "commentsContainer">
+                    <h4 class = "comCheck">Recenzii</h4>
+                    <% for (var i = 0; i < commentData.length; i++) { %>
+        				<%- include('../partials/commentTemplate', {comment: commentData[i]}); %>
+        			<% } %>
+            <% } else { %>
+                <p class = "comCheck">Nu există recenzii</p>
+            <% } %>
+            
         </div>
 		
 		
@@ -103,15 +113,15 @@
     <% } %>
 
 
-    <% if(commentData[0].username != null) { %>
-        <div id = "commentsContainer">
-            <h4 class = "comCheck">Comentarii</h4>
-            <% for (var i = 0; i < commentData.length; i++) { %>
-				<%- include('../partials/commentTemplate', {comment: commentData[i]}); %>
-			<% } %>
-    <% } else { %>
-        <p class = "comCheck">Nu există comentarii</p>
-    <% } %>
+<!--     <% if(commentData[0].username != null) { %> -->
+<!--         <div id = "commentsContainer"> -->
+<!--             <h4 class = "comCheck">Comentarii</h4> -->
+<!--             <% for (var i = 0; i < commentData.length; i++) { %> -->
+<!-- 				<%- include('../partials/commentTemplate', {comment: commentData[i]}); %> -->
+<!-- 			<% } %> -->
+<!--     <% } else { %> -->
+<!--         <p class = "comCheck">Nu există comentarii</p> -->
+<!--     <% } %> -->
 
 
     <div id="myModal" class="modal">

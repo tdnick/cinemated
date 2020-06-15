@@ -131,6 +131,12 @@ button:hover {
     margin: 20px;
 }
 
+.limitlessDiv{
+    font-size: 1em;
+    width: 400px;
+    color: white;
+}
+
 #cardNoLimitless {
     margin-left: 50px;
 }

@@ -87,7 +87,7 @@ class dbHandler {
     }
 
     getFilm() {
-        return "SELECT * FROM filme LEFT JOIN ecranizari USING(film_id) LEFT JOIN recenzii USING(film_id) LEFT JOIN users USING (user_id) WHERE film_id = :film_id";
+        return "SELECT * FROM filme LEFT JOIN ecranizari USING(film_id) LEFT JOIN recenzii USING(film_id) LEFT JOIN users USING (user_id) WHERE film_id = :film_id order by TO_DATE(data_recenzie, 'DD-MON-YYYY HH:MI:SS')";
     }
 
     getFilme() {
@@ -103,7 +103,7 @@ class dbHandler {
     }
 
     getDashboardTickets() {
-        return "SELECT user_id, rezervare_id, bilet_id, tip_bilet, nume_film, data, ora, sala, rand, nr_loc FROM bilete JOIN ecranizari USING(ecranizare_id) JOIN filme USING(film_id) where user_id = :id order by rezervare_id";
+        return "SELECT user_id, rezervare_id, bilet_id, tip_bilet, nume_film, data, ora, sala, rand, nr_loc FROM bilete JOIN ecranizari USING(ecranizare_id) JOIN filme USING(film_id) where user_id = :id order by bilet_id";
     }
 
     getAllMovies() {
