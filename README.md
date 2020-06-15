@@ -1,2 +1,2 @@
 # cinemated
-Full Stack Cinema Website Project
+Cinemated - Full Stack Cinema Website Project
