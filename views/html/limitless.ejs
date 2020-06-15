@@ -16,10 +16,9 @@
     
     
     <%if (locals.user) {%>
+        <img src = "/images/cinemated.jpg" alt = "Card Limitless" id = "card">
         
-        <%if (locals.limitless && locals.limitless.lastName) {%>
-                <img src = "/images/cinemated.jpg" alt = "Card Limitless" id = "card">
-                
+        <%if (locals.limitless && locals.limitless.lastName) {%>        
                 <p id = "chosenName"><%= locals.limitless.lastName%>  <%=locals.limitless.firstName%></p>
                 <p id = "chosenDate"><%=locals.limitless.startDate.toString().split('T')[0]%> - <%=locals.limitless.endDate.toString().split('T')[0]%></p>
                 

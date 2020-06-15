@@ -17,7 +17,7 @@ class dbHandler {
     getLimitless() {
         return "SELECT l.limitless_id, l.user_id, l.last_name, l.first_name, l.email, l.type, l.phone_number, l.start_date, l.end_date " +
         "FROM users u JOIN limitless l ON (u.user_id = l.user_id) WHERE l.limitless_id = (SELECT MAX(limitless_id) FROM limitless WHERE user_id IN " +
-        "(SELECT user_id FROM users WHERE username = :name))";;
+        "(SELECT user_id FROM users WHERE username = :name))";
     }
 
     insertIntoLimitless() {
@@ -54,8 +54,8 @@ class dbHandler {
     }
 
     insertIntoBilete() {
-        return "INSERT INTO bilete (bilet_id,rezervare_id, nr_loc,tip_bilet,user_id,ecranizare_id,rand) VALUES (1+(SELECT MAX(bilet_id) FROM bilete), " 
-        + ":rezervare_id', :place, :s_type, :idClient, :idEcr, :row)";
+        return "INSERT INTO bilete (bilet_id, rezervare_id, nr_loc, tip_bilet, user_id, ecranizare_id, rand) VALUES (1+(SELECT MAX(bilet_id) FROM bilete), " 
+        + ":rezervare_id, :loc, :t_type, :idClient, :idEcr, :rand)";
     }
 
     deleteFromBilete() {

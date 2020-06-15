@@ -813,10 +813,17 @@ app.post("/confirm", function (req, res) {
             // var dbRequest = "INSERT INTO bilete (bilet_id,rezervare_id, nr_loc,tip_bilet,user_id,ecranizare_id,rand) VALUES (1+(SELECT MAX(bilet_id) FROM bilete), '" 
             // + rezervare_id + "', '" + place + "', '" + s_types[i] + "', '" + fields.idClient + "', '" + fields.idEcr + "', '" + row + "')";
             types[i] += -1;
+            console.log(dataBase.insertIntoBilete());
 			connection.execute(dataBase.insertIntoBilete(), [rezervare_id, place, s_types[i], fields.idClient, fields.idEcr, row],
                 { outFormat: oracledb.OBJECT },
                 function (err, result) {
                     if (err) {
+                        console.log(rezervare_id);
+                        console.log(place);
+                        console.log(s_types[i])
+                        console.log(fields.idClient)
+                        console.log(fields.idEcr)
+                        console.log(row)
                         console.error(err);
                       
                         return;
