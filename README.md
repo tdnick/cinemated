@@ -12,7 +12,8 @@ Parte a cursului de Metode de Dezvoltare Software, Facultatea de Matematică și
 
 Dezvoltat folosind HTML/CSS/JavaScript, jQuery, Node.js + OracleDB.
 
-Atenție! Codul regăsit mai sus nu va rula fără o conexiune la o bază de date de tip Oracle! 
+Atenție! Codul regăsit mai sus nu va rula fără o conexiune la o bază de date de tip Oracle!
+Prezentarea video a proiectului poate fi accesată [aici](https://www.youtube.com/watch?v=D34SCBfZSgw).
 
 Sarcinile au fost împărțite folosind Trello, la [acest link](https://trello.com/cinemated).
 
